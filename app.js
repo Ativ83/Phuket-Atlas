@@ -351,7 +351,7 @@ function updateMapLabels(focusId=null){
   item.marker.openTooltip();
  }
  const button=by("labels-toggle");
- if(button){button.setAttribute("aria-pressed",String(labelsVisible));button.textContent=labelsVisible?"Подписи: вкл":"Подписи: выкл";}
+ if(button){button.setAttribute("aria-pressed",String(labelsVisible));button.textContent=labelsVisible?"Инф.: вкл":"Инф.: выкл";}
 }
 by("labels-toggle").onclick=()=>{labelsVisible=!labelsVisible;updateMapLabels()};
 function focusProperty(p,o){
@@ -433,7 +433,7 @@ function setGameInformation(on){
  gameInfoOn=on;
  by("scene").classList.toggle("game-info-off",!on);
  const btn=by("art-info-toggle");
- btn.textContent=on?"Информация: вкл":"Информация: выкл";
+ btn.textContent=on?"Инф.: вкл":"Инф.: выкл";
  btn.setAttribute("aria-pressed",String(on));
 }
 by("art-info-toggle").onclick=()=>setGameInformation(!gameInfoOn);
