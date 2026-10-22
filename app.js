@@ -190,6 +190,7 @@ scene.addEventListener("wheel",e=>{
 // Geographically grounded map: source tiles from OpenStreetMap; exact area coordinates from catalogue.
 let geoMap=null,geoEnabled=false,geoMarkers=[],geoBaseLayer=null;
 const districtMapMarkers=new Map();
+let readyDistrictId=null;
 let satelliteToken=localStorage.getItem("phuket_mapbox_public_token")||"";
 function applySatelliteLayer(){
  if(!geoMap)return;
@@ -216,12 +217,13 @@ function refreshGeoMarkers(){
   const marker=L.marker([p.lat,p.lon]).addTo(geoMap).bindTooltip(p.name);
   marker.on("click",()=>{
    // First tap from overview flies to district; tapping the focused marker again opens details.
-   const focused=selected===p.id && geoMap.getZoom()>=12.5;
+   const focused=readyDistrictId===p.id && geoMap.getZoom()>=12.5;
    setDrawer(false);
-   if(focused){show(p);return;}
+   if(focused){readyDistrictId=null;show(p);return;}
+   readyDistrictId=null;
    selected=p.id;
    geoMap.flyTo([p.lat,p.lon],13,{duration:1.1});
-   geoMap.once("moveend",()=>{if(selected===p.id&&geoEnabled)marker.openTooltip()});
+   geoMap.once("moveend",()=>{if(selected===p.id&&geoEnabled){readyDistrictId=p.id;marker.openTooltip()}});
    render();
   });
   districtMapMarkers.set(p.id,marker);
@@ -252,6 +254,7 @@ function setGeoMode(on){
    geoMap.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
    applySatelliteLayer();
    refreshGeoMarkers();
+   geoMap.on("zoomend",()=>{if(geoMap.getZoom()<12.5)readyDistrictId=null});
   }
   requestAnimationFrame(()=>geoMap.invalidateSize());
  }
@@ -284,13 +287,14 @@ go=function(id){
  if(showOnlyObjects){setDrawer(false);selected=id;show(p);return;}
  setDrawer(false);selected=id;
  by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");
+ readyDistrictId=null;
  geoMap.flyTo([p.lat,p.lon],13,{duration:1.1});
  const districtMarker=districtMapMarkers.get(p.id);
- if(districtMarker){geoMap.once("moveend",()=>{if(selected===id&&geoEnabled)districtMarker.openTooltip()});}
+ if(districtMarker){geoMap.once("moveend",()=>{if(selected===id&&geoEnabled){readyDistrictId=id;districtMarker.openTooltip()}});}
  render();
 };
 const oldZoomIn=by("zin").onclick,oldZoomOut=by("zout").onclick,oldReset=by("reset").onclick;
 by("zin").onclick=()=>geoEnabled?geoMap.zoomIn():oldZoomIn();
 by("zout").onclick=()=>geoEnabled?geoMap.zoomOut():oldZoomOut();
-by("reset").onclick=()=>geoEnabled?geoMap.flyTo([7.96,98.34],10):oldReset();
+by("reset").onclick=()=>{if(geoEnabled){readyDistrictId=null;selected=null;geoMap.flyTo([7.96,98.34],10)}else oldReset()};
 fetch("data/locations.json").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render();refreshGeoMarkers()}).catch(e=>by("regions").textContent=e.message)})();
