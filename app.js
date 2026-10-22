@@ -1,7 +1,17 @@
 (()=>{"use strict";const by=id=>document.getElementById(id),W=620,H=920,bounds={west:98.20,east:98.48,north:8.20,south:7.72};let areas=[],selected=null,scale=1,panX=0,panY=0,gestureMoved=false;
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 function applyView(animate=false){
- const world=by("world");
+ const world=by("world"),scene=by("scene");
+ // Keep a meaningful portion of the island visible at all zoom levels.
+ // The transform is centred on the element; bounding dimensions are untransformed.
+ const sw=scene.clientWidth,sh=scene.clientHeight;
+ const mapWidth=world.offsetWidth*scale,mapHeight=world.offsetHeight*scale;
+ const visibleX=Math.min(mapWidth*.38,Math.max(90,sw*.24));
+ const visibleY=Math.min(mapHeight*.38,Math.max(120,sh*.25));
+ const maxX=Math.max(0,(sw+mapWidth)/2-visibleX);
+ const maxY=Math.max(0,(sh+mapHeight)/2-visibleY);
+ panX=clamp(panX,-maxX,maxX);
+ panY=clamp(panY,-maxY,maxY);
  world.style.transition=animate?"transform .8s cubic-bezier(.17,.78,.12,1)":"none";
  world.style.transform="translate(calc(-50% + "+panX+"px),calc(-50% + "+panY+"px)) scale("+scale+")";
 }
