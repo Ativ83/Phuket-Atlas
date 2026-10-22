@@ -2,16 +2,15 @@
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 function applyView(animate=false){
  const world=by("world"),scene=by("scene");
- // Keep a meaningful portion of the island visible at all zoom levels.
- // The transform is centred on the element; bounding dimensions are untransformed.
+ // Anchor limits to a point on the actual island, not to the full SVG box.
+ // This landmark lies inside the central part of the depicted Phuket landmass.
  const sw=scene.clientWidth,sh=scene.clientHeight;
- const mapWidth=world.offsetWidth*scale,mapHeight=world.offsetHeight*scale;
- const visibleX=Math.min(mapWidth*.38,Math.max(90,sw*.24));
- const visibleY=Math.min(mapHeight*.38,Math.max(120,sh*.25));
- const maxX=Math.max(0,(sw+mapWidth)/2-visibleX);
- const maxY=Math.max(0,(sh+mapHeight)/2-visibleY);
- panX=clamp(panX,-maxX,maxX);
- panY=clamp(panY,-maxY,maxY);
+ const landAnchorX=(322/W-.5)*world.offsetWidth*scale;
+ const landAnchorY=(460/H-.5)*world.offsetHeight*scale;
+ // At least the central island landmark stays inside the map viewport.
+ const marginX=Math.min(65,sw*.2),marginY=Math.min(90,sh*.2);
+ panX=clamp(panX,-sw/2+marginX-landAnchorX,sw/2-marginX-landAnchorX);
+ panY=clamp(panY,-sh/2+marginY-landAnchorY,sh/2-marginY-landAnchorY);
  world.style.transition=animate?"transform .8s cubic-bezier(.17,.78,.12,1)":"none";
  world.style.transform="translate(calc(-50% + "+panX+"px),calc(-50% + "+panY+"px)) scale("+scale+")";
 }
