@@ -427,27 +427,17 @@ go=function(id){
 };
 // Artistic map can use two coordinated images: labeled and text-free.
 // Until both assets are uploaded, preserve the existing approved image.
-let gameInfoOn=true,gameImagePairReady=false,gameLabeledReady=false;
-const gameBase=by("world").querySelector(".hd-overview");
-const fallbackGameImage=gameBase.getAttribute("src");
-const gameAssets={on:"phuket_game_labeled.png",off:"phuket_game_clean.png"};
+// Art layer is a clean, static render. Annotations are separate and toggleable.
+let gameInfoOn=false;
 function setGameInformation(on){
  gameInfoOn=on;
  by("scene").classList.toggle("game-info-off",!on);
- const toggle=by("art-info-toggle");
- toggle.textContent=on?"Информация: вкл":"Информация: выкл";
- toggle.setAttribute("aria-pressed",String(on));
- if(gameImagePairReady)gameBase.src=on?gameAssets.on:gameAssets.off;
- else if(gameLabeledReady)gameBase.src=gameAssets.on;
- else gameBase.src=fallbackGameImage;
+ const btn=by("art-info-toggle");
+ btn.textContent=on?"Информация: вкл":"Информация: выкл";
+ btn.setAttribute("aria-pressed",String(on));
 }
 by("art-info-toggle").onclick=()=>setGameInformation(!gameInfoOn);
-function checkGameAssets(){
- return Promise.all(Object.values(gameAssets).map(path=>new Promise(resolve=>{
-  const img=new Image();img.onload=()=>resolve(true);img.onerror=()=>resolve(false);img.src=path;
- }))).then(ok=>{gameLabeledReady=ok[0];gameImagePairReady=ok.every(Boolean);setGameInformation(gameInfoOn)});
-}
-checkGameAssets();
+setGameInformation(false);
 const oldZoomIn=by("zin").onclick,oldZoomOut=by("zout").onclick,oldReset=by("reset").onclick;
 by("zin").onclick=()=>geoEnabled?geoMap.zoomIn():oldZoomIn();
 by("zout").onclick=()=>geoEnabled?geoMap.zoomOut():oldZoomOut();
