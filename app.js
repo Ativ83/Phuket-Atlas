@@ -427,7 +427,7 @@ go=function(id){
 };
 // Artistic map can use two coordinated images: labeled and text-free.
 // Until both assets are uploaded, preserve the existing approved image.
-let gameInfoOn=true,gameImagePairReady=false;
+let gameInfoOn=true,gameImagePairReady=false,gameLabeledReady=false;
 const gameBase=by("world").querySelector(".hd-overview");
 const fallbackGameImage=gameBase.getAttribute("src");
 const gameAssets={on:"phuket_game_labeled.png",off:"phuket_game_clean.png"};
@@ -438,13 +438,14 @@ function setGameInformation(on){
  toggle.textContent=on?"Информация: вкл":"Информация: выкл";
  toggle.setAttribute("aria-pressed",String(on));
  if(gameImagePairReady)gameBase.src=on?gameAssets.on:gameAssets.off;
+ else if(gameLabeledReady)gameBase.src=gameAssets.on;
  else gameBase.src=fallbackGameImage;
 }
 by("art-info-toggle").onclick=()=>setGameInformation(!gameInfoOn);
 function checkGameAssets(){
  return Promise.all(Object.values(gameAssets).map(path=>new Promise(resolve=>{
   const img=new Image();img.onload=()=>resolve(true);img.onerror=()=>resolve(false);img.src=path;
- }))).then(ok=>{gameImagePairReady=ok.every(Boolean);setGameInformation(gameInfoOn)});
+ }))).then(ok=>{gameLabeledReady=ok[0];gameImagePairReady=ok.every(Boolean);setGameInformation(gameInfoOn)});
 }
 checkGameAssets();
 const oldZoomIn=by("zin").onclick,oldZoomOut=by("zout").onclick,oldReset=by("reset").onclick;
