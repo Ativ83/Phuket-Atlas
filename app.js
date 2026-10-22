@@ -423,23 +423,6 @@ function setGeoMode(on){
  }
 }
 modeButton.onclick=()=>setGeoMode(!geoEnabled);
-const copyTokenButton=by("copy-mapbox-token");
-function refreshTokenCopyButton(){
- const saved=localStorage.getItem("phuket_mapbox_public_token")||"";
- copyTokenButton.hidden=!/^pk\\.[A-Za-z0-9._-]+$/.test(saved);
-}
-copyTokenButton.onclick=async()=>{
- const token=localStorage.getItem("phuket_mapbox_public_token")||"";
- if(!/^pk\\.[A-Za-z0-9._-]+$/.test(token)){refreshTokenCopyButton();return;}
- try{
-  if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(token);
-  else{window.prompt("Скопируй публичный токен Mapbox:",token);return;}
-  const initial=copyTokenButton.textContent;
-  copyTokenButton.textContent="Скопировано ✓";
-  setTimeout(()=>copyTokenButton.textContent=initial,1800);
- }catch(e){window.prompt("Скопируй публичный токен Mapbox:",token);}
-};
-refreshTokenCopyButton();
 const satelliteButton=by("satellite-setup");
 satelliteButton.hidden=Boolean(satelliteToken);
 satelliteButton.style.display=satelliteToken?"none":"";
@@ -456,7 +439,6 @@ satelliteButton.onclick=()=>{
  satelliteButton.textContent=token?"Спутник ✓":"Подключить спутник";
  satelliteButton.hidden=Boolean(token);
  satelliteButton.style.display=token?"none":"";
- refreshTokenCopyButton();
  if(geoMap)applySatelliteLayer();
  setGeoMode(true);
 };
