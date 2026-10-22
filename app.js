@@ -45,7 +45,7 @@ function show(p){
  by("detail").querySelectorAll("[data-pdf]").forEach(btn=>btn.onclick=()=>openBrochure(btn.dataset.pdf,btn.dataset.materials));
 }function openBrochure(path,materials){
  const pane=by("pdf-viewer"),frame=by("pdf-frame"),message=by("pdf-status"),external=by("pdf-external"),backup=by("pdf-materials");
- if(!pane||!path||!/^presentations\\/[a-zA-Z0-9_.-]+\\.pdf$/.test(path))return;
+ if(!pane||!path||!(path.startsWith("presentations/")&&path.endsWith(".pdf")))return;
  pane.hidden=false;frame.hidden=true;frame.removeAttribute("src");
  message.textContent="Проверяем наличие PDF-презентации…";
  external.hidden=true;
