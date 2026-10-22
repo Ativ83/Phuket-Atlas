@@ -8,8 +8,8 @@ function applyView(animate=false){
  // Allow travel across the enlarged island while keeping the map centred at 1x.
  // Limits grow with zoom so northern/southern and western/eastern locations remain reachable.
  const zoomExtra=Math.max(0,scale-1);
- const maxX=sw*.10+zoomExtra*world.offsetWidth*.30;
- const maxY=sh*.10+zoomExtra*world.offsetHeight*.34;
+ const maxX=zoomExtra*world.offsetWidth*.30;
+ const maxY=zoomExtra*world.offsetHeight*.34;
  scale=Number.isFinite(scale)?clamp(scale,1,3.5):1;
  panX=Number.isFinite(panX)?clamp(panX,-maxX,maxX):0;
  panY=Number.isFinite(panY)?clamp(panY,-maxY,maxY):0;
@@ -89,7 +89,7 @@ scene.addEventListener("pointermove",e=>{
  }else{
   const dx=e.clientX-prev.x,dy=e.clientY-prev.y;
   if(Math.abs(e.clientX-downAt?.x)>5 || Math.abs(e.clientY-downAt?.y)>5)gestureMoved=true;
-  if(gestureMoved){panX+=dx;panY+=dy;applyView()}
+  if(gestureMoved&&scale>1.001){panX+=dx;panY+=dy;applyView()}
  }
 });
 function endPointer(e){
@@ -144,7 +144,7 @@ scene.addEventListener("touchmove",e=>{
  }else if(e.touches.length===1){
   const next={x:e.touches[0].clientX,y:e.touches[0].clientY};
   if(touchStartedAt&&Math.hypot(next.x-touchStartedAt.x,next.y-touchStartedAt.y)>6)touchDragged=true;
-  if(touchDragged){panX+=next.x-touchPrev.x;panY+=next.y-touchPrev.y;applyView()}
+  if(touchDragged&&scale>1.001){panX+=next.x-touchPrev.x;panY+=next.y-touchPrev.y;applyView()}
   touchPrev=next;
  }
 },{passive:false});
