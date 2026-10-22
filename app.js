@@ -234,6 +234,7 @@ function setGeoMode(on){
  by("scene").classList.toggle("geo-mode",on);
  modeButton.setAttribute("aria-pressed",String(on));
  modeButton.textContent=on?"Игровая карта":(satelliteToken?"Спутник":"Точная карта");
+ satelliteButton.hidden=Boolean(satelliteToken);satelliteButton.style.display=satelliteToken?"none":"";
  if(on){
   if(!geoMap){
    geoMap=L.map(geoBox,{zoomControl:false,attributionControl:true,dragging:true,touchZoom:true,scrollWheelZoom:true,doubleClickZoom:true,boxZoom:true}).setView([7.96,98.34],10);
@@ -247,6 +248,7 @@ function setGeoMode(on){
 modeButton.onclick=()=>setGeoMode(!geoEnabled);
 const satelliteButton=by("satellite-setup");
 satelliteButton.hidden=Boolean(satelliteToken);
+satelliteButton.style.display=satelliteToken?"none":"";
 satelliteButton.onclick=()=>{
  const entered=window.prompt("Вставь публичный токен Mapbox (начинается с pk.). Он сохранится только в этом браузере iPhone.",satelliteToken);
  if(entered===null)return;
@@ -259,6 +261,7 @@ satelliteButton.onclick=()=>{
  else localStorage.removeItem("phuket_mapbox_public_token");
  satelliteButton.textContent=token?"Спутник ✓":"Подключить спутник";
  satelliteButton.hidden=Boolean(token);
+ satelliteButton.style.display=token?"none":"";
  if(geoMap)applySatelliteLayer();
  setGeoMode(true);
 };
