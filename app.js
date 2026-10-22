@@ -175,7 +175,23 @@ scene.addEventListener("wheel",e=>{
 },{passive:false});
 
 // Geographically grounded map: source tiles from OpenStreetMap; exact area coordinates from catalogue.
-let geoMap=null,geoEnabled=false,geoMarkers=[];
+let geoMap=null,geoEnabled=false,geoMarkers=[],geoBaseLayer=null;
+let satelliteToken=localStorage.getItem("phuket_mapbox_public_token")||"";
+function applySatelliteLayer(){
+ if(!geoMap)return;
+ if(geoBaseLayer)geoMap.removeLayer(geoBaseLayer);
+ if(satelliteToken){
+  geoBaseLayer=L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/512/{z}/{x}/{y}?access_token="+encodeURIComponent(satelliteToken),{
+    tileSize:512,zoomOffset:-1,maxZoom:20,
+    attribution:'Imagery &copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  });
+ }else{
+  geoBaseLayer=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{
+   attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',maxZoom:19
+  });
+ }
+ geoBaseLayer.addTo(geoMap);
+}
 const geoBox=by("real-map"),modeButton=by("map-mode");
 // Let Leaflet receive bubbled pointer/touch events and document-level drag events.
 function refreshGeoMarkers(){
@@ -204,20 +220,32 @@ function setGeoMode(on){
  geoBox.style.touchAction="none";
  by("scene").classList.toggle("geo-mode",on);
  modeButton.setAttribute("aria-pressed",String(on));
- modeButton.textContent=on?"Игровая карта":"Точная карта";
+ modeButton.textContent=on?"Игровая карта":(satelliteToken?"Спутник":"Точная карта");
  if(on){
   if(!geoMap){
    geoMap=L.map(geoBox,{zoomControl:false,attributionControl:true,dragging:true,touchZoom:true,scrollWheelZoom:true,doubleClickZoom:true,boxZoom:true}).setView([7.96,98.34],10);
-   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{
-    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom:19
-   }).addTo(geoMap);
+   applySatelliteLayer();
    refreshGeoMarkers();
   }
   requestAnimationFrame(()=>geoMap.invalidateSize());
  }
 }
 modeButton.onclick=()=>setGeoMode(!geoEnabled);
+const satelliteButton=by("satellite-setup");
+satelliteButton.onclick=()=>{
+ const entered=window.prompt("Вставь публичный токен Mapbox (начинается с pk.). Он сохранится только в этом браузере iPhone.",satelliteToken);
+ if(entered===null)return;
+ const token=entered.trim();
+ if(token&&!/^pk\.[A-Za-z0-9._-]+$/.test(token)){
+   window.alert("Нужен публичный токен Mapbox, который начинается с pk.");return;
+ }
+ satelliteToken=token;
+ if(token)localStorage.setItem("phuket_mapbox_public_token",token);
+ else localStorage.removeItem("phuket_mapbox_public_token");
+ satelliteButton.textContent=token?"Спутник ✓":"Подключить спутник";
+ if(geoMap)applySatelliteLayer();
+ setGeoMode(true);
+};
 const originalGo=go;
 go=function(id){
  if(!geoEnabled)return originalGo(id);
