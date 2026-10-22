@@ -266,6 +266,20 @@ function refreshGeoMarkers(){
   });
   districtMapMarkers.set(p.id,marker);
   geoMarkers.push(marker);
+  // District-level project locator when the exact site coordinates are not verified.
+  for(const o of (p.objects||[])){
+   if(Number.isFinite(o.lat)&&Number.isFinite(o.lon))continue;
+   const regionOnly=L.marker([p.lat,p.lon],{
+    icon:L.divIcon({
+     className:"purita-area-marker",
+     html:'<span class="project-region-pin">◆ <span>'+escape(o.name)+'</span></span>',
+     iconSize:[174,32],iconAnchor:[0,35]
+    }),zIndexOffset:550
+   }).addTo(geoMap);
+   regionOnly.bindTooltip("Район "+p.name+" · точная точка объекта уточняется");
+   regionOnly.on("click",()=>{selected=p.id;setDrawer(false);show(p)});
+   geoMarkers.push(regionOnly);
+  }
   for(const o of (p.objects||[])){
    if(!Number.isFinite(o.lat)||!Number.isFinite(o.lon))continue;
    const m=L.circleMarker([o.lat,o.lon],{radius:9,color:"#f8d182",weight:3,fillColor:"#0e5364",fillOpacity:1}).addTo(geoMap).bindTooltip(o.name);
