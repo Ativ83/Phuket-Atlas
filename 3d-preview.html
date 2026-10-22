@@ -1,6 +1,9 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>Phuket Atlas · экспериментальная 3D-карта</title><link href="https://api.mapbox.com/mapbox-gl-js/v3.32.0/mapbox-gl.css" rel="stylesheet"><style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#082b40;color:#f4e4c7;font-family:-apple-system,system-ui,sans-serif}#map{position:absolute;inset:0}.toolbar{position:fixed;top:calc(env(safe-area-inset-top) + 12px);left:12px;right:12px;z-index:5;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}.toolbar a,.toolbar button{border:1px solid #e3c28e;border-radius:13px;background:#0a3149e8;color:#f2d09a;font-size:13px;font-weight:750;padding:11px 14px;text-decoration:none;backdrop-filter:blur(8px)}.bottom{position:fixed;bottom:calc(env(safe-area-inset-bottom) + 12px);left:12px;right:12px;z-index:5;text-align:center;pointer-events:none}.bottom span{display:inline-block;padding:11px 20px;border:1px solid #d6b6837d;background:#082d40d9;border-radius:14px;backdrop-filter:blur(10px);font-weight:750;letter-spacing:.1em}.status{position:fixed;left:12px;right:12px;top:33%;z-index:6;text-align:center;padding:20px;background:#062f42eb;border:1px solid #d0ab74;border-radius:18px;max-width:460px;margin:auto}.status[hidden]{display:none}.status button{background:#e6c793;color:#0b3244;border:0;border-radius:10px;padding:12px 18px}.mapboxgl-ctrl-bottom-right{bottom:64px!important}.mapboxgl-popup-content{background:#0c3345;color:#f9e4bc;border:1px solid #d7b77b;border-radius:12px;font-weight:700}.mapboxgl-popup-tip{border-top-color:#0c3345!important}.mapboxgl-ctrl-logo{opacity:.8}.pin{background:#e5b569;border:3px solid #fff2d5;border-radius:50%;height:18px;width:18px;box-shadow:0 0 0 5px #142f3b66}
-</style></head><body><div id="map"></div><div class="toolbar"><a href="./">← Phuket Atlas</a><button id="overview">Весь Пхукет</button><button id="angle">Угол обзора</button><button id="purita">◆ PURITA</button><button id="style">Краски: яркие</button></div><div id="status" class="status" hidden></div><div class="bottom"><span>ТАИЛАНД · ПХУКЕТ · 3D DEMO</span></div><script src="https://api.mapbox.com/mapbox-gl-js/v3.32.0/mapbox-gl.js"></script><script>
+
+#region-panel[hidden]{display:none}#region-panel{position:fixed;top:calc(env(safe-area-inset-top) + 66px);left:12px;right:12px;z-index:8;max-height:65vh;overflow-y:auto;background:#092f41f5;border:1px solid #d7b77b;border-radius:17px;padding:12px;box-shadow:0 18px 40px #001f3088}.region-head{display:flex;align-items:center;justify-content:space-between;padding:3px 5px 10px}.region-head button{color:#f2d09a;background:#174a5b;border:1px solid #e3c28e;border-radius:9px;padding:5px 10px;font-size:22px}.region-item{display:block;width:100%;background:transparent;border:0;border-top:1px solid #ffffff24;color:#f5e8d6;padding:12px 7px;text-align:left;font-size:15px}.region-item:active{background:#ffffff22}
+.geo-label{background:#092f41ed;border:1px solid #e4c690;border-radius:8px;padding:4px 8px;color:#f7e6c0;font-weight:700;font-size:12px;white-space:nowrap;pointer-events:none}.region-dot{width:12px;height:12px;background:#66bce2;border:2px solid white;border-radius:50%;box-shadow:0 1px 7px #001a27}.toolbar{justify-content:flex-start}.toolbar button,.toolbar a{font-size:12px;padding:10px}.bottom{bottom:calc(env(safe-area-inset-bottom) + 8px)}
+</style></head><body><div id="map"></div><div class="toolbar"><a href="./">← Phuket Atlas</a><button id="overview">Весь Пхукет</button><button id="angle">Угол обзора</button><button id="purita">◆ PURITA</button><button id="style">Краски: яркие</button><button id="regions-toggle">Районы</button><button id="labels-toggle" aria-pressed="false">Подписи: выкл</button></div><div id="status" class="status" hidden></div><aside id="region-panel" hidden><div class="region-head"><strong>Районы Пхукета</strong><button id="region-close">×</button></div><div id="region-list"></div></aside><div class="bottom"><span>ТАИЛАНД · ПХУКЕТ · 3D DEMO</span></div><script src="https://api.mapbox.com/mapbox-gl-js/v3.32.0/mapbox-gl.js"></script><script>
 (()=>{"use strict";
 const status=document.getElementById("status");function warn(message){status.hidden=false;status.textContent=message}
 const token=localStorage.getItem("phuket_mapbox_public_token");if(!token){warn("Сначала подключите Mapbox Satellite на главной карте. Токен хранится в том же браузере iPhone.");return;}
@@ -11,7 +14,44 @@ let vibrant=true;
 function applyLook(){try{map.setPaintProperty("satellite","raster-saturation",vibrant?0.27:0)}catch(e){} try{map.setFog({color:"#8cd9e6","high-color":"#4f9cc8","horizon-blend":0.18,"space-color":"#0b3652","star-intensity":0})}catch(e){}}
 map.on("style.load",()=>{applyLook();try{if(!map.getSource("phuket-elevation"))map.addSource("phuket-elevation",{type:"raster-dem",url:"mapbox://mapbox.mapbox-terrain-dem-v1",tileSize:512,maxzoom:14});map.setTerrain({source:"phuket-elevation",exaggeration:1.7});}catch(e){warn("Не удалось активировать объёмный рельеф: "+e.message)}});
 map.on("error",e=>{if(/401|403|Unauthorized/i.test(String(e.error?.message)))warn("Mapbox отклонил токен или доступ к 3D-слоям. Проверьте настройки Mapbox.")});
-map.on("load",()=>{fetch("data/locations.json").then(r=>r.json()).then(areas=>{for(const a of areas){for(const o of a.objects||[]){if(!Number.isFinite(o.lon)||!Number.isFinite(o.lat))continue;const el=document.createElement("div");el.className="pin";el.title=o.name;new mapboxgl.Marker({element:el}).setLngLat([o.lon,o.lat]).setPopup(new mapboxgl.Popup().setText(o.name)).addTo(map)}}}).catch(()=>{})});
+let labels=false;const namedMarkers=[];let activeRegion=null;
+function refreshLabels(){
+ for(const entry of namedMarkers){entry.label.style.display=(labels||entry.id===activeRegion)?"block":"none"}
+ document.getElementById("labels-toggle").textContent=labels?"Подписи: вкл":"Подписи: выкл";
+ document.getElementById("labels-toggle").setAttribute("aria-pressed",String(labels));
+}
+function flyDistrict(a){
+ activeRegion="area:"+a.id;
+ document.getElementById("region-panel").hidden=true;
+ map.flyTo({center:[a.lon,a.lat],zoom:13.2,pitch:52,bearing:-14,duration:1400});
+ refreshLabels();
+}
+map.on("load",()=>{fetch("data/locations.json?v=3d-regions-3").then(r=>r.json()).then(areas=>{
+ const list=document.getElementById("region-list");
+ for(const a of areas){
+  const button=document.createElement("button");button.className="region-item";button.textContent=a.name;
+  button.onclick=()=>flyDistrict(a);list.appendChild(button);
+  if(!Number.isFinite(a.lon)||!Number.isFinite(a.lat))continue;
+  const dot=document.createElement("div");dot.className="region-dot";
+  const marker=new mapboxgl.Marker({element:dot}).setLngLat([a.lon,a.lat]).addTo(map);
+  dot.onclick=()=>flyDistrict(a);
+  const label=document.createElement("div");label.className="geo-label";label.textContent=a.name;label.style.display="none";
+  new mapboxgl.Marker({element:label,anchor:"left",offset:[14,0]}).setLngLat([a.lon,a.lat]).addTo(map);
+  namedMarkers.push({id:"area:"+a.id,label});
+  for(const o of a.objects||[]){
+   if(!Number.isFinite(o.lon)||!Number.isFinite(o.lat))continue;
+   const el=document.createElement("div");el.className="pin";el.title=o.name;
+   const marker=new mapboxgl.Marker({element:el}).setLngLat([o.lon,o.lat]).setPopup(new mapboxgl.Popup({offset:18}).setText(o.name)).addTo(map);
+   const projectLabel=document.createElement("div");projectLabel.className="geo-label";projectLabel.textContent=o.name;projectLabel.style.display="none";
+   new mapboxgl.Marker({element:projectLabel,anchor:"left",offset:[13,0]}).setLngLat([o.lon,o.lat]).addTo(map);
+   namedMarkers.push({id:"object:"+o.id,label:projectLabel});
+   el.onclick=()=>{activeRegion="object:"+o.id;refreshLabels();map.flyTo({center:[o.lon,o.lat],zoom:15.3,pitch:60,duration:1400})};
+  }
+ }
+}).catch(()=>warn("Не удалось загрузить каталог районов."))});
+document.getElementById("regions-toggle").onclick=()=>{const panel=document.getElementById("region-panel");panel.hidden=!panel.hidden};
+document.getElementById("region-close").onclick=()=>document.getElementById("region-panel").hidden=true;
+document.getElementById("labels-toggle").onclick=()=>{labels=!labels;refreshLabels()};
 document.getElementById("overview").onclick=()=>map.flyTo({center:[98.34,7.96],zoom:10,pitch:57,bearing:-14,duration:1300});
 document.getElementById("purita").onclick=()=>map.flyTo({center:[98.304389,7.998029],zoom:15.3,pitch:65,bearing:-35,duration:1800});
 document.getElementById("style").onclick=()=>{vibrant=!vibrant;applyLook();document.getElementById("style").textContent=vibrant?"Краски: яркие":"Краски: натуральные"};
