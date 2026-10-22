@@ -200,13 +200,14 @@ function setGeoMode(on){
   return;
  }
  geoEnabled=on;geoBox.hidden=!on;
- by("scene").style.touchAction=on?"auto":"none";
+ by("scene").style.touchAction="none";
+ geoBox.style.touchAction="none";
  by("scene").classList.toggle("geo-mode",on);
  modeButton.setAttribute("aria-pressed",String(on));
  modeButton.textContent=on?"Игровая карта":"Точная карта";
  if(on){
   if(!geoMap){
-   geoMap=L.map(geoBox,{zoomControl:false,attributionControl:true}).setView([7.96,98.34],10);
+   geoMap=L.map(geoBox,{zoomControl:false,attributionControl:true,dragging:true,touchZoom:true,scrollWheelZoom:true,doubleClickZoom:true,boxZoom:true}).setView([7.96,98.34],10);
    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{
     attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     maxZoom:19
