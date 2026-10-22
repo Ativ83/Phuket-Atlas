@@ -24,6 +24,7 @@ function midAndDistance(){
  dist:Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y)};
 }
 scene.addEventListener("pointerdown",e=>{
+ if(e.pointerType==="touch")return;
  if(e.target.closest(".buttons"))return;
  if(e.pointerType==="mouse" && e.button!==0)return;
  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
@@ -35,6 +36,7 @@ scene.addEventListener("pointerdown",e=>{
  try{scene.setPointerCapture(e.pointerId)}catch{}
 });
 scene.addEventListener("pointermove",e=>{
+ if(e.pointerType==="touch")return;
  if(!pointers.has(e.pointerId))return;
  const prev=pointers.get(e.pointerId);
  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
@@ -58,6 +60,7 @@ scene.addEventListener("pointermove",e=>{
  }
 });
 function endPointer(e){
+ if(e.pointerType==="touch")return;
  if(!pointers.has(e.pointerId))return;
  pointers.delete(e.pointerId);previousMid=null;previousDistance=null;
  if(gestureMoved)suppressClickUntil=Date.now()+350;
@@ -69,6 +72,61 @@ scene.addEventListener("lostpointercapture",endPointer);
 scene.addEventListener("click",e=>{
  if(Date.now()<suppressClickUntil && e.target.closest(".pin")){e.preventDefault();e.stopPropagation()}
 },true);
+// Safari/iOS: native Touch Events are more reliable than Pointer Events for pinch.
+let touchPrev=null,touchDragged=false,touchStartedAt=null;
+function touchGeometry(touches){
+ const a=touches[0],b=touches[1];
+ return {x:(a.clientX+b.clientX)/2,y:(a.clientY+b.clientY)/2,
+  distance:Math.hypot(b.clientX-a.clientX,b.clientY-a.clientY)};
+}
+scene.addEventListener("touchstart",e=>{
+ if(e.target.closest(".buttons"))return;
+ if(e.touches.length===1){
+  touchPrev={x:e.touches[0].clientX,y:e.touches[0].clientY};
+  touchStartedAt={...touchPrev};touchDragged=false;
+ }else if(e.touches.length>=2){
+  touchPrev=touchGeometry(e.touches);
+  touchDragged=true;
+  if(e.cancelable)e.preventDefault();
+ }
+},{passive:false});
+scene.addEventListener("touchmove",e=>{
+ if(e.target.closest(".buttons")||!touchPrev)return;
+ if(e.cancelable)e.preventDefault();
+ if(e.touches.length>=2){
+  const next=touchGeometry(e.touches);
+  if(touchPrev.distance){
+   const newScale=clamp(scale*next.distance/Math.max(1,touchPrev.distance),.7,3.5);
+   const rect=scene.getBoundingClientRect();
+   const pivotX=touchPrev.x-(rect.left+rect.width/2);
+   const pivotY=touchPrev.y-(rect.top+rect.height/2);
+   const ratio=newScale/scale;
+   panX+=next.x-touchPrev.x;
+   panY+=next.y-touchPrev.y;
+   panX=pivotX-(pivotX-panX)*ratio;
+   panY=pivotY-(pivotY-panY)*ratio;
+   scale=newScale;
+  }
+  touchPrev=next;touchDragged=true;applyView();
+ }else if(e.touches.length===1){
+  const next={x:e.touches[0].clientX,y:e.touches[0].clientY};
+  if(touchStartedAt&&Math.hypot(next.x-touchStartedAt.x,next.y-touchStartedAt.y)>6)touchDragged=true;
+  if(touchDragged){panX+=next.x-touchPrev.x;panY+=next.y-touchPrev.y;applyView()}
+  touchPrev=next;
+ }
+},{passive:false});
+function endTouch(e){
+ if(touchDragged)suppressClickUntil=Date.now()+500;
+ if(e.touches.length===1){
+  touchPrev={x:e.touches[0].clientX,y:e.touches[0].clientY};
+  touchStartedAt={...touchPrev};
+ }else{
+  touchPrev=null;touchStartedAt=null;
+  setTimeout(()=>{touchDragged=false},0);
+ }
+}
+scene.addEventListener("touchend",endTouch,{passive:true});
+scene.addEventListener("touchcancel",endTouch,{passive:true});
 scene.addEventListener("wheel",e=>{
  if(e.cancelable)e.preventDefault();
  const next=clamp(scale*Math.exp(-e.deltaY*.001),.7,3.5),rect=scene.getBoundingClientRect();
