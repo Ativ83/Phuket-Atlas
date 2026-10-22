@@ -54,7 +54,10 @@
         "developerUrl": "https://centralgroupcapital.com/",
         "materialsUrl": "https://drive.google.com/drive/folders/1CEM5NBIN6c_hpuQfQByouxvgucNBoKv1?usp=drive_link",
         "salesPhone": "+66 91 926 9293",
-        "salesEmail": "puritaphuketbangtao@gmail.com"
+        "salesEmail": "puritaphuketbangtao@gmail.com",
+        "lat": 7.998029,
+        "lon": 98.304389,
+        "coordinateSource": "Координаты Google Maps предоставлены пользователем"
       }
     ]
   },
