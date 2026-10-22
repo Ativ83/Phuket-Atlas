@@ -59,6 +59,7 @@ function midAndDistance(){
  dist:Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y)};
 }
 scene.addEventListener("pointerdown",e=>{
+ if(geoEnabled)return;
  if(e.pointerType==="touch")return;
  if(e.target.closest(".buttons"))return;
  if(e.pointerType==="mouse" && e.button!==0)return;
@@ -71,6 +72,7 @@ scene.addEventListener("pointerdown",e=>{
  try{scene.setPointerCapture(e.pointerId)}catch{}
 });
 scene.addEventListener("pointermove",e=>{
+ if(geoEnabled)return;
  if(e.pointerType==="touch")return;
  if(!pointers.has(e.pointerId))return;
  const prev=pointers.get(e.pointerId);
@@ -115,6 +117,7 @@ function touchGeometry(touches){
   distance:Math.hypot(b.clientX-a.clientX,b.clientY-a.clientY)};
 }
 scene.addEventListener("touchstart",e=>{
+ if(geoEnabled)return;
  if(e.target.closest(".buttons"))return;
  if(e.touches.length===1){
   touchPrev={x:e.touches[0].clientX,y:e.touches[0].clientY};
@@ -126,6 +129,7 @@ scene.addEventListener("touchstart",e=>{
  }
 },{passive:false});
 scene.addEventListener("touchmove",e=>{
+ if(geoEnabled)return;
  if(e.target.closest(".buttons")||!touchPrev)return;
  if(e.cancelable)e.preventDefault();
  if(e.touches.length>=2){
@@ -163,6 +167,7 @@ function endTouch(e){
 scene.addEventListener("touchend",endTouch,{passive:true});
 scene.addEventListener("touchcancel",endTouch,{passive:true});
 scene.addEventListener("wheel",e=>{
+ if(geoEnabled)return;
  if(e.cancelable)e.preventDefault();
  const next=clamp(scale*Math.exp(-e.deltaY*.001),1,3.5),rect=scene.getBoundingClientRect();
  const x=e.clientX-(rect.left+rect.width/2),y=e.clientY-(rect.top+rect.height/2),ratio=next/scale;
@@ -172,9 +177,7 @@ scene.addEventListener("wheel",e=>{
 // Geographically grounded map: source tiles from OpenStreetMap; exact area coordinates from catalogue.
 let geoMap=null,geoEnabled=false,geoMarkers=[];
 const geoBox=by("real-map"),modeButton=by("map-mode");
-["pointerdown","pointermove","pointerup","touchstart","touchmove","touchend","wheel","click"].forEach(type=>{
- geoBox.addEventListener(type,e=>e.stopPropagation(),{passive:type==="touchmove"});
-});
+// Let Leaflet receive bubbled pointer/touch events and document-level drag events.
 function refreshGeoMarkers(){
  if(!geoMap)return;
  geoMarkers.forEach(m=>geoMap.removeLayer(m));geoMarkers=[];
@@ -197,6 +200,7 @@ function setGeoMode(on){
   return;
  }
  geoEnabled=on;geoBox.hidden=!on;
+ by("scene").style.touchAction=on?"auto":"none";
  by("scene").classList.toggle("geo-mode",on);
  modeButton.setAttribute("aria-pressed",String(on));
  modeButton.textContent=on?"Игровая карта":"Точная карта";
