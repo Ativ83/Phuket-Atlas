@@ -322,7 +322,11 @@ function refreshGeoMarkers(){
   (p.objects||[]).forEach(o=>{
    const hasGPS=Number.isFinite(o.lat)&&Number.isFinite(o.lon);
    const lat=hasGPS?o.lat:p.lat,lon=hasGPS?o.lon:p.lon;
-   const m=L.circleMarker([lat,lon],{radius:10,color:"#f8d182",weight:3,fillColor:"#8d6730",fillOpacity:1}).addTo(geoMap);
+   const m=L.marker([lat,lon],{icon:L.divIcon({
+    className:"atlas-satellite-project-pin",
+    html:'<span class="atlas-satellite-pushpin" aria-hidden="true">📌</span>',
+    iconSize:[30,32],iconAnchor:[15,28]
+   }),zIndexOffset:650}).addTo(geoMap);
    m.on("click",()=>{selected=p.id;setDrawer(false);updateMapLabels("object:"+o.id);show(p)});
    allNamedMarkers.push({marker:m,name:o.name,id:"object:"+o.id});
    geoMarkers.push(m);
@@ -370,11 +374,11 @@ function focusProperty(p,o){
 // Both views have different projections. Synchronize relative zoom, not false geographic precision.
 const satelliteZoomPerDoubling=2.3;
 const phuketOverviewBounds=[[7.72,98.20],[8.20,98.48]];
-let satelliteOverviewZoom=10;
+let satelliteOverviewZoom=11;
 function computeOverviewZoom(){
  if(!geoMap)return satelliteOverviewZoom;
  const b=L.latLngBounds(phuketOverviewBounds);
- return satelliteOverviewZoom=geoMap.getBoundsZoom(b,false,L.point(40,150));
+ return satelliteOverviewZoom=11; // phone reference: a closer view of central/southern Phuket
 }
 function gameZoomToSatellite(z){return clamp(satelliteOverviewZoom+Math.log2(clamp(z,1,3.5))*satelliteZoomPerDoubling,2,18)}
 function satelliteZoomToGame(z){return clamp(Math.pow(2,(z-satelliteOverviewZoom)/satelliteZoomPerDoubling),1,3.5)}
@@ -411,7 +415,7 @@ function setGeoMode(on){
    const overview=computeOverviewZoom();
    geoMap.stop();
    const zoom=gameZoomToSatellite(scale);
-   geoMap.setView(scale<=1.01?L.latLng(7.96,98.34):geoMap.getCenter(),zoom,{animate:false});
+   geoMap.setView(scale<=1.01?L.latLng(7.94,98.34):geoMap.getCenter(),zoom,{animate:false});
   });
   updateMapLabels();
  }
@@ -468,5 +472,5 @@ setGameInformation(false);
 const oldZoomIn=by("zin").onclick,oldZoomOut=by("zout").onclick,oldReset=by("reset").onclick;
 by("zin").onclick=()=>geoEnabled?geoMap.zoomIn():oldZoomIn();
 by("zout").onclick=()=>geoEnabled?geoMap.zoomOut():oldZoomOut();
-by("reset").onclick=()=>{if(geoEnabled){readyDistrictId=null;selected=null;focusedLabel=null;updateMapLabels();(computeOverviewZoom(),geoMap.flyTo([7.96,98.34],gameZoomToSatellite(1),{duration:1.1}))}else oldReset()};
+by("reset").onclick=()=>{if(geoEnabled){readyDistrictId=null;selected=null;focusedLabel=null;updateMapLabels();(computeOverviewZoom(),geoMap.flyTo([7.94,98.34],gameZoomToSatellite(1),{duration:1.1}))}else oldReset()};
 fetch("data/locations.json?v=purita-coordinates-36").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render();refreshGeoMarkers()}).catch(e=>by("regions").textContent=e.message)})();
