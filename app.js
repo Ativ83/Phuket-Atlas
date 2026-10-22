@@ -43,22 +43,57 @@ function show(p){
  '<footer>Координаты метки района: '+p.lat.toFixed(4)+' N, '+p.lon.toFixed(4)+' E. Это центр района, не адрес проекта.</footer></div>';
  by("sheet").classList.add("open");by("sheet").setAttribute("aria-hidden","false");by("overlay").hidden=false;
  by("detail").querySelectorAll("[data-pdf]").forEach(btn=>btn.onclick=()=>openBrochure(btn.dataset.pdf,btn.dataset.materials));
-}function openBrochure(path,materials){
- const pane=by("pdf-viewer"),frame=by("pdf-frame"),message=by("pdf-status"),external=by("pdf-external"),backup=by("pdf-materials");
+}let pdfViewerRun=0;
+function loadPdfJS(){
+ if(window.pdfjsLib)return Promise.resolve(window.pdfjsLib);
+ if(window._phuketPdfJSLoading)return window._phuketPdfJSLoading;
+ window._phuketPdfJSLoading=new Promise((resolve,reject)=>{
+  const script=document.createElement("script");
+  script.src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+  script.onload=()=>window.pdfjsLib?resolve(window.pdfjsLib):reject(Error("PDF.js unavailable"));
+  script.onerror=()=>reject(Error("Не удалось загрузить модуль просмотра"));
+  document.head.appendChild(script);
+ });
+ return window._phuketPdfJSLoading;
+}
+async function openBrochure(path,materials){
+ const pane=by("pdf-viewer"),pages=by("pdf-pages"),message=by("pdf-status"),external=by("pdf-external"),backup=by("pdf-materials");
  if(!pane||!path||!(path.startsWith("presentations/")&&path.endsWith(".pdf")))return;
- pane.hidden=false;frame.hidden=true;frame.removeAttribute("src");
- message.textContent="Проверяем наличие PDF-презентации…";
- external.hidden=true;
- backup.hidden=!materials;if(materials)backup.href=materials;
- fetch(path,{method:"HEAD",cache:"no-store"}).then(res=>{
-  if(!res.ok||!(res.headers.get("content-type")||"").includes("pdf"))throw Error("not uploaded");
-  frame.src=path+"#toolbar=1&view=FitH";frame.hidden=false;message.textContent="";
-  external.href=path;external.hidden=false;
- }).catch(()=>{message.textContent="Оригинальная PDF-презентация пока не размещена на сайте. Можно открыть папку материалов проекта.";});
+ const run=++pdfViewerRun;
+ pane.hidden=false;pages.innerHTML="";pages.scrollTop=0;
+ message.textContent="Загружаем PDF-презентацию…";message.hidden=false;
+ external.href=path;external.hidden=false;backup.hidden=!materials;if(materials)backup.href=materials;
+ try{
+  const pdfjs=await loadPdfJS();
+  pdfjs.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  const pdf=await pdfjs.getDocument({url:path}).promise;
+  if(run!==pdfViewerRun)return;
+  for(let n=1;n<=pdf.numPages;n++){
+   if(run!==pdfViewerRun)return;
+   const page=await pdf.getPage(n),base=page.getViewport({scale:1});
+   const width=Math.min(pages.clientWidth-16,850);
+   const cssScale=width/base.width;
+   const dpr=Math.min(window.devicePixelRatio||1,1.5);
+   const viewport=page.getViewport({scale:cssScale*dpr});
+   const canvas=document.createElement("canvas");
+   canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
+   canvas.style.width=Math.round(viewport.width/dpr)+"px";
+   canvas.style.height=Math.round(viewport.height/dpr)+"px";
+   canvas.setAttribute("aria-label","Страница "+n+" из "+pdf.numPages);
+   const wrap=document.createElement("div");wrap.className="pdf-page";wrap.appendChild(canvas);pages.appendChild(wrap);
+   await page.render({canvasContext:canvas.getContext("2d",{alpha:false}),viewport}).promise;
+   if(run!==pdfViewerRun)return;
+   message.textContent="Страница "+n+" из "+pdf.numPages;
+  }
+  if(run===pdfViewerRun)message.hidden=true;
+ }catch(e){
+  if(run===pdfViewerRun){message.hidden=false;message.textContent="Не удалось показать PDF внутри приложения. Используйте кнопку «Открыть PDF отдельно».";}
+ }
 }
 function closeBrochure(){
- const pane=by("pdf-viewer");if(!pane)return;
- pane.hidden=true;by("pdf-frame").removeAttribute("src");
+ ++pdfViewerRun;
+ by("pdf-viewer").hidden=true;
+ by("pdf-pages").innerHTML="";
 }
 by("pdf-close").onclick=closeBrochure;
 by("pdf-viewer").addEventListener("click",e=>{if(e.target.id==="pdf-viewer")closeBrochure()});
