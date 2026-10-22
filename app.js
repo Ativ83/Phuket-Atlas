@@ -24,7 +24,7 @@ const escape=s=>String(s??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">
 }
 function render(){const q=by("search").value.toLowerCase();const filtered=areas.filter(p=>(!showOnlyObjects||(p.objects||[]).length>0)&&(p.name+" "+p.en+" "+(p.objects||[]).map(o=>o.name).join(" ")).toLowerCase().includes(q));by("regions").innerHTML=showOnlyObjects?
  (filtered.length?filtered.flatMap(p=>(p.objects||[]).map((o,i)=>'<button class="region property-listing" data-area="'+escape(p.id)+'" data-object-index="'+i+'"><div><span>'+escape(o.name)+'</span><small>'+escape(p.name)+(o.type?' · '+escape(o.type):'')+'</small></div><i>›</i></button>')).join(""):'<div class="placeholder">Пока нет объектов. Добавим сюда только ваши проекты из PDF-презентаций.</div>'):
- filtered.map(p=>'<button class="region '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'"><div><span>'+escape(p.name)+'</span><small>'+escape(p.en)+' · '+(p.objects||[]).length+' объектов</small></div><i>›</i></button>').join("");const pins=[];for(const p of filtered){const pos=xy(p);pins.push('<button class="pin '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');for(const o of (p.objects||[])){if(typeof o.lat!=="number"||typeof o.lon!=="number")continue;const op=xy(o);pins.push('<button class="pin project" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="dot"></span><label>◆ '+escape(o.name)+'</label></button>')}}by("pins").innerHTML=pins.join("");document.querySelectorAll("[data-area]").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);if(showOnlyObjects&&p){const o=(p.objects||[])[Number(el.dataset.objectIndex)];if(o){focusProperty(p,o);return;}}go(el.dataset.area)});by("numareas").textContent=areas.length;by("numprojects").textContent=projectCount()}function go(id){const p=areas.find(x=>x.id===id);if(!p)return;if(showOnlyObjects){setDrawer(false);selected=id;show(p);return;}setDrawer(false);selected=id;by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)}function objectHTML(o){
+ filtered.map(p=>'<button class="region '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'"><div><span>'+escape(p.name)+'</span><small>'+escape(p.en)+' · '+(p.objects||[]).length+' объектов</small></div><i>›</i></button>').join("");const pins=[];for(const p of filtered){const pos=xy(p);pins.push('<button class="pin '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');for(const o of (p.objects||[])){if(typeof o.lat!=="number"||typeof o.lon!=="number")continue;const op=xy(p);op.x+=20;op.y+=12;pins.push('<button class="pin project" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="dot"></span><label>◆ '+escape(o.name)+'</label></button>')}}by("pins").innerHTML=pins.join("");document.querySelectorAll("[data-area]").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);if(showOnlyObjects&&p){const o=(p.objects||[])[Number(el.dataset.objectIndex)];if(o){focusProperty(p,o);return;}}go(el.dataset.area)});by("numareas").textContent=areas.length;by("numprojects").textContent=projectCount()}function go(id){const p=areas.find(x=>x.id===id);if(!p)return;if(showOnlyObjects){setDrawer(false);selected=id;show(p);return;}setDrawer(false);selected=id;by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)}function objectHTML(o){
  const fields=[["Адрес",o.address],["Состав комплекса",o.buildings],["Площади",o.sizes],["Парковка",o.parking],["Девелопер",o.developer],["Портфель девелопера",o.developerPortfolio],["Разрешения",o.permits],["Планируемая сдача",o.completion],["Пляж Банг Тао",o.beach],["Инфраструктура",o.amenities],["Обслуживание",o.maintenance],["Разовый взнос",o.sinking]];
  return '<article class="object property-card"><div class="project-cover"><span>PURITA</span><small>PHUKET BANGTAO</small></div><div class="project-content"><small>'+escape(o.type||"Недвижимость")+'</small><h3>'+escape(o.name)+'</h3><p>'+escape(o.description||"")+'</p><dl class="property-facts">'+fields.filter(x=>x[1]).map(x=>'<div><dt>'+escape(x[0])+'</dt><dd>'+escape(x[1])+'</dd></div>').join("")+'</dl>'+
  (o.pdf&&o.pdf.startsWith("presentations/")&&o.pdf.endsWith(".pdf")?
@@ -304,28 +304,18 @@ function refreshGeoMarkers(){
   districtMapMarkers.set(p.id,marker);
   allNamedMarkers.push({marker,name:p.name,id:"area:"+p.id});
   geoMarkers.push(marker);
-  // District-level project locator when the exact site coordinates are not verified.
-  for(const o of (p.objects||[])){
-   if(Number.isFinite(o.lat)&&Number.isFinite(o.lon))continue;
-   const regionOnly=L.marker([p.lat,p.lon],{
-    icon:L.divIcon({
-     className:"purita-area-marker",
-     html:'<span class="project-region-pin">◆ <span>'+escape(o.name)+'</span></span>',
-     iconSize:[174,32],iconAnchor:[-14,-14]
-    }),zIndexOffset:550
+  // Projects are shown as district-level flags, deliberately not exact building locations.
+  (p.objects||[]).forEach((o,index)=>{
+   const dx=30+(index%3)*24,dy=12+Math.floor(index/3)*27;
+   const flag=L.marker([p.lat,p.lon],{
+    icon:L.divIcon({className:"atlas-project-flag",html:'<span class="atlas-project-flag-symbol" aria-label="Объект недвижимости">⚑</span>',
+      iconSize:[30,30],iconAnchor:[-dx,dy]}),zIndexOffset:600
    }).addTo(geoMap);
-   regionOnly.bindTooltip("Район "+p.name+" · точная точка объекта уточняется");
-   regionOnly.on("click",()=>{selected=p.id;setDrawer(false);updateMapLabels("object:"+o.id);show(p)});
-   allNamedMarkers.push({marker:regionOnly,name:o.name,id:"object:"+o.id});
-   geoMarkers.push(regionOnly);
-  }
-  for(const o of (p.objects||[])){
-   if(!Number.isFinite(o.lat)||!Number.isFinite(o.lon))continue;
-   const m=L.circleMarker([o.lat,o.lon],{radius:10,color:"#f8d182",weight:3,fillColor:"#8d6730",fillOpacity:1}).addTo(geoMap).bindTooltip("◆ "+o.name);
-   m.on("click",()=>{selected=p.id;updateMapLabels("object:"+o.id);show(p)});
-   allNamedMarkers.push({marker:m,name:o.name,id:"object:"+o.id});
-   geoMarkers.push(m);
-  }
+   flag.bindTooltip(o.name);
+   flag.on("click",()=>{selected=p.id;setDrawer(false);updateMapLabels("object:"+o.id);show(p)});
+   allNamedMarkers.push({marker:flag,name:o.name,id:"object:"+o.id});
+   geoMarkers.push(flag);
+  });
  }
 }
 function updateMapLabels(focusId=null){
@@ -353,7 +343,7 @@ function updateMapLabels(focusId=null){
  const button=by("labels-toggle");
  if(button){button.setAttribute("aria-pressed",String(labelsVisible));button.textContent=labelsVisible?"Инф.: вкл":"Инф.: выкл";}
 }
-by("labels-toggle").onclick=()=>{labelsVisible=!labelsVisible;updateMapLabels()};
+by("labels-toggle").onclick=()=>setGameInformation(!gameInfoOn);
 function focusProperty(p,o){
  setDrawer(false);selected=p.id;
  const lat=Number(o.lat),lon=Number(o.lon);
@@ -367,10 +357,16 @@ function focusProperty(p,o){
  }else{show(p)}
 }
 // Both views have different projections. Synchronize relative zoom, not false geographic precision.
-const baseSatelliteZoom=10;
 const satelliteZoomPerDoubling=2.3;
-function gameZoomToSatellite(z){return clamp(baseSatelliteZoom+Math.log2(clamp(z,1,3.5))*satelliteZoomPerDoubling,baseSatelliteZoom,14.2)}
-function satelliteZoomToGame(z){return clamp(Math.pow(2,(z-baseSatelliteZoom)/satelliteZoomPerDoubling),1,3.5)}
+const phuketOverviewBounds=[[7.72,98.20],[8.20,98.48]];
+let satelliteOverviewZoom=10;
+function computeOverviewZoom(){
+ if(!geoMap)return satelliteOverviewZoom;
+ const b=L.latLngBounds(phuketOverviewBounds);
+ return satelliteOverviewZoom=geoMap.getBoundsZoom(b,false,L.point(40,150));
+}
+function gameZoomToSatellite(z){return clamp(satelliteOverviewZoom+Math.log2(clamp(z,1,3.5))*satelliteZoomPerDoubling,2,18)}
+function satelliteZoomToGame(z){return clamp(Math.pow(2,(z-satelliteOverviewZoom)/satelliteZoomPerDoubling),1,3.5)}
 function setGeoMode(on){
  if(on&&typeof L==="undefined"){
   modeButton.textContent="Карта недоступна";
@@ -401,8 +397,10 @@ function setGeoMode(on){
   const targetZoom=gameZoomToSatellite(scale);
   requestAnimationFrame(()=>{
    geoMap.invalidateSize({pan:false});
+   const overview=computeOverviewZoom();
    geoMap.stop();
-   geoMap.setView(geoMap.getCenter(),targetZoom,{animate:false});
+   const zoom=gameZoomToSatellite(scale);
+   geoMap.setView(scale<=1.01?L.latLng(7.96,98.34):geoMap.getCenter(),zoom,{animate:false});
   });
   updateMapLabels();
  }
@@ -447,7 +445,9 @@ go=function(id){
 let gameInfoOn=false;
 function setGameInformation(on){
  gameInfoOn=on;
+ labelsVisible=on;
  by("scene").classList.toggle("game-info-off",!on);
+ updateMapLabels();
  const btn=by("art-info-toggle");
  btn.textContent=on?"Инф.: вкл":"Инф.: выкл";
  btn.setAttribute("aria-pressed",String(on));
@@ -457,5 +457,5 @@ setGameInformation(false);
 const oldZoomIn=by("zin").onclick,oldZoomOut=by("zout").onclick,oldReset=by("reset").onclick;
 by("zin").onclick=()=>geoEnabled?geoMap.zoomIn():oldZoomIn();
 by("zout").onclick=()=>geoEnabled?geoMap.zoomOut():oldZoomOut();
-by("reset").onclick=()=>{if(geoEnabled){readyDistrictId=null;selected=null;focusedLabel=null;updateMapLabels();geoMap.flyTo([7.96,98.34],gameZoomToSatellite(1),{duration:1.1})}else oldReset()};
+by("reset").onclick=()=>{if(geoEnabled){readyDistrictId=null;selected=null;focusedLabel=null;updateMapLabels();(computeOverviewZoom(),geoMap.flyTo([7.96,98.34],gameZoomToSatellite(1),{duration:1.1}))}else oldReset()};
 fetch("data/locations.json?v=purita-coordinates-36").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render();refreshGeoMarkers()}).catch(e=>by("regions").textContent=e.message)})();
