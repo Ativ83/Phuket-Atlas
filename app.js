@@ -40,7 +40,7 @@ function show(p){
  const list=p.objects||[];
  by("detail").innerHTML='<div class="hero"><div><div class="tag">PHUKET · '+escape(p.region)+'</div><h2>'+escape(p.name)+'</h2><small>'+escape(p.en)+'</small></div></div><div class="detail"><p>'+escape(p.summary)+'</p><h3>Мои объекты · '+list.length+'</h3>'+
  (list.length?list.map(objectHTML).join(""):'<div class="placeholder">В этом районе пока нет добавленных объектов.</div>')+
- '<footer>Координаты метки района: '+p.lat.toFixed(4)+' N, '+p.lon.toFixed(4)+' E. Это центр района, не адрес проекта.</footer></div>';
+ '</div>';
  by("sheet").classList.add("open");by("sheet").setAttribute("aria-hidden","false");by("overlay").hidden=false;
  by("detail").querySelectorAll("[data-pdf]").forEach(btn=>btn.onclick=()=>openBrochure(btn.dataset.pdf,btn.dataset.materials));
 }let pdfViewerRun=0;
@@ -330,13 +330,20 @@ function refreshGeoMarkers(){
 }
 function updateMapLabels(focusId=null){
  if(focusId!==null)focusedLabel=focusId;
+ const shown=allNamedMarkers.filter(item=>labelsVisible||item.id===focusedLabel);
+ // Sort north to south; distribute neighboring labels to opposite sides.
+ const ranked=[...shown].sort((a,b)=>b.marker.getLatLng().lat-a.marker.getLatLng().lat);
+ const positions=new Map();
+ ranked.forEach((item,i)=>positions.set(item,i%2===0?"right":"left"));
  for(const item of allNamedMarkers){
-  const visible=labelsVisible||item.id===focusedLabel;
   item.marker.unbindTooltip();
-  if(visible){
-   item.marker.bindTooltip(item.name,{permanent:true,direction:"right",offset:[10,0],className:"phuket-map-label"});
-   item.marker.openTooltip();
-  }
+  if(!positions.has(item))continue;
+  const direction=positions.get(item);
+  item.marker.bindTooltip(item.name,{
+   permanent:true,direction,offset:[direction==="right"?12:-12,0],
+   className:"phuket-map-label"
+  });
+  item.marker.openTooltip();
  }
  const button=by("labels-toggle");
  if(button){button.setAttribute("aria-pressed",String(labelsVisible));button.textContent=labelsVisible?"Подписи: вкл":"Подписи: выкл";}
