@@ -23,8 +23,8 @@ const escape=s=>String(s??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">
  scale=1.6;panX=0;panY=0;applyView(true);
 }
 function render(){const q=by("search").value.toLowerCase();const filtered=areas.filter(p=>(!showOnlyObjects||(p.objects||[]).length>0)&&(p.name+" "+p.en+" "+(p.objects||[]).map(o=>o.name).join(" ")).toLowerCase().includes(q));by("regions").innerHTML=showOnlyObjects?
- (filtered.length?filtered.flatMap(p=>(p.objects||[]).map((o,i)=>'<button class="region property-listing" data-area="'+escape(p.id)+'"><div><span>'+escape(o.name)+'</span><small>'+escape(p.name)+(o.type?' · '+escape(o.type):'')+'</small></div><i>›</i></button>')).join(""):'<div class="placeholder">Пока нет объектов. Добавим сюда только ваши проекты из PDF-презентаций.</div>'):
- filtered.map(p=>'<button class="region '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'"><div><span>'+escape(p.name)+'</span><small>'+escape(p.en)+' · '+(p.objects||[]).length+' объектов</small></div><i>›</i></button>').join("");const pins=[];for(const p of filtered){const pos=xy(p);pins.push('<button class="pin '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');for(const o of (p.objects||[])){if(typeof o.lat!=="number"||typeof o.lon!=="number")continue;const op=xy(o);pins.push('<button class="pin project" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="dot"></span><label>◆ '+escape(o.name)+'</label></button>')}}by("pins").innerHTML=pins.join("");document.querySelectorAll("[data-area]").forEach(el=>el.onclick=()=>{if(!showOnlyObjects){go(el.dataset.area);return;}go(el.dataset.area)});by("numareas").textContent=areas.length;by("numprojects").textContent=projectCount()}function go(id){const p=areas.find(x=>x.id===id);if(!p)return;if(showOnlyObjects){setDrawer(false);selected=id;show(p);return;}setDrawer(false);selected=id;by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)}function objectHTML(o){
+ (filtered.length?filtered.flatMap(p=>(p.objects||[]).map((o,i)=>'<button class="region property-listing" data-area="'+escape(p.id)+'" data-object-index="'+i+'"><div><span>'+escape(o.name)+'</span><small>'+escape(p.name)+(o.type?' · '+escape(o.type):'')+'</small></div><i>›</i></button>')).join(""):'<div class="placeholder">Пока нет объектов. Добавим сюда только ваши проекты из PDF-презентаций.</div>'):
+ filtered.map(p=>'<button class="region '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'"><div><span>'+escape(p.name)+'</span><small>'+escape(p.en)+' · '+(p.objects||[]).length+' объектов</small></div><i>›</i></button>').join("");const pins=[];for(const p of filtered){const pos=xy(p);pins.push('<button class="pin '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');for(const o of (p.objects||[])){if(typeof o.lat!=="number"||typeof o.lon!=="number")continue;const op=xy(o);pins.push('<button class="pin project" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="dot"></span><label>◆ '+escape(o.name)+'</label></button>')}}by("pins").innerHTML=pins.join("");document.querySelectorAll("[data-area]").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);if(showOnlyObjects&&p){const o=(p.objects||[])[Number(el.dataset.objectIndex)];if(o){focusProperty(p,o);return;}}go(el.dataset.area)});by("numareas").textContent=areas.length;by("numprojects").textContent=projectCount()}function go(id){const p=areas.find(x=>x.id===id);if(!p)return;if(showOnlyObjects){setDrawer(false);selected=id;show(p);return;}setDrawer(false);selected=id;by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)}function objectHTML(o){
  const fields=[["Адрес",o.address],["Состав комплекса",o.buildings],["Площади",o.sizes],["Парковка",o.parking],["Девелопер",o.developer],["Портфель девелопера",o.developerPortfolio],["Разрешения",o.permits],["Планируемая сдача",o.completion],["Пляж Банг Тао",o.beach],["Инфраструктура",o.amenities],["Обслуживание",o.maintenance],["Разовый взнос",o.sinking]];
  return '<article class="object property-card"><div class="project-cover"><span>PURITA</span><small>PHUKET BANGTAO</small></div><div class="project-content"><small>'+escape(o.type||"Недвижимость")+'</small><h3>'+escape(o.name)+'</h3><p>'+escape(o.description||"")+'</p><dl class="property-facts">'+fields.filter(x=>x[1]).map(x=>'<div><dt>'+escape(x[0])+'</dt><dd>'+escape(x[1])+'</dd></div>').join("")+'</dl>'+
  (o.pdf&&o.pdf.startsWith("presentations/")&&o.pdf.endsWith(".pdf")?
@@ -263,6 +263,8 @@ scene.addEventListener("wheel",e=>{
 // Geographically grounded map: source tiles from OpenStreetMap; exact area coordinates from catalogue.
 let geoMap=null,geoEnabled=false,geoMarkers=[],geoBaseLayer=null;
 const districtMapMarkers=new Map();
+const allNamedMarkers=[];
+let labelsVisible=false,focusedLabel=null;
 let readyDistrictId=null;
 let satelliteToken=localStorage.getItem("phuket_mapbox_public_token")||"";
 function applySatelliteLayer(){
@@ -284,7 +286,7 @@ const geoBox=by("real-map"),modeButton=by("map-mode");
 // Let Leaflet receive bubbled pointer/touch events and document-level drag events.
 function refreshGeoMarkers(){
  if(!geoMap)return;
- geoMarkers.forEach(m=>geoMap.removeLayer(m));geoMarkers=[];districtMapMarkers.clear();
+ geoMarkers.forEach(m=>geoMap.removeLayer(m));geoMarkers=[];districtMapMarkers.clear();allNamedMarkers.length=0;focusedLabel=null;
  for(const p of areas){
   if(!Number.isFinite(p.lat)||!Number.isFinite(p.lon))continue;
   const marker=L.marker([p.lat,p.lon]).addTo(geoMap).bindTooltip(p.name);
@@ -296,10 +298,11 @@ function refreshGeoMarkers(){
    readyDistrictId=null;
    selected=p.id;
    geoMap.flyTo([p.lat,p.lon],13,{duration:1.1});
-   geoMap.once("moveend",()=>{if(selected===p.id&&geoEnabled){readyDistrictId=p.id;marker.openTooltip()}});
+   geoMap.once("moveend",()=>{if(selected===p.id&&geoEnabled){readyDistrictId=p.id;updateMapLabels("area:"+p.id)}});
    render();
   });
   districtMapMarkers.set(p.id,marker);
+  allNamedMarkers.push({marker,name:p.name,id:"area:"+p.id});
   geoMarkers.push(marker);
   // District-level project locator when the exact site coordinates are not verified.
   for(const o of (p.objects||[])){
@@ -312,16 +315,44 @@ function refreshGeoMarkers(){
     }),zIndexOffset:550
    }).addTo(geoMap);
    regionOnly.bindTooltip("Район "+p.name+" · точная точка объекта уточняется");
-   regionOnly.on("click",()=>{selected=p.id;setDrawer(false);show(p)});
+   regionOnly.on("click",()=>{selected=p.id;setDrawer(false);updateMapLabels("object:"+o.id);show(p)});
+   allNamedMarkers.push({marker:regionOnly,name:o.name,id:"object:"+o.id});
    geoMarkers.push(regionOnly);
   }
   for(const o of (p.objects||[])){
    if(!Number.isFinite(o.lat)||!Number.isFinite(o.lon))continue;
    const m=L.circleMarker([o.lat,o.lon],{radius:10,color:"#f8d182",weight:3,fillColor:"#8d6730",fillOpacity:1}).addTo(geoMap).bindTooltip("◆ "+o.name);
-   m.on("click",()=>{selected=p.id;show(p)});
+   m.on("click",()=>{selected=p.id;updateMapLabels("object:"+o.id);show(p)});
+   allNamedMarkers.push({marker:m,name:o.name,id:"object:"+o.id});
    geoMarkers.push(m);
   }
  }
+}
+function updateMapLabels(focusId=null){
+ if(focusId!==null)focusedLabel=focusId;
+ for(const item of allNamedMarkers){
+  const visible=labelsVisible||item.id===focusedLabel;
+  item.marker.unbindTooltip();
+  if(visible){
+   item.marker.bindTooltip(item.name,{permanent:true,direction:"right",offset:[10,0],className:"phuket-map-label"});
+   item.marker.openTooltip();
+  }
+ }
+ const button=by("labels-toggle");
+ if(button){button.setAttribute("aria-pressed",String(labelsVisible));button.textContent=labelsVisible?"Подписи: вкл":"Подписи: выкл";}
+}
+by("labels-toggle").onclick=()=>{labelsVisible=!labelsVisible;updateMapLabels()};
+function focusProperty(p,o){
+ setDrawer(false);selected=p.id;
+ const lat=Number(o.lat),lon=Number(o.lon);
+ if(geoEnabled&&Number.isFinite(lat)&&Number.isFinite(lon)){
+  const mark=allNamedMarkers.find(x=>x.id==="object:"+o.id);
+  geoMap.flyTo([lat,lon],16,{duration:1.1});
+  geoMap.once("moveend",()=>{if(mark)updateMapLabels(mark.id)});
+ }else if(geoEnabled){
+  geoMap.flyTo([p.lat,p.lon],13,{duration:1.1});
+  geoMap.once("moveend",()=>updateMapLabels("object:"+o.id));
+ }else{show(p)}
 }
 function setGeoMode(on){
  if(on&&typeof L==="undefined"){
@@ -341,9 +372,11 @@ function setGeoMode(on){
    geoMap.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
    applySatelliteLayer();
    refreshGeoMarkers();
+   updateMapLabels();
    geoMap.on("zoomend",()=>{if(geoMap.getZoom()<12.5)readyDistrictId=null});
   }
   requestAnimationFrame(()=>geoMap.invalidateSize());
+  updateMapLabels();
  }
 }
 modeButton.onclick=()=>setGeoMode(!geoEnabled);
@@ -377,11 +410,11 @@ go=function(id){
  readyDistrictId=null;
  geoMap.flyTo([p.lat,p.lon],13,{duration:1.1});
  const districtMarker=districtMapMarkers.get(p.id);
- if(districtMarker){geoMap.once("moveend",()=>{if(selected===id&&geoEnabled){readyDistrictId=id;districtMarker.openTooltip()}});}
+ if(districtMarker){geoMap.once("moveend",()=>{if(selected===id&&geoEnabled){readyDistrictId=id;updateMapLabels("area:"+id)}});}
  render();
 };
 const oldZoomIn=by("zin").onclick,oldZoomOut=by("zout").onclick,oldReset=by("reset").onclick;
 by("zin").onclick=()=>geoEnabled?geoMap.zoomIn():oldZoomIn();
 by("zout").onclick=()=>geoEnabled?geoMap.zoomOut():oldZoomOut();
-by("reset").onclick=()=>{if(geoEnabled){readyDistrictId=null;selected=null;geoMap.flyTo([7.96,98.34],10)}else oldReset()};
+by("reset").onclick=()=>{if(geoEnabled){readyDistrictId=null;selected=null;focusedLabel=null;updateMapLabels();geoMap.flyTo([7.96,98.34],10)}else oldReset()};
 fetch("data/locations.json?v=purita-coordinates-36").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render();refreshGeoMarkers()}).catch(e=>by("regions").textContent=e.message)})();
