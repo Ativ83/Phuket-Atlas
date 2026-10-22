@@ -29,7 +29,7 @@ function render(){const q=by("search").value.toLowerCase();const filtered=areas.
  pins.push('<button class="pin game-region-pin '+(gameLabelsOnRight.has(p.id)?'label-right':'label-left')+' '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');
  (p.objects||[]).forEach((o,index)=>{
   const op=xy(p);op.x+=23+(index%3)*15;op.y+=15+Math.floor(index/3)*20;
-  pins.push('<button class="pin project game-property-flag" type="button" aria-label="Открыть '+escape(o.name)+'" data-project-id="'+escape(o.id)+'" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="game-flag-icon" aria-hidden="true"></span></button>');
+  pins.push('<button class="pin project game-property-flag" type="button" aria-label="Открыть '+escape(o.name)+'" data-project-id="'+escape(o.id)+'" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="game-flag-icon" aria-hidden="true">📌</span></button>');
  });
  }by("pins").innerHTML=pins.join("");document.querySelectorAll(".game-property-flag").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);const o=(p?.objects||[]).find(x=>x.id===el.dataset.projectId);if(p&&o){setDrawer(false);selected=p.id;show(p)}});
  document.querySelectorAll("[data-area]:not(.game-property-flag)").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);if(showOnlyObjects&&p){const o=(p.objects||[])[Number(el.dataset.objectIndex)];if(o){focusProperty(p,o);return;}}go(el.dataset.area)});by("numareas").textContent=areas.length;by("numprojects").textContent=projectCount()}function go(id){const p=areas.find(x=>x.id===id);if(!p)return;if(showOnlyObjects){setDrawer(false);selected=id;show(p);return;}setDrawer(false);selected=id;by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)}function objectHTML(o){
@@ -297,7 +297,13 @@ function refreshGeoMarkers(){
  geoMarkers.forEach(m=>geoMap.removeLayer(m));geoMarkers=[];districtMapMarkers.clear();allNamedMarkers.length=0;focusedLabel=null;
  for(const p of areas){
   if(!Number.isFinite(p.lat)||!Number.isFinite(p.lon))continue;
-  const marker=L.marker([p.lat,p.lon]).addTo(geoMap).bindTooltip(p.name);
+  const marker=L.marker([p.lat,p.lon],{icon:L.icon({
+   iconUrl:"https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+   iconRetinaUrl:"https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+   shadowUrl:"https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+   iconSize:[17.5,28.7],iconAnchor:[8.75,28.7],popupAnchor:[0,-25],
+   shadowSize:[28.7,28.7],shadowAnchor:[8.75,28.7],className:"atlas-district-marker"
+  })}).addTo(geoMap).bindTooltip(p.name);
   marker.on("click",()=>{
    // First tap from overview flies to district; tapping the focused marker again opens details.
    const focused=readyDistrictId===p.id && geoMap.getZoom()>=12.5;
