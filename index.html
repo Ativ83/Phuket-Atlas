@@ -49,4 +49,20 @@
 .mapinfo small{font-size:12px}
 #district-drawer{padding-top:calc(15px + env(safe-area-inset-top))}
 }
-</style></head><body><div class="app"><div class="main"><button id="district-toggle" aria-controls="district-drawer" aria-expanded="false" aria-label="Открыть районы"><span aria-hidden="true">📍</span> <span>Районы</span></button><button id="objects-toggle" aria-controls="district-drawer" aria-expanded="false">☆ <span>Мои объекты</span></button><aside id="district-drawer"><button id="district-close" aria-label="Закрыть список районов">×</button><div class="tag">ЛИЧНАЯ КОЛЛЕКЦИЯ</div><h1>Твой Пхукет.<br>Твои объекты.</h1><p>Выбери район на миниатюрной карте. Здесь появятся только объекты из твоих презентаций.</p><input id="search" placeholder="Поиск района или объекта…" aria-label="Поиск"><div id="regions"></div></aside><section id="scene"><div class="mapinfo"><h2>Остров Пхукет</h2><small><span id="numareas">12</span> районов · <span id="numprojects">0</span> моих объектов</small></div><div id="world"><img class="hd-overview" src="phuket_full.webp" alt="Художественный HD-рендер Пхукета с окружающими островами"><div id="hd-tiles"><img src="hd_0_0.webp" alt=""><img src="hd_0_1.webp" alt=""><img src="hd_1_0.webp" alt=""><img src="hd_1_1.webp" alt=""><img src="hd_2_0.webp" alt=""><img src="hd_2_1.webp" alt=""></div><div id="pins"></div></div><div class="compass">N<br>↑</div><div class="buttons"><button id="zin" aria-label="Приблизить">+</button><button id="zout" aria-label="Отдалить">−</button><button id="reset" aria-label="Весь остров">⌂</button></div></section></div></div><div id="overlay" class="screen" hidden></div><section id="sheet" class="sheet" aria-label="Презентация локации" aria-hidden="true"><button class="close" id="close" aria-label="Закрыть">×</button><div id="detail"></div></section><script src="app.js?v=premium-top-nav-8" defer></script></body></html>
+
+/* Edge-to-edge artwork: no separate sea background or exposed margins. */
+#scene{background:#082c4b}
+#scene:before{display:none!important}
+#world{
+ width:max(100%,calc(100dvh * 0.563))!important;
+ height:max(100%,calc(100vw * 1.777))!important;
+ max-width:none!important;max-height:none!important;
+ min-width:100%;min-height:100%!important;
+ aspect-ratio:941/1672!important;
+}
+#world .hd-overview{object-fit:cover}
+#hd-tiles{overflow:hidden}
+@media(max-width:740px){
+ #world{width:max(100%,calc(100dvh * 0.563))!important;height:max(100%,calc(100vw * 1.777))!important;max-width:none!important;max-height:none!important;min-height:100%!important}
+}
+</style></head><body><div class="app"><div class="main"><button id="district-toggle" aria-controls="district-drawer" aria-expanded="false" aria-label="Открыть районы"><span aria-hidden="true">📍</span> <span>Районы</span></button><button id="objects-toggle" aria-controls="district-drawer" aria-expanded="false">☆ <span>Мои объекты</span></button><aside id="district-drawer"><button id="district-close" aria-label="Закрыть список районов">×</button><div class="tag">ЛИЧНАЯ КОЛЛЕКЦИЯ</div><h1>Твой Пхукет.<br>Твои объекты.</h1><p>Выбери район на миниатюрной карте. Здесь появятся только объекты из твоих презентаций.</p><input id="search" placeholder="Поиск района или объекта…" aria-label="Поиск"><div id="regions"></div></aside><section id="scene"><div class="mapinfo"><h2>Остров Пхукет</h2><small><span id="numareas">12</span> районов · <span id="numprojects">0</span> моих объектов</small></div><div id="world"><img class="hd-overview" src="phuket_full.webp" alt="Художественный HD-рендер Пхукета с окружающими островами"><div id="hd-tiles"><img src="hd_0_0.webp" alt=""><img src="hd_0_1.webp" alt=""><img src="hd_1_0.webp" alt=""><img src="hd_1_1.webp" alt=""><img src="hd_2_0.webp" alt=""><img src="hd_2_1.webp" alt=""></div><div id="pins"></div></div><div class="compass">N<br>↑</div><div class="buttons"><button id="zin" aria-label="Приблизить">+</button><button id="zout" aria-label="Отдалить">−</button><button id="reset" aria-label="Весь остров">⌂</button></div></section></div></div><div id="overlay" class="screen" hidden></div><section id="sheet" class="sheet" aria-label="Презентация локации" aria-hidden="true"><button class="close" id="close" aria-label="Закрыть">×</button><div id="detail"></div></section><script src="app.js?v=edge-full-9" defer></script></body></html>
