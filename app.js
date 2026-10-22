@@ -273,7 +273,7 @@ function refreshGeoMarkers(){
     icon:L.divIcon({
      className:"purita-area-marker",
      html:'<span class="project-region-pin">◆ <span>'+escape(o.name)+'</span></span>',
-     iconSize:[174,32],iconAnchor:[0,35]
+     iconSize:[174,32],iconAnchor:[-14,-14]
     }),zIndexOffset:550
    }).addTo(geoMap);
    regionOnly.bindTooltip("Район "+p.name+" · точная точка объекта уточняется");
