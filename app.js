@@ -397,7 +397,9 @@ function setGeoMode(on){
  geoBox.style.touchAction="none";
  by("scene").classList.toggle("geo-mode",on);
  modeButton.setAttribute("aria-pressed",String(on));
- modeButton.textContent=on?"Игровая карта":(satelliteToken?"Спутник":"Точная карта");
+ modeButton.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M5.7 9A7.5 7.5 0 0 1 18.7 6.3L20 7M4 17l1.3.7A7.5 7.5 0 0 0 18.3 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+ modeButton.setAttribute("aria-label",on?"Переключиться на игровую карту":"Переключиться на спутниковую карту");
+ modeButton.title=on?"Игровая карта":"Спутниковая карта";
  satelliteButton.hidden=Boolean(satelliteToken);satelliteButton.style.display=satelliteToken?"none":"";
  if(on){
   if(!geoMap){
