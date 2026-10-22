@@ -366,10 +366,20 @@ function focusProperty(p,o){
   geoMap.once("moveend",()=>updateMapLabels("object:"+o.id));
  }else{show(p)}
 }
+// Both views have different projections. Synchronize relative zoom, not false geographic precision.
+const baseSatelliteZoom=10;
+const satelliteZoomPerDoubling=2.3;
+function gameZoomToSatellite(z){return clamp(baseSatelliteZoom+Math.log2(clamp(z,1,3.5))*satelliteZoomPerDoubling,baseSatelliteZoom,14.2)}
+function satelliteZoomToGame(z){return clamp(Math.pow(2,(z-baseSatelliteZoom)/satelliteZoomPerDoubling),1,3.5)}
 function setGeoMode(on){
  if(on&&typeof L==="undefined"){
   modeButton.textContent="Карта недоступна";
   return;
+ }
+ // Capture the departing view's zoom BEFORE switching.
+ if(!on&&geoEnabled&&geoMap){
+  scale=satelliteZoomToGame(geoMap.getZoom());
+  applyView(false);
  }
  geoEnabled=on;geoBox.hidden=!on;
  by("scene").style.touchAction="none";
