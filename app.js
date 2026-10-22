@@ -332,9 +332,14 @@ function updateMapLabels(focusId=null){
  if(focusId!==null)focusedLabel=focusId;
  const shown=allNamedMarkers.filter(item=>labelsVisible||item.id===focusedLabel);
  // Sort north to south; distribute neighboring labels to opposite sides.
- const ranked=[...shown].sort((a,b)=>b.marker.getLatLng().lat-a.marker.getLatLng().lat);
+ // East-side locations have labels on the right; all western locations on the left.
+ const rightSide=new Set(["rawai","chalong","phuket-town"]);
  const positions=new Map();
- ranked.forEach((item,i)=>positions.set(item,i%2===0?"right":"left"));
+ shown.forEach(item=>{
+  const id=item.id.startsWith("area:")?item.id.slice(5):"";
+  const isProject=item.id.startsWith("object:");
+  positions.set(item,(isProject||rightSide.has(id))?"right":"left");
+ });
  for(const item of allNamedMarkers){
   item.marker.unbindTooltip();
   if(!positions.has(item))continue;
