@@ -33,14 +33,16 @@ function render(){const q=by("search").value.toLowerCase();const filtered=areas.
  });
  }by("pins").innerHTML=pins.join("");document.querySelectorAll(".game-property-flag").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);const o=(p?.objects||[]).find(x=>x.id===el.dataset.projectId);if(p&&o){setDrawer(false);selected=p.id;show(p)}});
  document.querySelectorAll("[data-area]:not(.game-property-flag)").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);if(showOnlyObjects&&p){const o=(p.objects||[])[Number(el.dataset.objectIndex)];if(o){focusProperty(p,o);return;}}go(el.dataset.area)});by("numareas").textContent=areas.length;by("numprojects").textContent=projectCount()}function go(id){const p=areas.find(x=>x.id===id);if(!p)return;if(showOnlyObjects){setDrawer(false);selected=id;show(p);return;}setDrawer(false);selected=id;by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)}function objectHTML(o){
- const fields=[["Адрес",o.address],["Состав комплекса",o.buildings],["Площади",o.sizes],["Парковка",o.parking],["Девелопер",o.developer],["Портфель девелопера",o.developerPortfolio],["Разрешения",o.permits],["Планируемая сдача",o.completion],["Пляж Банг Тао",o.beach],["Инфраструктура",o.amenities],["Обслуживание",o.maintenance],["Разовый взнос",o.sinking]];
- return '<article class="object property-card"><div class="project-cover"><span>PURITA</span><small>PHUKET BANGTAO</small></div><div class="project-content"><small>'+escape(o.type||"Недвижимость")+'</small><h3>'+escape(o.name)+'</h3><p>'+escape(o.description||"")+'</p><dl class="property-facts">'+fields.filter(x=>x[1]).map(x=>'<div><dt>'+escape(x[0])+'</dt><dd>'+escape(x[1])+'</dd></div>').join("")+'</dl>'+
- (o.pdf&&o.pdf.startsWith("presentations/")&&o.pdf.endsWith(".pdf")?
- '<button class="brochure-open" data-pdf="'+escape(o.pdf)+'" data-materials="'+escape(o.materialsUrl||"")+'">Посмотреть PDF-презентацию</button>':'')+
- 
- (o.developerUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.developerUrl)+'">Сайт CG Capital ↗</a>':"")+
- (o.materialsUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.materialsUrl)+'">Агентские материалы ↗</a>':"")+
- (o.salesPhone?'<p><a href="tel:'+escape(o.salesPhone.replace(/[^+0-9]/g,""))+'">Отдел продаж: '+escape(o.salesPhone)+'</a></p>':"")+
+ const fields=[["Адрес",o.address],["Состав комплекса",o.buildings],["Количество резиденций",o.units],["Площади",o.sizes],["Парковка",o.parking],["Девелопер",o.developer],["Портфель девелопера",o.developerPortfolio],["Разрешения",o.permits],["Планируемая сдача",o.completion],["Пляж",o.beach],["Инфраструктура",o.amenities],["Формы владения",o.ownership],["Продажи",o.sales],["Обслуживание",o.maintenance],["Разовый взнос",o.sinking]];
+ const label=o.name==="PURITA Phuket Bangtao"?"PURITA":"INTERCONTINENTAL";
+ const sub=o.name==="PURITA Phuket Bangtao"?"PHUKET BANGTAO":"THE RESIDENCES · KAMALA";
+ const isProjectFlipbook=o.materialsUrl&&/^https:\/\/flipbook\.proudrealestate\.co\.th\//.test(o.materialsUrl);
+ return '<article class="object property-card"><div class="project-cover"><span>'+escape(label)+'</span><small>'+escape(sub)+'</small></div><div class="project-content"><small>'+escape(o.type||"Недвижимость")+'</small><h3>'+escape(o.name)+'</h3><p>'+escape(o.description||"")+'</p><dl class="property-facts">'+fields.filter(x=>x[1]).map(x=>'<div><dt>'+escape(x[0])+'</dt><dd>'+escape(x[1])+'</dd></div>').join("")+'</dl>'+
+ (o.pdf&&o.pdf.startsWith("presentations/")&&o.pdf.endsWith(".pdf")?'<button class="brochure-open" data-pdf="'+escape(o.pdf)+'" data-materials="'+escape(o.materialsUrl||"")+'">Посмотреть PDF-презентацию</button>':'')+
+ (isProjectFlipbook?'<a class="brochure-link" href="'+escape(o.materialsUrl)+'" target="_blank" rel="noopener">Открыть презентацию резиденций ↗</a>':'')+
+ (o.developerUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.developerUrl)+'">Сайт девелопера ↗</a>':"")+
+ (o.materialsUrl&&!isProjectFlipbook?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.materialsUrl)+'">Агентские материалы ↗</a>':"")+
+ (o.salesPhone?'<p><a href="tel:'+escape(o.salesPhone.replace(/[^+0-9]/g,""))+'">'+escape(o.salesContact?"Контакт "+o.salesContact+": ":"Отдел продаж: ")+escape(o.salesPhone)+'</a></p>':"")+
  (o.salesEmail?'<p><a href="mailto:'+escape(o.salesEmail)+'">'+escape(o.salesEmail)+'</a></p>':"")+
  (o.notice?'<p class="project-disclaimer">'+escape(o.notice)+'</p>':"")+'</div></article>';
 }
