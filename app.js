@@ -168,4 +168,62 @@ scene.addEventListener("wheel",e=>{
  const x=e.clientX-(rect.left+rect.width/2),y=e.clientY-(rect.top+rect.height/2),ratio=next/scale;
  panX=x-(x-panX)*ratio;panY=y-(y-panY)*ratio;scale=next;applyView()
 },{passive:false});
-fetch("data/locations.json").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render()}).catch(e=>by("regions").textContent=e.message)})();
+
+// Geographically grounded map: source tiles from OpenStreetMap; exact area coordinates from catalogue.
+let geoMap=null,geoEnabled=false,geoMarkers=[];
+const geoBox=by("real-map"),modeButton=by("map-mode");
+["pointerdown","pointermove","pointerup","touchstart","touchmove","touchend","wheel","click"].forEach(type=>{
+ geoBox.addEventListener(type,e=>e.stopPropagation(),{passive:type==="touchmove"});
+});
+function refreshGeoMarkers(){
+ if(!geoMap)return;
+ geoMarkers.forEach(m=>geoMap.removeLayer(m));geoMarkers=[];
+ for(const p of areas){
+  if(!Number.isFinite(p.lat)||!Number.isFinite(p.lon))continue;
+  const marker=L.marker([p.lat,p.lon]).addTo(geoMap).bindTooltip(p.name);
+  marker.on("click",()=>{selected=p.id;show(p)});
+  geoMarkers.push(marker);
+  for(const o of (p.objects||[])){
+   if(!Number.isFinite(o.lat)||!Number.isFinite(o.lon))continue;
+   const m=L.circleMarker([o.lat,o.lon],{radius:9,color:"#f8d182",weight:3,fillColor:"#0e5364",fillOpacity:1}).addTo(geoMap).bindTooltip(o.name);
+   m.on("click",()=>{selected=p.id;show(p)});
+   geoMarkers.push(m);
+  }
+ }
+}
+function setGeoMode(on){
+ if(on&&typeof L==="undefined"){
+  modeButton.textContent="Карта недоступна";
+  return;
+ }
+ geoEnabled=on;geoBox.hidden=!on;
+ by("scene").classList.toggle("geo-mode",on);
+ modeButton.setAttribute("aria-pressed",String(on));
+ modeButton.textContent=on?"Игровая карта":"Точная карта";
+ if(on){
+  if(!geoMap){
+   geoMap=L.map(geoBox,{zoomControl:false,attributionControl:true}).setView([7.96,98.34],10);
+   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom:19
+   }).addTo(geoMap);
+   refreshGeoMarkers();
+  }
+  requestAnimationFrame(()=>geoMap.invalidateSize());
+ }
+}
+modeButton.onclick=()=>setGeoMode(!geoEnabled);
+const originalGo=go;
+go=function(id){
+ if(!geoEnabled)return originalGo(id);
+ const p=areas.find(x=>x.id===id);
+ if(!p)return;
+ setDrawer(false);selected=id;
+ geoMap.flyTo([p.lat,p.lon],13,{duration:1.1});
+ setTimeout(()=>{if(selected===id)show(p)},1050);
+};
+const oldZoomIn=by("zin").onclick,oldZoomOut=by("zout").onclick,oldReset=by("reset").onclick;
+by("zin").onclick=()=>geoEnabled?geoMap.zoomIn():oldZoomIn();
+by("zout").onclick=()=>geoEnabled?geoMap.zoomOut():oldZoomOut();
+by("reset").onclick=()=>geoEnabled?geoMap.flyTo([7.96,98.34],10):oldReset();
+fetch("data/locations.json").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render();refreshGeoMarkers()}).catch(e=>by("regions").textContent=e.message)})();
