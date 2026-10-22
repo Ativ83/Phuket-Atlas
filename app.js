@@ -27,7 +27,8 @@ function render(){const q=by("search").value.toLowerCase();const filtered=areas.
  filtered.map(p=>'<button class="region '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'"><div><span>'+escape(p.name)+'</span><small>'+escape(p.en)+' · '+(p.objects||[]).length+' объектов</small></div><i>›</i></button>').join("");const pins=[];for(const p of filtered){const pos=xy(p);pins.push('<button class="pin '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');for(const o of (p.objects||[])){if(typeof o.lat!=="number"||typeof o.lon!=="number")continue;const op=xy(o);pins.push('<button class="pin project" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="dot"></span><label>◆ '+escape(o.name)+'</label></button>')}}by("pins").innerHTML=pins.join("");document.querySelectorAll("[data-area]").forEach(el=>el.onclick=()=>{if(!showOnlyObjects){go(el.dataset.area);return;}go(el.dataset.area)});by("numareas").textContent=areas.length;by("numprojects").textContent=projectCount()}function go(id){const p=areas.find(x=>x.id===id);if(!p)return;if(showOnlyObjects){setDrawer(false);selected=id;show(p);return;}setDrawer(false);selected=id;by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)}function objectHTML(o){
  const fields=[["Адрес",o.address],["Состав комплекса",o.buildings],["Площади",o.sizes],["Парковка",o.parking],["Девелопер",o.developer],["Портфель девелопера",o.developerPortfolio],["Разрешения",o.permits],["Планируемая сдача",o.completion],["Пляж Банг Тао",o.beach],["Инфраструктура",o.amenities],["Обслуживание",o.maintenance],["Разовый взнос",o.sinking]];
  return '<article class="object property-card"><div class="project-cover"><span>PURITA</span><small>PHUKET BANGTAO</small></div><div class="project-content"><small>'+escape(o.type||"Недвижимость")+'</small><h3>'+escape(o.name)+'</h3><p>'+escape(o.description||"")+'</p><dl class="property-facts">'+fields.filter(x=>x[1]).map(x=>'<div><dt>'+escape(x[0])+'</dt><dd>'+escape(x[1])+'</dd></div>').join("")+'</dl>'+
- (o.pdfUploaded&&o.pdf&&o.pdf.startsWith("presentations/")&&o.pdf.endsWith(".pdf")?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.pdf)+'">Открыть буклет PDF ↗</a>':'<small class="brochure-pending">PDF-буклет готовится к публикации</small>')+
+ (o.pdf&&o.pdf.startsWith("presentations/")&&o.pdf.endsWith(".pdf")?
+ '<button class="brochure-open" data-pdf="'+escape(o.pdf)+'" data-materials="'+escape(o.materialsUrl||"")+'">Посмотреть PDF-презентацию</button>':'')+
  (o.mapUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.mapUrl)+'">Расположение в Google Maps ↗</a>':"")+
  (o.developerUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.developerUrl)+'">Сайт CG Capital ↗</a>':"")+
  (o.materialsUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.materialsUrl)+'">Агентские материалы ↗</a>':"")+
@@ -41,7 +42,27 @@ function show(p){
  (list.length?list.map(objectHTML).join(""):'<div class="placeholder">В этом районе пока нет добавленных объектов.</div>')+
  '<footer>Координаты метки района: '+p.lat.toFixed(4)+' N, '+p.lon.toFixed(4)+' E. Это центр района, не адрес проекта.</footer></div>';
  by("sheet").classList.add("open");by("sheet").setAttribute("aria-hidden","false");by("overlay").hidden=false;
-}function close(){selected=null;by("sheet").classList.remove("open");by("sheet").setAttribute("aria-hidden","true");by("overlay").hidden=true;scale=1;panX=0;panY=0;applyView(true);render()}const drawer=by("district-drawer"),drawerToggle=by("district-toggle");
+ by("detail").querySelectorAll("[data-pdf]").forEach(btn=>btn.onclick=()=>openBrochure(btn.dataset.pdf,btn.dataset.materials));
+}function openBrochure(path,materials){
+ const pane=by("pdf-viewer"),frame=by("pdf-frame"),message=by("pdf-status"),external=by("pdf-external"),backup=by("pdf-materials");
+ if(!pane||!path||!/^presentations\\/[a-zA-Z0-9_.-]+\\.pdf$/.test(path))return;
+ pane.hidden=false;frame.hidden=true;frame.removeAttribute("src");
+ message.textContent="Проверяем наличие PDF-презентации…";
+ external.hidden=true;
+ backup.hidden=!materials;if(materials)backup.href=materials;
+ fetch(path,{method:"HEAD",cache:"no-store"}).then(res=>{
+  if(!res.ok||!(res.headers.get("content-type")||"").includes("pdf"))throw Error("not uploaded");
+  frame.src=path+"#toolbar=1&view=FitH";frame.hidden=false;message.textContent="";
+  external.href=path;external.hidden=false;
+ }).catch(()=>{message.textContent="Оригинальная PDF-презентация пока не размещена на сайте. Можно открыть папку материалов проекта.";});
+}
+function closeBrochure(){
+ const pane=by("pdf-viewer");if(!pane)return;
+ pane.hidden=true;by("pdf-frame").removeAttribute("src");
+}
+by("pdf-close").onclick=closeBrochure;
+by("pdf-viewer").addEventListener("click",e=>{if(e.target.id==="pdf-viewer")closeBrochure()});
+function close(){selected=null;by("sheet").classList.remove("open");by("sheet").setAttribute("aria-hidden","true");by("overlay").hidden=true;scale=1;panX=0;panY=0;applyView(true);render()}const drawer=by("district-drawer"),drawerToggle=by("district-toggle");
 function setDrawer(open){
  drawer.classList.toggle("drawer-open",open);
  drawerToggle.setAttribute("aria-expanded",String(open&&!showOnlyObjects));
