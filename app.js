@@ -2,15 +2,12 @@
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 function applyView(animate=false){
  const world=by("world"),scene=by("scene");
- // Anchor limits to a point on the actual island, not to the full SVG box.
- // This landmark lies inside the central part of the depicted Phuket landmass.
+ // Hard pan limits: the island centre must remain close to the viewport centre.
+ // This intentionally prioritises visibility over free movement at high zoom.
  const sw=scene.clientWidth,sh=scene.clientHeight;
- const landAnchorX=(322/W-.5)*world.offsetWidth*scale;
- const landAnchorY=(460/H-.5)*world.offsetHeight*scale;
- // At least the central island landmark stays inside the map viewport.
- const marginX=Math.min(65,sw*.2),marginY=Math.min(90,sh*.2);
- panX=clamp(panX,-sw/2+marginX-landAnchorX,sw/2-marginX-landAnchorX);
- panY=clamp(panY,-sh/2+marginY-landAnchorY,sh/2-marginY-landAnchorY);
+ const maxX=Math.max(0,sw*.23),maxY=Math.max(0,sh*.24);
+ panX=Number.isFinite(panX)?clamp(panX,-maxX,maxX):0;
+ panY=Number.isFinite(panY)?clamp(panY,-maxY,maxY):0;
  world.style.transition=animate?"transform .8s cubic-bezier(.17,.78,.12,1)":"none";
  world.style.transform="translate(calc(-50% + "+panX+"px),calc(-50% + "+panY+"px)) scale("+scale+")";
 }
