@@ -24,7 +24,15 @@ const escape=s=>String(s??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">
 }
 function render(){const q=by("search").value.toLowerCase();const filtered=areas.filter(p=>(!showOnlyObjects||(p.objects||[]).length>0)&&(p.name+" "+p.en+" "+(p.objects||[]).map(o=>o.name).join(" ")).toLowerCase().includes(q));by("regions").innerHTML=showOnlyObjects?
  (filtered.length?filtered.flatMap(p=>(p.objects||[]).map((o,i)=>'<button class="region property-listing" data-area="'+escape(p.id)+'" data-object-index="'+i+'"><div><span>'+escape(o.name)+'</span><small>'+escape(p.name)+(o.type?' · '+escape(o.type):'')+'</small></div><i>›</i></button>')).join(""):'<div class="placeholder">Пока нет объектов. Добавим сюда только ваши проекты из PDF-презентаций.</div>'):
- filtered.map(p=>'<button class="region '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'"><div><span>'+escape(p.name)+'</span><small>'+escape(p.en)+' · '+(p.objects||[]).length+' объектов</small></div><i>›</i></button>').join("");const pins=[];for(const p of filtered){const pos=xy(p);pins.push('<button class="pin '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');for(const o of (p.objects||[])){if(typeof o.lat!=="number"||typeof o.lon!=="number")continue;const op=xy(p);op.x+=20;op.y+=12;pins.push('<button class="pin project" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="dot"></span><label>◆ '+escape(o.name)+'</label></button>')}}by("pins").innerHTML=pins.join("");document.querySelectorAll("[data-area]").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);if(showOnlyObjects&&p){const o=(p.objects||[])[Number(el.dataset.objectIndex)];if(o){focusProperty(p,o);return;}}go(el.dataset.area)});by("numareas").textContent=areas.length;by("numprojects").textContent=projectCount()}function go(id){const p=areas.find(x=>x.id===id);if(!p)return;if(showOnlyObjects){setDrawer(false);selected=id;show(p);return;}setDrawer(false);selected=id;by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)}function objectHTML(o){
+ filtered.map(p=>'<button class="region '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'"><div><span>'+escape(p.name)+'</span><small>'+escape(p.en)+' · '+(p.objects||[]).length+' объектов</small></div><i>›</i></button>').join("");const pins=[];for(const p of filtered){
+ const pos=xy(p);
+ pins.push('<button class="pin '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');
+ (p.objects||[]).forEach((o,index)=>{
+  const op=xy(p);op.x+=23+(index%3)*15;op.y+=15+Math.floor(index/3)*20;
+  pins.push('<button class="pin project game-property-flag" type="button" aria-label="Открыть '+escape(o.name)+'" data-project-id="'+escape(o.id)+'" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="game-flag-icon" aria-hidden="true">⚑</span></button>');
+ });
+ }by("pins").innerHTML=pins.join("");document.querySelectorAll(".game-property-flag").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);const o=(p?.objects||[]).find(x=>x.id===el.dataset.projectId);if(p&&o){setDrawer(false);selected=p.id;show(p)}});
+ document.querySelectorAll("[data-area]:not(.game-property-flag)").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);if(showOnlyObjects&&p){const o=(p.objects||[])[Number(el.dataset.objectIndex)];if(o){focusProperty(p,o);return;}}go(el.dataset.area)});by("numareas").textContent=areas.length;by("numprojects").textContent=projectCount()}function go(id){const p=areas.find(x=>x.id===id);if(!p)return;if(showOnlyObjects){setDrawer(false);selected=id;show(p);return;}setDrawer(false);selected=id;by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)}function objectHTML(o){
  const fields=[["Адрес",o.address],["Состав комплекса",o.buildings],["Площади",o.sizes],["Парковка",o.parking],["Девелопер",o.developer],["Портфель девелопера",o.developerPortfolio],["Разрешения",o.permits],["Планируемая сдача",o.completion],["Пляж Банг Тао",o.beach],["Инфраструктура",o.amenities],["Обслуживание",o.maintenance],["Разовый взнос",o.sinking]];
  return '<article class="object property-card"><div class="project-cover"><span>PURITA</span><small>PHUKET BANGTAO</small></div><div class="project-content"><small>'+escape(o.type||"Недвижимость")+'</small><h3>'+escape(o.name)+'</h3><p>'+escape(o.description||"")+'</p><dl class="property-facts">'+fields.filter(x=>x[1]).map(x=>'<div><dt>'+escape(x[0])+'</dt><dd>'+escape(x[1])+'</dd></div>').join("")+'</dl>'+
  (o.pdf&&o.pdf.startsWith("presentations/")&&o.pdf.endsWith(".pdf")?
@@ -304,17 +312,14 @@ function refreshGeoMarkers(){
   districtMapMarkers.set(p.id,marker);
   allNamedMarkers.push({marker,name:p.name,id:"area:"+p.id});
   geoMarkers.push(marker);
-  // Projects are shown as district-level flags, deliberately not exact building locations.
-  (p.objects||[]).forEach((o,index)=>{
-   const dx=30+(index%3)*24,dy=12+Math.floor(index/3)*27;
-   const flag=L.marker([p.lat,p.lon],{
-    icon:L.divIcon({className:"atlas-project-flag",html:'<span class="atlas-project-flag-symbol" aria-label="Объект недвижимости">⚑</span>',
-      iconSize:[30,30],iconAnchor:[-dx,dy]}),zIndexOffset:600
-   }).addTo(geoMap);
-   flag.bindTooltip(o.name);
-   flag.on("click",()=>{selected=p.id;setDrawer(false);updateMapLabels("object:"+o.id);show(p)});
-   allNamedMarkers.push({marker:flag,name:o.name,id:"object:"+o.id});
-   geoMarkers.push(flag);
+  // Satellite: map projects to the actual GPS coordinates, never an offset district location.
+  (p.objects||[]).forEach(o=>{
+   const hasGPS=Number.isFinite(o.lat)&&Number.isFinite(o.lon);
+   const lat=hasGPS?o.lat:p.lat,lon=hasGPS?o.lon:p.lon;
+   const m=L.circleMarker([lat,lon],{radius:10,color:"#f8d182",weight:3,fillColor:"#8d6730",fillOpacity:1}).addTo(geoMap);
+   m.on("click",()=>{selected=p.id;setDrawer(false);updateMapLabels("object:"+o.id);show(p)});
+   allNamedMarkers.push({marker:m,name:o.name,id:"object:"+o.id});
+   geoMarkers.push(m);
   });
  }
 }
