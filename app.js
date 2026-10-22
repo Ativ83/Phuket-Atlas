@@ -5,7 +5,11 @@ function applyView(animate=false){
  // Hard pan limits: the island centre must remain close to the viewport centre.
  // This intentionally prioritises visibility over free movement at high zoom.
  const sw=scene.clientWidth,sh=scene.clientHeight;
- const maxX=sw*.10,maxY=sh*.10;
+ // Allow travel across the enlarged island while keeping the map centred at 1x.
+ // Limits grow with zoom so northern/southern and western/eastern locations remain reachable.
+ const zoomExtra=Math.max(0,scale-1);
+ const maxX=sw*.10+zoomExtra*world.offsetWidth*.30;
+ const maxY=sh*.10+zoomExtra*world.offsetHeight*.34;
  scale=Number.isFinite(scale)?clamp(scale,1,3.5):1;
  panX=Number.isFinite(panX)?clamp(panX,-maxX,maxX):0;
  panY=Number.isFinite(panY)?clamp(panY,-maxY,maxY):0;
