@@ -29,7 +29,7 @@ function render(){const q=by("search").value.toLowerCase();const filtered=areas.
  return '<article class="object property-card"><div class="project-cover"><span>PURITA</span><small>PHUKET BANGTAO</small></div><div class="project-content"><small>'+escape(o.type||"Недвижимость")+'</small><h3>'+escape(o.name)+'</h3><p>'+escape(o.description||"")+'</p><dl class="property-facts">'+fields.filter(x=>x[1]).map(x=>'<div><dt>'+escape(x[0])+'</dt><dd>'+escape(x[1])+'</dd></div>').join("")+'</dl>'+
  (o.pdf&&o.pdf.startsWith("presentations/")&&o.pdf.endsWith(".pdf")?
  '<button class="brochure-open" data-pdf="'+escape(o.pdf)+'" data-materials="'+escape(o.materialsUrl||"")+'">Посмотреть PDF-презентацию</button>':'')+
- (o.mapUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.mapUrl)+'">Расположение в Google Maps ↗</a>':"")+
+ 
  (o.developerUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.developerUrl)+'">Сайт CG Capital ↗</a>':"")+
  (o.materialsUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.materialsUrl)+'">Агентские материалы ↗</a>':"")+
  (o.salesPhone?'<p><a href="tel:'+escape(o.salesPhone.replace(/[^+0-9]/g,""))+'">Отдел продаж: '+escape(o.salesPhone)+'</a></p>':"")+
