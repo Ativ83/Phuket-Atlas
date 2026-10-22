@@ -317,7 +317,7 @@ function refreshGeoMarkers(){
   }
   for(const o of (p.objects||[])){
    if(!Number.isFinite(o.lat)||!Number.isFinite(o.lon))continue;
-   const m=L.circleMarker([o.lat,o.lon],{radius:9,color:"#f8d182",weight:3,fillColor:"#0e5364",fillOpacity:1}).addTo(geoMap).bindTooltip(o.name);
+   const m=L.circleMarker([o.lat,o.lon],{radius:10,color:"#f8d182",weight:3,fillColor:"#8d6730",fillOpacity:1}).addTo(geoMap).bindTooltip("◆ "+o.name);
    m.on("click",()=>{selected=p.id;show(p)});
    geoMarkers.push(m);
   }
@@ -384,4 +384,4 @@ const oldZoomIn=by("zin").onclick,oldZoomOut=by("zout").onclick,oldReset=by("res
 by("zin").onclick=()=>geoEnabled?geoMap.zoomIn():oldZoomIn();
 by("zout").onclick=()=>geoEnabled?geoMap.zoomOut():oldZoomOut();
 by("reset").onclick=()=>{if(geoEnabled){readyDistrictId=null;selected=null;geoMap.flyTo([7.96,98.34],10)}else oldReset()};
-fetch("data/locations.json").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render();refreshGeoMarkers()}).catch(e=>by("regions").textContent=e.message)})();
+fetch("data/locations.json?v=purita-coordinates-36").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render();refreshGeoMarkers()}).catch(e=>by("regions").textContent=e.message)})();
