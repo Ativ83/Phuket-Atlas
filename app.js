@@ -397,7 +397,13 @@ function setGeoMode(on){
    updateMapLabels();
    geoMap.on("zoomend",()=>{if(geoMap.getZoom()<12.5)readyDistrictId=null});
   }
-  requestAnimationFrame(()=>geoMap.invalidateSize());
+  // Restore the zoom after the satellite container becomes visible.
+  const targetZoom=gameZoomToSatellite(scale);
+  requestAnimationFrame(()=>{
+   geoMap.invalidateSize({pan:false});
+   geoMap.stop();
+   geoMap.setView(geoMap.getCenter(),targetZoom,{animate:false});
+  });
   updateMapLabels();
  }
 }
