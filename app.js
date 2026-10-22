@@ -189,6 +189,7 @@ scene.addEventListener("wheel",e=>{
 
 // Geographically grounded map: source tiles from OpenStreetMap; exact area coordinates from catalogue.
 let geoMap=null,geoEnabled=false,geoMarkers=[],geoBaseLayer=null;
+const districtMapMarkers=new Map();
 let satelliteToken=localStorage.getItem("phuket_mapbox_public_token")||"";
 function applySatelliteLayer(){
  if(!geoMap)return;
@@ -209,11 +210,12 @@ const geoBox=by("real-map"),modeButton=by("map-mode");
 // Let Leaflet receive bubbled pointer/touch events and document-level drag events.
 function refreshGeoMarkers(){
  if(!geoMap)return;
- geoMarkers.forEach(m=>geoMap.removeLayer(m));geoMarkers=[];
+ geoMarkers.forEach(m=>geoMap.removeLayer(m));geoMarkers=[];districtMapMarkers.clear();
  for(const p of areas){
   if(!Number.isFinite(p.lat)||!Number.isFinite(p.lon))continue;
   const marker=L.marker([p.lat,p.lon]).addTo(geoMap).bindTooltip(p.name);
   marker.on("click",()=>{selected=p.id;setDrawer(false);show(p)});
+  districtMapMarkers.set(p.id,marker);
   geoMarkers.push(marker);
   for(const o of (p.objects||[])){
    if(!Number.isFinite(o.lat)||!Number.isFinite(o.lon))continue;
@@ -274,6 +276,8 @@ go=function(id){
  setDrawer(false);selected=id;
  by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");
  geoMap.flyTo([p.lat,p.lon],13,{duration:1.1});
+ const districtMarker=districtMapMarkers.get(p.id);
+ if(districtMarker){geoMap.once("moveend",()=>{if(selected===id&&geoEnabled)districtMarker.openTooltip()});}
  render();
 };
 const oldZoomIn=by("zin").onclick,oldZoomOut=by("zout").onclick,oldReset=by("reset").onclick;
