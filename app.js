@@ -214,7 +214,16 @@ function refreshGeoMarkers(){
  for(const p of areas){
   if(!Number.isFinite(p.lat)||!Number.isFinite(p.lon))continue;
   const marker=L.marker([p.lat,p.lon]).addTo(geoMap).bindTooltip(p.name);
-  marker.on("click",()=>{selected=p.id;setDrawer(false);show(p)});
+  marker.on("click",()=>{
+   // First tap from overview flies to district; tapping the focused marker again opens details.
+   const focused=selected===p.id && geoMap.getZoom()>=12.5;
+   setDrawer(false);
+   if(focused){show(p);return;}
+   selected=p.id;
+   geoMap.flyTo([p.lat,p.lon],13,{duration:1.1});
+   geoMap.once("moveend",()=>{if(selected===p.id&&geoEnabled)marker.openTooltip()});
+   render();
+  });
   districtMapMarkers.set(p.id,marker);
   geoMarkers.push(marker);
   for(const o of (p.objects||[])){
