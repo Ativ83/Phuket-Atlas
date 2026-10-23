@@ -65,7 +65,7 @@ function render(){const q=by("search").value.toLowerCase();const filtered=areas.
  pins.push('<button class="pin game-region-pin '+(gameLabelsOnRight.has(p.id)?'label-right':'label-left')+' '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');
  (p.objects||[]).forEach((o,index)=>{
   const op=xy(p);op.x+=23+(index%3)*15;op.y+=15+Math.floor(index/3)*20;
-  pins.push('<button class="pin project game-property-flag" type="button" aria-label="Открыть '+escape(o.name)+'" data-project-id="'+escape(o.id)+'" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="game-flag-icon" aria-hidden="true">📌</span></button>');
+  pins.push('<button class="pin project game-property-flag" type="button" aria-label="Открыть '+escape(o.name)+'" data-project-id="'+escape(o.id)+'" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="game-flag-icon" aria-hidden="true">📍</span></button>');
  });
  }by("pins").innerHTML=pins.join("");by("visibility-all")?.addEventListener("click",()=>{const ids=areas.flatMap(p=>(p.objects||[]).map(o=>o.id));const allVisible=ids.every(id=>!hiddenProjects.has(id));setProjectVisibility(ids,!allVisible);});
  document.querySelectorAll("[data-visibility-id]").forEach(btn=>btn.onclick=()=>setProjectVisibility([btn.dataset.visibilityId],hiddenProjects.has(btn.dataset.visibilityId)));
@@ -453,7 +453,7 @@ function refreshGeoMarkers(){
    const lat=hasGPS?o.lat:p.lat,lon=hasGPS?o.lon:p.lon;
    const m=L.marker([lat,lon],{icon:L.divIcon({
     className:"atlas-satellite-project-pin",
-    html:'<span class="atlas-satellite-pushpin" aria-hidden="true">📌</span>',
+    html:'<span class="atlas-satellite-pushpin" aria-hidden="true">📍</span>',
     iconSize:[30,32],iconAnchor:[15,28]
    }),zIndexOffset:650}).addTo(geoMap);
    m.on("click",()=>{selected=p.id;setDrawer(false);updateMapLabels("object:"+o.id);show(p)});
