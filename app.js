@@ -27,6 +27,25 @@ let hiddenProjects=new Set();
 try{const saved=JSON.parse(localStorage.getItem(VISIBILITY_KEY)||"[]");if(Array.isArray(saved))hiddenProjects=new Set(saved.filter(x=>typeof x==="string"));}catch(e){}
 const projectVisible=o=>!hiddenProjects.has(o.id);
 const visibleProjectCount=()=>areas.reduce((n,p)=>n+(p.objects||[]).filter(projectVisible).length,0);
+// Apply the game layers independently. Inline important rules override legacy
+// conflicting styles that previously hid the entire pin container.
+function syncGameLayers(){
+ const scene=by("scene"),container=by("pins");
+ if(!scene||!container)return;
+ const infoOn=!scene.classList.contains("game-info-off");
+ container.style.setProperty("display","block","important");
+ container.style.setProperty("visibility","visible","important");
+ container.style.setProperty("pointer-events","none","important");
+ container.querySelectorAll(".game-region-pin").forEach(pin=>{
+  pin.style.setProperty("display",infoOn?"flex":"none","important");
+  pin.style.setProperty("pointer-events",infoOn?"auto":"none","important");
+ });
+ container.querySelectorAll(".game-property-flag").forEach(pin=>{
+  const visible=!hiddenProjects.has(pin.dataset.projectId);
+  pin.style.setProperty("display",visible?"flex":"none","important");
+  pin.style.setProperty("pointer-events",visible?"auto":"none","important");
+ });
+}
 function setProjectVisibility(ids,visible){
  ids.forEach(id=>visible?hiddenProjects.delete(id):hiddenProjects.add(id));
  try{localStorage.setItem(VISIBILITY_KEY,JSON.stringify([...hiddenProjects]));}catch(e){}
@@ -48,7 +67,7 @@ function render(){const q=by("search").value.toLowerCase();const filtered=areas.
  }by("pins").innerHTML=pins.join("");by("visibility-all")?.addEventListener("click",()=>{const ids=areas.flatMap(p=>(p.objects||[]).map(o=>o.id));const allVisible=ids.every(id=>!hiddenProjects.has(id));setProjectVisibility(ids,!allVisible);});
  document.querySelectorAll("[data-visibility-id]").forEach(btn=>btn.onclick=()=>setProjectVisibility([btn.dataset.visibilityId],hiddenProjects.has(btn.dataset.visibilityId)));
  document.querySelectorAll(".game-property-flag").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);const o=(p?.objects||[]).find(x=>x.id===el.dataset.projectId);if(p&&o){setDrawer(false);selected=p.id;show(p)}});
- document.querySelectorAll("[data-area]:not(.game-property-flag)").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);if(showOnlyObjects&&p){const o=(p.objects||[])[Number(el.dataset.objectIndex)];if(o){focusProperty(p,o);return;}}go(el.dataset.area)});by("numareas").textContent=areas.length;by("numprojects").textContent=visibleProjectCount()}function go(id){const p=areas.find(x=>x.id===id);if(!p)return;if(showOnlyObjects){setDrawer(false);selected=id;show(p);return;}setDrawer(false);selected=id;by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)}function objectHTML(o){
+ document.querySelectorAll("[data-area]:not(.game-property-flag)").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);if(showOnlyObjects&&p){const o=(p.objects||[])[Number(el.dataset.objectIndex)];if(o){focusProperty(p,o);return;}}go(el.dataset.area)});by("numareas").textContent=areas.length;by("numprojects").textContent=visibleProjectCount();syncGameLayers()}function go(id){const p=areas.find(x=>x.id===id);if(!p)return;if(showOnlyObjects){setDrawer(false);selected=id;show(p);return;}setDrawer(false);selected=id;by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)}function objectHTML(o){
  const fields=[["Адрес",o.address],["Состав комплекса",o.buildings],["Количество резиденций",o.units],["Площади",o.sizes],["Парковка",o.parking],["Девелопер",o.developer],["Портфель девелопера",o.developerPortfolio],["Разрешения",o.permits],["Планируемая сдача",o.completion],["Пляж",o.beach],["Инфраструктура",o.amenities],["Формы владения",o.ownership],["Продажи",o.sales],["Обслуживание",o.maintenance],["Разовый взнос",o.sinking]];
  const label=o.name==="PURITA Phuket Bangtao"?"PURITA":"InterContinental";
  const sub=o.name==="PURITA Phuket Bangtao"?"PHUKET BANGTAO":"THE RESIDENCES · KAMALA";
@@ -515,6 +534,7 @@ function setGameInformation(on){
  gameInfoOn=on;
  labelsVisible=on;
  by("scene").classList.toggle("game-info-off",!on);
+ syncGameLayers();
  if(!on)focusedLabel=null;
  refreshGeoMarkers();
  updateMapLabels();
