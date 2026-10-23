@@ -33,7 +33,7 @@ function setProjectVisibility(ids,visible){
  refreshGeoMarkers();
 }
 function render(){const q=by("search").value.toLowerCase();const filtered=areas.filter(p=>(!showOnlyObjects||(p.objects||[]).length>0)&&(p.name+" "+p.en+" "+(p.objects||[]).map(o=>o.name).join(" ")).toLowerCase().includes(q));by("regions").innerHTML=showOnlyObjects?
- (filtered.length?'<div class="property-visibility-all"><span>Булавки на карте</span><button type="button" class="visibility-action" id="visibility-all" aria-label="Показать или скрыть все объекты">'+(areas.every(a=>(a.objects||[]).every(projectVisible))?'Скрыть все':'Показать все')+'</button></div>'+filtered.flatMap(p=>(p.objects||[]).map((o,i)=>'<div class="property-visibility-row"><button class="region property-listing" data-area="'+escape(p.id)+'" data-object-index="'+i+'"><div><span>'+escape(o.name)+'</span><small>'+escape(p.name)+(o.type?' · '+escape(o.type):'')+'</small></div><i>›</i></button><button type="button" class="visibility-action" data-visibility-id="'+escape(o.id)+'" aria-pressed="'+projectVisible(o)+'" aria-label="'+(projectVisible(o)?'Скрыть':'Показать')+' булавку '+escape(o.name)+'">'+(projectVisible(o)?'Скрыть':'Показать')+'</button></div>')).join(""):'<div class="placeholder">Пока нет объектов. Добавим сюда только ваши проекты из PDF-презентаций.</div>'):
+ (filtered.length?'<div class="property-visibility-all"><button type="button" class="visibility-action visibility-eye visibility-eye-all" id="visibility-all" title="Показать или скрыть все объекты" aria-label="Показать или скрыть все объекты">'+(areas.every(a=>(a.objects||[]).every(projectVisible))?'◉':'◎')+'</button></div>'+filtered.flatMap(p=>(p.objects||[]).map((o,i)=>'<div class="property-visibility-row"><button class="region property-listing" data-area="'+escape(p.id)+'" data-object-index="'+i+'"><div><span>'+escape(o.name)+'</span><small>'+escape(p.name)+(o.type?' · '+escape(o.type):'')+'</small></div><i>›</i></button><button type="button" class="visibility-action visibility-eye" data-visibility-id="'+escape(o.id)+'" aria-pressed="'+projectVisible(o)+'" aria-label="'+(projectVisible(o)?'Скрыть':'Показать')+' булавку '+escape(o.name)+'">'+(projectVisible(o)?'◉':'◎')+'</button></div>')).join(""):'<div class="placeholder">Пока нет объектов. Добавим сюда только ваши проекты из PDF-презентаций.</div>'):
  filtered.map(p=>'<button class="region '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'"><div><span>'+escape(p.name)+'</span><small>'+escape(p.en)+' · '+(p.objects||[]).length+' объектов</small></div><i>›</i></button>').join("");const gameLabelsOnRight=new Set(["rawai","chalong","phuket-town"]);const pins=[];for(const p of filtered){
  const pos=xy(p);
  pins.push('<button class="pin game-region-pin '+(gameLabelsOnRight.has(p.id)?'label-right':'label-left')+' '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');
@@ -159,6 +159,19 @@ function applyDrawerMode(onlyObjects){
 drawerToggle.onclick=()=>{if(!showOnlyObjects&&drawer.classList.contains("drawer-open"))setDrawer(false);else applyDrawerMode(false)};
 objectsToggle.onclick=()=>{if(showOnlyObjects&&drawer.classList.contains("drawer-open"))setDrawer(false);else applyDrawerMode(true)};
 by("district-close").onclick=()=>setDrawer(false);
+// Dismiss the left sidebar with a deliberate leftward swipe.
+let drawerSwipeStart=null;
+drawer.addEventListener("touchstart",e=>{
+ if(e.touches.length!==1||!drawer.classList.contains("drawer-open"))return;
+ const t=e.touches[0];drawerSwipeStart={x:t.clientX,y:t.clientY};
+},{passive:true});
+drawer.addEventListener("touchend",e=>{
+ if(!drawerSwipeStart||e.changedTouches.length!==1)return;
+ const t=e.changedTouches[0],dx=t.clientX-drawerSwipeStart.x,dy=t.clientY-drawerSwipeStart.y;
+ drawerSwipeStart=null;
+ if(dx<-80&&Math.abs(dx)>Math.abs(dy)*1.35)setDrawer(false);
+},{passive:true});
+drawer.addEventListener("touchcancel",()=>{drawerSwipeStart=null},{passive:true});
 document.addEventListener("pointerdown",e=>{
  if(drawer.classList.contains("drawer-open")&&!drawer.contains(e.target)&&!drawerToggle.contains(e.target)&&!objectsToggle.contains(e.target))setDrawer(false);
 });
