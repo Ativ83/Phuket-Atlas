@@ -477,4 +477,4 @@ const oldZoomIn=by("zin").onclick,oldZoomOut=by("zout").onclick,oldReset=by("res
 by("zin").onclick=()=>geoEnabled?geoMap.zoomIn():oldZoomIn();
 by("zout").onclick=()=>geoEnabled?geoMap.zoomOut():oldZoomOut();
 by("reset").onclick=()=>{if(geoEnabled){readyDistrictId=null;selected=null;focusedLabel=null;updateMapLabels();(computeOverviewZoom(),geoMap.flyTo([7.94,98.34],gameZoomToSatellite(1),{duration:1.1}))}else oldReset()};
-fetch("data/locations.json?v=intercontinental-kamala-66").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render();refreshGeoMarkers()}).catch(e=>by("regions").textContent=e.message)})();
+fetch("data/locations.json?v=intercontinental-gps-67").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render();refreshGeoMarkers()}).catch(e=>by("regions").textContent=e.message)})();
