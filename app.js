@@ -356,16 +356,37 @@ function stopMyLocation(){
  geoLocationButton.setAttribute("aria-label","Показать мою геопозицию");
  geoLocationButton.title="Моя геопозиция";
 }
+function locationErrorMessage(error){
+ if(error?.code===1)return "Доступ к местоположению отклонён именно для этого сайта или встроенного браузера. Открой Phuket Atlas непосредственно в Safari, затем нажми «аА» / меню страницы → Настройки веб-сайта → Геопозиция → Разрешить. Также проверь Настройки iPhone → Конфиденциальность → Службы геолокации → Safari.";
+ if(error?.code===2)return "iPhone пока не определяет координаты. Проверь службы геолокации, точную геопозицию, подключение и повтори попытку.";
+ return "Определение координат заняло слишком много времени. Попробуй ещё раз под открытым небом или при лучшем сигнале.";
+}
+function showLocationMessage(message){
+ let panel=by("atlas-location-message");
+ if(!panel){
+  panel=document.createElement("div");
+  panel.id="atlas-location-message";
+  panel.setAttribute("role","alert");
+  panel.innerHTML='<button type="button" aria-label="Закрыть сообщение" class="atlas-location-message-close">×</button><p></p>';
+  by("scene").appendChild(panel);
+  panel.querySelector("button").onclick=()=>panel.remove();
+ }
+ panel.querySelector("p").textContent=message;
+}
 geoLocationButton.onclick=()=>{
- if(myLocationEnabled){stopMyLocation();return;}
- if(!navigator.geolocation||!window.isSecureContext){alert("Геопозиция доступна только в защищённом браузере (HTTPS) с поддержкой геолокации.");return;}
+ if(myLocationEnabled){stopMyLocation();by("atlas-location-message")?.remove();return;}
+ if(!navigator.geolocation||!window.isSecureContext){showLocationMessage("Этот браузер не предоставляет доступ к GPS. Открой сайт напрямую в Safari через HTTPS.");return;}
  myLocationEnabled=true;
  geoLocationButton.setAttribute("aria-pressed","true");
  geoLocationButton.setAttribute("aria-label","Скрыть мою геопозицию");
  geoLocationButton.title="Скрыть геопозицию";
+ by("atlas-location-message")?.remove();
  let first=true;
+ let completed=false;
  myLocationWatch=navigator.geolocation.watchPosition(position=>{
   if(!myLocationEnabled||!geoMap)return;
+  completed=true;
+  by("atlas-location-message")?.remove();
   const ll=[position.coords.latitude,position.coords.longitude];
   if(!myLocationMarker){
    myLocationMarker=L.marker(ll,{icon:L.divIcon({className:"atlas-my-location",html:'<span class="atlas-my-location-dot"></span>',iconSize:[23,23],iconAnchor:[11,11]}),zIndexOffset:1200,interactive:false}).addTo(geoMap);
@@ -375,8 +396,8 @@ geoLocationButton.onclick=()=>{
  },error=>{
   if(!myLocationEnabled)return;
   stopMyLocation();
-  alert(error.code===1?"Разреши доступ к геопозиции для этого сайта в настройках Safari.":error.code===2?"Не удалось определить местоположение. Проверь службы геолокации и сеть.":"Истекло время определения местоположения. Повтори попытку.");
- },{enableHighAccuracy:true,maximumAge:10000,timeout:16000});
+  showLocationMessage(locationErrorMessage(error));
+ },{enableHighAccuracy:true,maximumAge:30000,timeout:25000});
 };
 const districtMapMarkers=new Map();
 const allNamedMarkers=[];
