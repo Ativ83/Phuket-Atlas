@@ -328,28 +328,43 @@ padding:1px 5px!important;
 #scene.game-info-off:not(.geo-mode) #world #pins .game-property-flag{display:flex!important;visibility:visible!important}
 #scene:not(.game-info-off):not(.geo-mode) #world #pins .game-region-pin{display:flex!important}
 
-/* Decorative map-life overlay: entirely non-interactive, inside pan/zoom world. */
+/* Decorative illustration layer: moves with the game map and never intercepts taps. */
 #world .atlas-ambient{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden;isolation:isolate}
-#world .ambient-cloud{position:absolute;width:35%;height:12%;border-radius:50%;background:radial-gradient(ellipse at center,rgba(255,255,255,.29) 0%,rgba(235,250,255,.12) 35%,transparent 72%);filter:blur(13px);opacity:.55;will-change:transform;animation:atlas-cloud-drift 60s ease-in-out infinite alternate}
-#world .cloud-one{top:16%;left:2%}
-#world .cloud-two{top:57%;left:54%;width:31%;animation-delay:-31s;animation-duration:76s}
-#world .ambient-plane{position:absolute;left:0;top:0;font-size:19px;line-height:1;color:#fff4db;text-shadow:0 2px 6px #18374c;filter:drop-shadow(0 3px 2px #18374c99);offset-path:path("M -25 145 C 100 100, 240 140, 390 250 S 610 280, 700 240");offset-distance:0%;offset-rotate:auto;animation:atlas-plane-flight 45s linear infinite;will-change:offset-distance}
-#world .ambient-boat{position:absolute;font-size:15px;line-height:1;filter:drop-shadow(0 2px 4px #07394eaa);opacity:.82;will-change:transform}
-#world .boat-one{left:14%;top:37%;animation:atlas-boat-one 33s ease-in-out infinite alternate}
-#world .boat-two{left:79%;top:72%;font-size:12px;animation:atlas-boat-two 41s ease-in-out infinite alternate}
-@keyframes atlas-cloud-drift{from{transform:translate3d(-25%,0,0)}to{transform:translate3d(85%,6%,0)}}
-@keyframes atlas-plane-flight{to{offset-distance:100%}}
-@keyframes atlas-boat-one{to{transform:translate3d(35px,-45px,0) rotate(7deg)}}
-@keyframes atlas-boat-two{to{transform:translate3d(-42px,29px,0) rotate(-8deg)}}
-#scene.geo-mode #world .atlas-ambient{display:none!important}
-@media(prefers-reduced-motion:reduce){#world .atlas-ambient>*{animation:none!important}#world .ambient-plane{display:none}}
-</style><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""></head><body><div class="app"><div class="main"><button id="district-toggle" aria-controls="district-drawer" aria-expanded="false" aria-label="Открыть районы"><span aria-hidden="true">📍</span> <span>Районы</span></button><button id="objects-toggle" aria-controls="district-drawer" aria-expanded="false">☆ <span>Мои объекты</span></button><aside id="district-drawer"><button id="district-close" aria-label="Закрыть список районов">×</button><div class="tag">ЛИЧНАЯ КОЛЛЕКЦИЯ</div><h1>Мои объекты</h1><p>Выбери район на миниатюрной карте. Здесь появятся только объекты из твоих презентаций.</p><input id="search" placeholder="Поиск района или объекта…" aria-label="Поиск"><div id="regions"></div></aside><section id="scene"><div id="real-map" aria-label="Географическая карта Пхукета" hidden></div><div class="map-switch"><button id="map-mode" aria-pressed="false" aria-label="Переключиться на спутниковую карту">⇄</button><button id="satellite-setup" aria-label="Подключить Mapbox Satellite">Подключить спутник</button></div><div id="location-ribbon" class="location-ribbon" aria-label="Таиланд, Пхукет"><span>ТАИЛАНД · ПХУКЕТ</span></div><button id="labels-toggle" class="labels-toggle" aria-pressed="false" title="Показать или скрыть подписи геометок">Инф.: выкл</button><button id="art-info-toggle" class="art-info-toggle" aria-pressed="false">Инф.: выкл</button><div class="mapinfo"><h2>Остров Пхукет</h2><small><span id="numareas">12</span> районов · <span id="numprojects">0</span> моих объектов</small></div><div id="world"><img class="hd-overview" src="phuket_game_clean.png..PNG" alt="Художественный HD-рендер Пхукета с окружающими островами"><div id="hd-tiles"><img src="hd_0_0.webp" alt=""><img src="hd_0_1.webp" alt=""><img src="hd_1_0.webp" alt=""><img src="hd_1_1.webp" alt=""><img src="hd_2_0.webp" alt=""><img src="hd_2_1.webp" alt=""></div><div class="atlas-ambient" aria-hidden="true">
- <div class="ambient-cloud cloud-one"></div><div class="ambient-cloud cloud-two"></div>
+#world .ambient-cloud{position:absolute;width:43%;height:17%;border-radius:50%;background:radial-gradient(ellipse at center,rgba(255,255,255,.38),rgba(238,250,255,.17) 43%,transparent 73%);filter:blur(12px);opacity:.69;animation:atlas-cloud-drift 58s linear infinite alternate;will-change:transform}
+#world .cloud-one{top:12%;left:-24%}
+#world .cloud-two{top:46%;left:51%;width:32%;animation-delay:-29s;animation-duration:70s}
+#world .cloud-three{top:75%;left:-5%;width:27%;animation-delay:-17s;animation-duration:83s}
+#world .ambient-plane{position:absolute;left:0;top:0;font-size:22px;line-height:1;color:#fff4db;text-shadow:0 2px 7px #18374c;filter:drop-shadow(0 3px 2px #18374c99);offset-path:path("M 325 406 C 355 352 400 280 485 218 S 660 100 725 -30");offset-distance:0%;offset-rotate:auto;animation:atlas-plane-takeoff 27s ease-in-out infinite;will-change:offset-distance,opacity}
+#world .ambient-speedboat{position:absolute;left:0;top:0;font-size:18px;line-height:1;filter:drop-shadow(0 2px 3px #07394eaa);opacity:.93;will-change:offset-distance}
+#world .speedboat-one{offset-path:path("M 65 560 Q 95 495 105 426 T 80 260");offset-rotate:auto;animation:atlas-boat-cruise 35s linear infinite}
+#world .speedboat-two{font-size:15px;offset-path:path("M 575 770 Q 560 690 515 630 T 615 450");offset-rotate:auto;animation:atlas-boat-cruise 43s linear infinite;animation-delay:-20s}
+#world .speedboat-wake{position:absolute;left:-20px;top:8px;width:24px;height:2px;background:#e5faffb8;filter:blur(1px);border-radius:50%}
+@keyframes atlas-cloud-drift{from{transform:translate3d(-12%,0,0)}to{transform:translate3d(65%,5%,0)}}
+@keyframes atlas-plane-takeoff{0%{offset-distance:0%;opacity:0;transform:scale(.75)}5%{opacity:1}65%{opacity:1}92%,100%{offset-distance:100%;opacity:0;transform:scale(1.16)}}
+@keyframes atlas-boat-cruise{0%{offset-distance:0%;opacity:0}6%{opacity:.95}92%{opacity:.95}100%{offset-distance:100%;opacity:0}}
+#scene.geo-mode #world .atlas-ambient,#scene.animation-off #world .atlas-ambient{display:none!important}
+#scene #animation-toggle{position:absolute;left:75px;bottom:56px;z-index:9;height:43px;padding:8px 10px;color:#f9dda8;background:#092e45ed;border:1px solid #dfc38b;border-radius:12px;font-size:11px;font-weight:750;white-space:nowrap}
+#scene.geo-mode #animation-toggle{display:none!important}
+#scene #animation-toggle[aria-pressed="false"]{opacity:.68}
+@media(prefers-reduced-motion:reduce){#world .atlas-ambient>*{animation:none!important}#world .ambient-plane,#world .ambient-speedboat{display:none!important}}
+</style><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""></head><body><div class="app"><div class="main"><button id="district-toggle" aria-controls="district-drawer" aria-expanded="false" aria-label="Открыть районы"><span aria-hidden="true">📍</span> <span>Районы</span></button><button id="objects-toggle" aria-controls="district-drawer" aria-expanded="false">☆ <span>Мои объекты</span></button><aside id="district-drawer"><button id="district-close" aria-label="Закрыть список районов">×</button><div class="tag">ЛИЧНАЯ КОЛЛЕКЦИЯ</div><h1>Мои объекты</h1><p>Выбери район на миниатюрной карте. Здесь появятся только объекты из твоих презентаций.</p><input id="search" placeholder="Поиск района или объекта…" aria-label="Поиск"><div id="regions"></div></aside><section id="scene"><div id="real-map" aria-label="Географическая карта Пхукета" hidden></div><div class="map-switch"><button id="map-mode" aria-pressed="false" aria-label="Переключиться на спутниковую карту">⇄</button><button id="satellite-setup" aria-label="Подключить Mapbox Satellite">Подключить спутник</button></div><div id="location-ribbon" class="location-ribbon" aria-label="Таиланд, Пхукет"><span>ТАИЛАНД · ПХУКЕТ</span></div><button id="labels-toggle" class="labels-toggle" aria-pressed="false" title="Показать или скрыть подписи геометок">Инф.: выкл</button><button id="art-info-toggle" class="art-info-toggle" aria-pressed="false">Инф.: выкл</button><button id="animation-toggle" type="button" aria-pressed="true">Анимация</button><div class="mapinfo"><h2>Остров Пхукет</h2><small><span id="numareas">12</span> районов · <span id="numprojects">0</span> моих объектов</small></div><div id="world"><img class="hd-overview" src="phuket_game_clean.png..PNG" alt="Художественный HD-рендер Пхукета с окружающими островами"><div id="hd-tiles"><img src="hd_0_0.webp" alt=""><img src="hd_0_1.webp" alt=""><img src="hd_1_0.webp" alt=""><img src="hd_1_1.webp" alt=""><img src="hd_2_0.webp" alt=""><img src="hd_2_1.webp" alt=""></div><div class="atlas-ambient" aria-hidden="true">
+ <div class="ambient-cloud cloud-one"></div><div class="ambient-cloud cloud-two"></div><div class="ambient-cloud cloud-three"></div>
  <div class="ambient-plane">✈</div>
- <div class="ambient-boat boat-one">⛵</div><div class="ambient-boat boat-two">⛵</div>
+ <div class="ambient-speedboat speedboat-one"><span class="speedboat-wake"></span><span class="speedboat-hull">🚤</span></div>
+ <div class="ambient-speedboat speedboat-two"><span class="speedboat-wake"></span><span class="speedboat-hull">🚤</span></div>
 </div><div id="pins"></div></div><div class="compass">N<br>↑</div><div class="buttons"><button id="zin" aria-label="Приблизить">+</button><button id="zout" aria-label="Отдалить">−</button><button id="reset" aria-label="Весь остров">⌂</button></div></section></div></div><div id="overlay" class="screen" hidden></div><section id="sheet" class="sheet" aria-label="Презентация локации" aria-hidden="true"><button class="close" id="close" aria-label="Закрыть">×</button><div id="detail"></div></section><section id="pdf-viewer" class="pdf-viewer" hidden aria-label="Просмотр PDF презентации"><div class="pdf-viewer-bar"><span>Презентация PURITA</span><button id="pdf-close" aria-label="Закрыть PDF">×</button></div><div id="pdf-status" class="pdf-viewer-status"></div><div id="pdf-pages" class="pdf-pages" role="document" aria-label="Страницы PDF-презентации"></div><div class="pdf-viewer-links"><a id="pdf-external" href="#" target="_blank" rel="noopener" hidden>Открыть PDF отдельно ↗</a><a id="pdf-materials" href="#" target="_blank" rel="noopener" hidden>Материалы проекта ↗</a></div></section><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="" defer></script><script src="app.js?v=remove-duplicate-heading-78" defer></script><script>
 if("serviceWorker" in navigator && location.protocol==="https:"){
  navigator.serviceWorker.register("./satellite-cache-sw.js",{scope:"./",updateViaCache:"none"})
   .catch(err=>console.warn("Satellite cache unavailable:",err));
 }
+</script><script>
+(function(){
+ const scene=document.getElementById("scene"),button=document.getElementById("animation-toggle");
+ const key="phuket_atlas_animation_enabled_v1";
+ let enabled=true;
+ try{const saved=localStorage.getItem(key);if(saved!==null)enabled=saved==="true";}catch(e){}
+ function refresh(){scene.classList.toggle("animation-off",!enabled);button.setAttribute("aria-pressed",String(enabled));button.setAttribute("aria-label",enabled?"Выключить анимацию":"Включить анимацию");}
+ button.addEventListener("click",()=>{enabled=!enabled;try{localStorage.setItem(key,String(enabled));}catch(e){}refresh();});
+ refresh();
+})();
 </script></body></html>
