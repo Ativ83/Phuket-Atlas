@@ -36,6 +36,8 @@ function syncGameLayers(){
  container.style.setProperty("display","block","important");
  container.style.setProperty("visibility","visible","important");
  container.style.setProperty("pointer-events","none","important");
+ // The region layer and the property layer have separate visibility controls.
+ // Recompute both from state after every redraw, including hide/show cycles.
  container.querySelectorAll(".game-region-pin").forEach(pin=>{
   pin.style.setProperty("display",infoOn?"flex":"none","important");
   pin.style.setProperty("pointer-events",infoOn?"auto":"none","important");
@@ -60,7 +62,7 @@ function render(){const q=by("search").value.toLowerCase();const filtered=areas.
  filtered.map(p=>'<button class="region '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'"><div><span>'+escape(p.name)+'</span><small>'+escape(p.en)+' · '+(p.objects||[]).length+' объектов</small></div><i>›</i></button>').join("");const gameLabelsOnRight=new Set(["rawai","chalong","phuket-town"]);const pins=[];for(const p of filtered){
  const pos=xy(p);
  pins.push('<button class="pin game-region-pin '+(gameLabelsOnRight.has(p.id)?'label-right':'label-left')+' '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');
- (p.objects||[]).filter(projectVisible).forEach((o,index)=>{
+ (p.objects||[]).forEach((o,index)=>{
   const op=xy(p);op.x+=23+(index%3)*15;op.y+=15+Math.floor(index/3)*20;
   pins.push('<button class="pin project game-property-flag" type="button" aria-label="Открыть '+escape(o.name)+'" data-project-id="'+escape(o.id)+'" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="game-flag-icon" aria-hidden="true">📌</span></button>');
  });
