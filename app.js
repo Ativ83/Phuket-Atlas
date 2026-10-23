@@ -174,7 +174,8 @@ const objectsToggle=by("objects-toggle");
 let showOnlyObjects=false;
 function applyDrawerMode(onlyObjects){
  showOnlyObjects=onlyObjects;
- by("district-drawer").querySelector(".tag").textContent=onlyObjects?"МОИ ОБЪЕКТЫ":"РАЙОНЫ";
+ by("district-drawer").querySelector(".tag").hidden=onlyObjects;
+ by("district-drawer").querySelector(".tag").textContent=onlyObjects?"":"РАЙОНЫ";
  by("search").placeholder=onlyObjects?"Поиск моего объекта…":"Поиск района…";
  render();
  refreshGeoMarkers();
