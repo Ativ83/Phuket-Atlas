@@ -40,7 +40,7 @@ function render(){const q=by("search").value.toLowerCase();const filtered=areas.
  (filtered.length?'<div class="property-visibility-all"><button type="button" class="visibility-action visibility-eye visibility-eye-all" id="visibility-all" title="Показать или скрыть все объекты" aria-label="Показать или скрыть все объекты">'+visibilityEyeIcon(areas.every(a=>(a.objects||[]).every(projectVisible)))+'</button></div>'+filtered.flatMap(p=>(p.objects||[]).map((o,i)=>'<div class="property-visibility-row"><button class="region property-listing" data-area="'+escape(p.id)+'" data-object-index="'+i+'"><div><span>'+escape(o.name)+'</span><small>'+escape(p.name)+(o.type?' · '+escape(o.type):'')+'</small></div><i>›</i></button><button type="button" class="visibility-action visibility-eye" data-visibility-id="'+escape(o.id)+'" aria-pressed="'+projectVisible(o)+'" aria-label="'+(projectVisible(o)?'Скрыть':'Показать')+' булавку '+escape(o.name)+'">'+visibilityEyeIcon(projectVisible(o))+'</button></div>')).join(""):'<div class="placeholder">Пока нет объектов. Добавим сюда только ваши проекты из PDF-презентаций.</div>'):
  filtered.map(p=>'<button class="region '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'"><div><span>'+escape(p.name)+'</span><small>'+escape(p.en)+' · '+(p.objects||[]).length+' объектов</small></div><i>›</i></button>').join("");const gameLabelsOnRight=new Set(["rawai","chalong","phuket-town"]);const pins=[];for(const p of filtered){
  const pos=xy(p);
- if(!showOnlyObjects||(p.objects||[]).some(projectVisible))pins.push('<button class="pin game-region-pin '+(gameLabelsOnRight.has(p.id)?'label-right':'label-left')+' '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');
+ pins.push('<button class="pin game-region-pin '+(gameLabelsOnRight.has(p.id)?'label-right':'label-left')+' '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');
  (p.objects||[]).filter(projectVisible).forEach((o,index)=>{
   const op=xy(p);op.x+=23+(index%3)*15;op.y+=15+Math.floor(index/3)*20;
   pins.push('<button class="pin project game-property-flag" type="button" aria-label="Открыть '+escape(o.name)+'" data-project-id="'+escape(o.id)+'" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="game-flag-icon" aria-hidden="true">📌</span></button>');
@@ -348,8 +348,7 @@ function refreshGeoMarkers(){
  geoMarkers.forEach(m=>geoMap.removeLayer(m));geoMarkers=[];districtMapMarkers.clear();allNamedMarkers.length=0;focusedLabel=null;
  for(const p of areas){
   if(!Number.isFinite(p.lat)||!Number.isFinite(p.lon))continue;
-  if(showOnlyObjects&&!(p.objects||[]).some(projectVisible))continue;
-  const marker=L.marker([p.lat,p.lon],{icon:L.icon({
+  if(gameInfoOn){const marker=L.marker([p.lat,p.lon],{icon:L.icon({
    iconUrl:"https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
    iconRetinaUrl:"https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
    shadowUrl:"https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
@@ -369,7 +368,7 @@ function refreshGeoMarkers(){
   });
   districtMapMarkers.set(p.id,marker);
   allNamedMarkers.push({marker,name:p.name,id:"area:"+p.id});
-  geoMarkers.push(marker);
+  geoMarkers.push(marker);}
   // Satellite: map projects to the actual GPS coordinates, never an offset district location.
   (p.objects||[]).filter(projectVisible).forEach(o=>{
    const hasGPS=Number.isFinite(o.lat)&&Number.isFinite(o.lon);
@@ -516,13 +515,15 @@ function setGameInformation(on){
  gameInfoOn=on;
  labelsVisible=on;
  by("scene").classList.toggle("game-info-off",!on);
+ if(!on)focusedLabel=null;
+ refreshGeoMarkers();
  updateMapLabels();
  const btn=by("art-info-toggle");
  btn.textContent=on?"Инф.: вкл":"Инф.: выкл";
  btn.setAttribute("aria-pressed",String(on));
 }
 by("art-info-toggle").onclick=()=>setGameInformation(!gameInfoOn);
-setGameInformation(false);
+setGameInformation(true);
 const oldZoomIn=by("zin").onclick,oldZoomOut=by("zout").onclick,oldReset=by("reset").onclick;
 by("zin").onclick=()=>geoEnabled?geoMap.zoomIn():oldZoomIn();
 by("zout").onclick=()=>geoEnabled?geoMap.zoomOut():oldZoomOut();
