@@ -525,7 +525,7 @@ function updateMapLabels(focusId=null){
   item.marker.unbindTooltip();
   if(!positions.has(item))continue;
   const direction=positions.get(item);
-  item.marker.bindTooltip(item.name,{
+  item.marker.bindTooltip(item.id.startsWith("object:") && /intercontinental/i.test(item.name) ? "InterContinental" : item.name,{
    permanent:true,direction,offset:[direction==="right"?12:-12,0],
    className:"phuket-map-label"
   });
