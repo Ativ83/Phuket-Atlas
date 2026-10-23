@@ -60,7 +60,7 @@ function visibilityEyeIcon(visible){
 }
 function render(){const q=by("search").value.toLowerCase();const filtered=areas.filter(p=>(!showOnlyObjects||(p.objects||[]).length>0)&&(p.name+" "+p.en+" "+(p.objects||[]).map(o=>o.name).join(" ")).toLowerCase().includes(q));by("regions").innerHTML=showOnlyObjects?
  (filtered.length?'<div class="property-visibility-all"><button type="button" class="visibility-action visibility-eye visibility-eye-all" id="visibility-all" title="Показать или скрыть все объекты" aria-label="Показать или скрыть все объекты">'+visibilityEyeIcon(areas.every(a=>(a.objects||[]).every(projectVisible)))+'</button></div>'+filtered.flatMap(p=>(p.objects||[]).map((o,i)=>'<div class="property-visibility-row"><button class="region property-listing" data-area="'+escape(p.id)+'" data-object-index="'+i+'"><div><span>'+escape(o.name)+'</span><small>'+escape(p.name)+(o.type?' · '+escape(o.type):'')+'</small></div><i>›</i></button><button type="button" class="visibility-action visibility-eye" data-visibility-id="'+escape(o.id)+'" aria-pressed="'+projectVisible(o)+'" aria-label="'+(projectVisible(o)?'Скрыть':'Показать')+' булавку '+escape(o.name)+'">'+visibilityEyeIcon(projectVisible(o))+'</button></div>')).join(""):'<div class="placeholder">Пока нет объектов. Добавим сюда только ваши проекты из PDF-презентаций.</div>'):
- filtered.map(p=>'<button class="region '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'"><div><span>'+escape(p.name)+'</span><small>'+escape(p.en)+' · '+(p.objects||[]).length+' объектов</small></div><i>›</i></button>').join("");const gameLabelsOnRight=new Set(["nai-thon","surin","patong","kata","chalong","rawai","phuket-town"]);const pins=[];for(const p of areas){
+ filtered.map(p=>'<button class="region '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'"><div><span>'+escape(p.name)+'</span><small>'+escape(p.en)+' · '+(p.objects||[]).length+' объектов</small></div><i>›</i></button>').join("");const gameLabelsOnRight=new Set(["nai-thon","surin","patong","kata","rawai","chalong","phuket-town"]);const pins=[];for(const p of areas){
  const pos=xy(p);
  pins.push('<button class="pin game-region-pin '+(gameLabelsOnRight.has(p.id)?'label-right':'label-left')+' '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');
  (p.objects||[]).forEach((o,index)=>{
@@ -428,12 +428,10 @@ function refreshGeoMarkers(){
  geoMarkers.forEach(m=>geoMap.removeLayer(m));geoMarkers=[];districtMapMarkers.clear();allNamedMarkers.length=0;focusedLabel=null;
  for(const p of areas){
   if(!Number.isFinite(p.lat)||!Number.isFinite(p.lon))continue;
-  if(gameInfoOn){const marker=L.marker([p.lat,p.lon],{icon:L.icon({
-   iconUrl:"https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-   iconRetinaUrl:"https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-   shadowUrl:"https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-   iconSize:[17.5,28.7],iconAnchor:[8.75,28.7],popupAnchor:[0,-25],
-   shadowSize:[28.7,28.7],shadowAnchor:[8.75,28.7],className:"atlas-district-marker"
+  if(gameInfoOn){const marker=L.marker([p.lat,p.lon],{icon:L.divIcon({
+   className:"atlas-region-point",
+   html:'<span class="atlas-region-point-core"></span>',
+   iconSize:[17,17],iconAnchor:[8.5,8.5],popupAnchor:[0,-10]
   })}).addTo(geoMap).bindTooltip(p.name);
   marker.on("click",()=>{
    // First tap from overview flies to district; tapping the focused marker again opens details.
@@ -469,7 +467,7 @@ function updateMapLabels(focusId=null){
  const shown=allNamedMarkers.filter(item=>labelsVisible||item.id===focusedLabel);
  // Sort north to south; distribute neighboring labels to opposite sides.
  // East-side locations have labels on the right; all western locations on the left.
- const rightSide=new Set(["nai-thon","surin","patong","kata","chalong","rawai","phuket-town"]);
+ const rightSide=new Set(["nai-thon","surin","patong","kata","rawai","chalong","phuket-town"]);
  const positions=new Map();
  shown.forEach(item=>{
   const id=item.id.startsWith("area:")?item.id.slice(5):"";
