@@ -228,7 +228,7 @@ function midAndDistance(){
 scene.addEventListener("pointerdown",e=>{
  if(geoEnabled)return;
  if(e.pointerType==="touch")return;
- if(e.target.closest(".buttons"))return;
+ if(e.target.closest(".buttons, button:not(.pin), a, input"))return;
  if(e.pointerType==="mouse" && e.button!==0)return;
  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
  downAt={x:e.clientX,y:e.clientY};
@@ -285,7 +285,7 @@ function touchGeometry(touches){
 }
 scene.addEventListener("touchstart",e=>{
  if(geoEnabled)return;
- if(e.target.closest(".buttons"))return;
+ if(e.target.closest(".buttons, button:not(.pin), a, input"))return;
  if(e.touches.length===1){
   touchPrev={x:e.touches[0].clientX,y:e.touches[0].clientY};
   touchStartedAt={...touchPrev};touchDragged=false;
@@ -297,7 +297,7 @@ scene.addEventListener("touchstart",e=>{
 },{passive:false});
 scene.addEventListener("touchmove",e=>{
  if(geoEnabled)return;
- if(e.target.closest(".buttons")||!touchPrev)return;
+ if(e.target.closest(".buttons, button:not(.pin), a, input")||!touchPrev)return;
  if(e.cancelable)e.preventDefault();
  if(e.touches.length>=2){
   const next=touchGeometry(e.touches);
