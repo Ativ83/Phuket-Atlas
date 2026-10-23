@@ -54,11 +54,27 @@ function setProjectVisibility(ids,visible){
  try{localStorage.setItem(VISIBILITY_KEY,JSON.stringify([...hiddenProjects]));}catch(e){}
  render();
  refreshGeoMarkers();
+ updateSatelliteObjectsEye();
 }
+function updateSatelliteObjectsEye(){
+ const button=by("satellite-objects-eye");
+ if(!button)return;
+ const ids=areas.flatMap(p=>(p.objects||[]).map(o=>o.id));
+ const visible=ids.length===0||ids.every(id=>!hiddenProjects.has(id));
+ button.innerHTML=visibilityEyeIcon(visible);
+ button.setAttribute("aria-pressed",String(visible));
+ button.setAttribute("aria-label",visible?"Скрыть все мои объекты":"Показать все мои объекты");
+}
+by("satellite-objects-eye").onclick=()=>{
+ const ids=areas.flatMap(p=>(p.objects||[]).map(o=>o.id));
+ if(!ids.length)return;
+ const allVisible=ids.every(id=>!hiddenProjects.has(id));
+ setProjectVisibility(ids,!allVisible);
+};
 function visibilityEyeIcon(visible){
  return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.5 12s3.6-6 9.5-6 9.5 6 9.5 6-3.6 6-9.5 6-9.5-6-9.5-6Z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/>'+(visible?'':'<path d="M3 21 21 3" stroke="currentColor" stroke-width="2.4"/>')+'</svg>';
 }
-function render(){const q=by("search").value.toLowerCase();const filtered=areas.filter(p=>(!showOnlyObjects||(p.objects||[]).length>0)&&(p.name+" "+p.en+" "+(p.objects||[]).map(o=>o.name).join(" ")).toLowerCase().includes(q));by("regions").innerHTML=showOnlyObjects?
+function render(){updateSatelliteObjectsEye();const q=by("search").value.toLowerCase();const filtered=areas.filter(p=>(!showOnlyObjects||(p.objects||[]).length>0)&&(p.name+" "+p.en+" "+(p.objects||[]).map(o=>o.name).join(" ")).toLowerCase().includes(q));by("regions").innerHTML=showOnlyObjects?
  (filtered.length?'<div class="property-visibility-all"><button type="button" class="visibility-action visibility-eye visibility-eye-all" id="visibility-all" title="Показать или скрыть все объекты" aria-label="Показать или скрыть все объекты">'+visibilityEyeIcon(areas.every(a=>(a.objects||[]).every(projectVisible)))+'</button></div>'+filtered.flatMap(p=>(p.objects||[]).map((o,i)=>'<div class="property-visibility-row"><button class="region property-listing" data-area="'+escape(p.id)+'" data-object-index="'+i+'"><div><span>'+escape(o.name)+'</span><small>'+escape(p.name)+(o.type?' · '+escape(o.type):'')+'</small></div><i>›</i></button><button type="button" class="visibility-action visibility-eye" data-visibility-id="'+escape(o.id)+'" aria-pressed="'+projectVisible(o)+'" aria-label="'+(projectVisible(o)?'Скрыть':'Показать')+' булавку '+escape(o.name)+'">'+visibilityEyeIcon(projectVisible(o))+'</button></div>')).join(""):'<div class="placeholder">Пока нет объектов. Добавим сюда только ваши проекты из PDF-презентаций.</div>'):
  filtered.map(p=>'<button class="region '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'"><div><span>'+escape(p.name)+'</span><small>'+escape(p.en)+' · '+(p.objects||[]).length+' объектов</small></div><i>›</i></button>').join("");const gameLabelsOnRight=new Set(["nai-thon","surin","patong","kata","rawai","chalong","phuket-town"]);const pins=[];for(const p of areas){
  const pos=xy(p);
