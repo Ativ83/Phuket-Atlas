@@ -54,6 +54,7 @@ function setProjectVisibility(ids,visible){
  try{localStorage.setItem(VISIBILITY_KEY,JSON.stringify([...hiddenProjects]));}catch(e){}
  render();
  refreshGeoMarkers();
+ updateMapLabels(); // Restore district tooltips after rebuilding only the property markers.
  updateSatelliteObjectsEye();
 }
 function updateSatelliteObjectsEye(){
