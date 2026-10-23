@@ -60,10 +60,23 @@ function render(){const q=by("search").value.toLowerCase();const filtered=areas.
 }
 function show(p){
  const list=p.objects||[];
- by("detail").innerHTML='<div class="hero"><div><div class="tag">PHUKET · '+escape(p.region)+'</div><h2>'+escape(p.name)+'</h2><small>'+escape(p.en)+'</small></div></div><div class="detail"><p>'+escape(p.summary)+'</p><h3>Мои объекты · '+list.length+'</h3>'+
+ by("detail").innerHTML='<div class="hero"><div><div class="tag">PHUKET · '+escape(p.region)+'</div><h2>'+escape(p.name)+'</h2><small>'+escape(p.en)+'</small></div>'+(list.length?'<button type="button" class="region-eye-toggle" aria-label="Показать или скрыть объекты района" aria-pressed="'+list.every(projectVisible)+'"><span class="eye-symbol" aria-hidden="true">'+(list.every(projectVisible)?'👁️':'◉')+'</span><span class="eye-label">'+(list.every(projectVisible)?'Видно':'Не видно')+'</span></button>':'')+'</div><div class="detail"><p>'+escape(p.summary)+'</p><h3>Мои объекты · '+list.length+'</h3>'+
  (list.length?list.map(objectHTML).join(""):'<div class="placeholder">В этом районе пока нет добавленных объектов.</div>')+
  '</div>';
  by("sheet").classList.add("open");by("sheet").setAttribute("aria-hidden","false");by("overlay").hidden=false;
+ const regionEye=by("detail").querySelector(".region-eye-toggle");
+ if(regionEye)regionEye.onclick=()=>{
+  const visible=list.every(projectVisible);
+  setProjectVisibility(list.map(o=>o.id),!visible);
+  regionEye.setAttribute("aria-pressed",String(!visible));
+  regionEye.querySelector(".eye-label").textContent=!visible?"Видно":"Не видно";
+  regionEye.querySelector(".eye-symbol").textContent=!visible?"👁️":"◉";
+  by("detail").querySelectorAll("[data-card-visibility-id]").forEach(btn=>{
+   const shown=!hiddenProjects.has(btn.dataset.cardVisibilityId);
+   btn.textContent=shown?"Скрыть с карты":"Показать на карте";
+   btn.setAttribute("aria-pressed",String(shown));
+  });
+ };
  by("detail").querySelectorAll("[data-card-visibility-id]").forEach(btn=>btn.onclick=()=>{
   const id=btn.dataset.cardVisibilityId;
   setProjectVisibility([id],hiddenProjects.has(id));
