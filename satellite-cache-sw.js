@@ -16,7 +16,7 @@ self.addEventListener("fetch",event=>{
    const response=await fetch(event.request);
    if(response.ok||response.type==="opaque"){
     const clone=response.clone();
-    event.waitUntil((async()=>{
+    await (async()=>{
      await cache.put(event.request,clone);
      await meta.put(event.request,new Response(String(Date.now())));
      const keys=await cache.keys();
@@ -24,7 +24,7 @@ self.addEventListener("fetch",event=>{
       const excess=keys.length-MAX_TILES;
       for(const key of keys.slice(0,excess)){await cache.delete(key);await meta.delete(key);}
      }
-    })());
+    })();
    }
    return response;
   }catch(error){
