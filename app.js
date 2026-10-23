@@ -348,6 +348,7 @@ function refreshGeoMarkers(){
  geoMarkers.forEach(m=>geoMap.removeLayer(m));geoMarkers=[];districtMapMarkers.clear();allNamedMarkers.length=0;focusedLabel=null;
  for(const p of areas){
   if(!Number.isFinite(p.lat)||!Number.isFinite(p.lon))continue;
+  if(showOnlyObjects&&!(p.objects||[]).some(projectVisible))continue;
   const marker=L.marker([p.lat,p.lon],{icon:L.icon({
    iconUrl:"https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
    iconRetinaUrl:"https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
