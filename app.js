@@ -22,16 +22,28 @@ const escape=s=>String(s??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">
  // Open the area's real catalogue without showing a false map position.
  scale=1.6;panX=0;panY=0;applyView(true);
 }
+const VISIBILITY_KEY="phuket_atlas_hidden_properties_v1";
+let hiddenProjects=new Set();
+try{const saved=JSON.parse(localStorage.getItem(VISIBILITY_KEY)||"[]");if(Array.isArray(saved))hiddenProjects=new Set(saved.filter(x=>typeof x==="string"));}catch(e){}
+const projectVisible=o=>!hiddenProjects.has(o.id);
+function setProjectVisibility(ids,visible){
+ ids.forEach(id=>visible?hiddenProjects.delete(id):hiddenProjects.add(id));
+ try{localStorage.setItem(VISIBILITY_KEY,JSON.stringify([...hiddenProjects]));}catch(e){}
+ render();
+ refreshGeoMarkers();
+}
 function render(){const q=by("search").value.toLowerCase();const filtered=areas.filter(p=>(!showOnlyObjects||(p.objects||[]).length>0)&&(p.name+" "+p.en+" "+(p.objects||[]).map(o=>o.name).join(" ")).toLowerCase().includes(q));by("regions").innerHTML=showOnlyObjects?
- (filtered.length?filtered.flatMap(p=>(p.objects||[]).map((o,i)=>'<button class="region property-listing" data-area="'+escape(p.id)+'" data-object-index="'+i+'"><div><span>'+escape(o.name)+'</span><small>'+escape(p.name)+(o.type?' · '+escape(o.type):'')+'</small></div><i>›</i></button>')).join(""):'<div class="placeholder">Пока нет объектов. Добавим сюда только ваши проекты из PDF-презентаций.</div>'):
+ (filtered.length?'<div class="property-visibility-all"><span>Булавки на карте</span><button type="button" class="visibility-action" id="visibility-all" aria-label="Показать или скрыть все объекты">'+(areas.every(a=>(a.objects||[]).every(projectVisible))?'Скрыть все':'Показать все')+'</button></div>'+filtered.flatMap(p=>(p.objects||[]).map((o,i)=>'<div class="property-visibility-row"><button class="region property-listing" data-area="'+escape(p.id)+'" data-object-index="'+i+'"><div><span>'+escape(o.name)+'</span><small>'+escape(p.name)+(o.type?' · '+escape(o.type):'')+'</small></div><i>›</i></button><button type="button" class="visibility-action" data-visibility-id="'+escape(o.id)+'" aria-pressed="'+projectVisible(o)+'" aria-label="'+(projectVisible(o)?'Скрыть':'Показать')+' булавку '+escape(o.name)+'">'+(projectVisible(o)?'Скрыть':'Показать')+'</button></div>')).join(""):'<div class="placeholder">Пока нет объектов. Добавим сюда только ваши проекты из PDF-презентаций.</div>'):
  filtered.map(p=>'<button class="region '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'"><div><span>'+escape(p.name)+'</span><small>'+escape(p.en)+' · '+(p.objects||[]).length+' объектов</small></div><i>›</i></button>').join("");const gameLabelsOnRight=new Set(["rawai","chalong","phuket-town"]);const pins=[];for(const p of filtered){
  const pos=xy(p);
  pins.push('<button class="pin game-region-pin '+(gameLabelsOnRight.has(p.id)?'label-right':'label-left')+' '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');
- (p.objects||[]).forEach((o,index)=>{
+ (p.objects||[]).filter(projectVisible).forEach((o,index)=>{
   const op=xy(p);op.x+=23+(index%3)*15;op.y+=15+Math.floor(index/3)*20;
   pins.push('<button class="pin project game-property-flag" type="button" aria-label="Открыть '+escape(o.name)+'" data-project-id="'+escape(o.id)+'" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="game-flag-icon" aria-hidden="true">📌</span></button>');
  });
- }by("pins").innerHTML=pins.join("");document.querySelectorAll(".game-property-flag").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);const o=(p?.objects||[]).find(x=>x.id===el.dataset.projectId);if(p&&o){setDrawer(false);selected=p.id;show(p)}});
+ }by("pins").innerHTML=pins.join("");by("visibility-all")?.addEventListener("click",()=>{const ids=areas.flatMap(p=>(p.objects||[]).map(o=>o.id));const allVisible=ids.every(id=>!hiddenProjects.has(id));setProjectVisibility(ids,!allVisible);});
+ document.querySelectorAll("[data-visibility-id]").forEach(btn=>btn.onclick=()=>setProjectVisibility([btn.dataset.visibilityId],hiddenProjects.has(btn.dataset.visibilityId)));
+ document.querySelectorAll(".game-property-flag").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);const o=(p?.objects||[]).find(x=>x.id===el.dataset.projectId);if(p&&o){setDrawer(false);selected=p.id;show(p)}});
  document.querySelectorAll("[data-area]:not(.game-property-flag)").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);if(showOnlyObjects&&p){const o=(p.objects||[])[Number(el.dataset.objectIndex)];if(o){focusProperty(p,o);return;}}go(el.dataset.area)});by("numareas").textContent=areas.length;by("numprojects").textContent=projectCount()}function go(id){const p=areas.find(x=>x.id===id);if(!p)return;if(showOnlyObjects){setDrawer(false);selected=id;show(p);return;}setDrawer(false);selected=id;by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)}function objectHTML(o){
  const fields=[["Адрес",o.address],["Состав комплекса",o.buildings],["Количество резиденций",o.units],["Площади",o.sizes],["Парковка",o.parking],["Девелопер",o.developer],["Портфель девелопера",o.developerPortfolio],["Разрешения",o.permits],["Планируемая сдача",o.completion],["Пляж",o.beach],["Инфраструктура",o.amenities],["Формы владения",o.ownership],["Продажи",o.sales],["Обслуживание",o.maintenance],["Разовый взнос",o.sinking]];
  const label=o.name==="PURITA Phuket Bangtao"?"PURITA":"InterContinental";
@@ -321,7 +333,7 @@ function refreshGeoMarkers(){
   allNamedMarkers.push({marker,name:p.name,id:"area:"+p.id});
   geoMarkers.push(marker);
   // Satellite: map projects to the actual GPS coordinates, never an offset district location.
-  (p.objects||[]).forEach(o=>{
+  (p.objects||[]).filter(projectVisible).forEach(o=>{
    const hasGPS=Number.isFinite(o.lat)&&Number.isFinite(o.lon);
    const lat=hasGPS?o.lat:p.lat,lon=hasGPS?o.lon:p.lon;
    const m=L.marker([lat,lon],{icon:L.divIcon({
