@@ -64,6 +64,13 @@ function show(p){
  (list.length?list.map(objectHTML).join(""):'<div class="placeholder">В этом районе пока нет добавленных объектов.</div>')+
  '</div>';
  by("sheet").classList.add("open");by("sheet").setAttribute("aria-hidden","false");by("overlay").hidden=false;
+ by("detail").querySelectorAll("[data-card-visibility-id]").forEach(btn=>btn.onclick=()=>{
+  const id=btn.dataset.cardVisibilityId;
+  setProjectVisibility([id],hiddenProjects.has(id));
+  const visible=!hiddenProjects.has(id);
+  btn.textContent=visible?"Скрыть с карты":"Показать на карте";
+  btn.setAttribute("aria-pressed",String(visible));
+ });
  by("detail").querySelectorAll("[data-pdf]").forEach(btn=>btn.onclick=()=>openBrochure(btn.dataset.pdf,btn.dataset.materials));
 }let pdfViewerRun=0;
 function loadPdfJS(){
