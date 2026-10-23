@@ -14,6 +14,7 @@ function applyView(animate=false){
  panX=Number.isFinite(panX)?clamp(panX,-maxX,maxX):0;
  panY=Number.isFinite(panY)?clamp(panY,-maxY,maxY):0;
  by("hd-tiles")?.classList.toggle("show",scale>1.55);
+ scene.classList.toggle("plane-near",scale>=1.7);
  world.style.transition=animate?"transform .8s cubic-bezier(.17,.78,.12,1)":"none";
  world.style.transform="translate(calc(-50% + "+panX+"px),calc(-50% + "+panY+"px)) scale("+scale+")";
 }
