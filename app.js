@@ -485,7 +485,7 @@ function updateMapLabels(focusId=null){
   item.marker.openTooltip();
  }
  const button=by("labels-toggle");
- if(button){button.setAttribute("aria-pressed",String(labelsVisible));button.textContent=labelsVisible?"Инф.: вкл":"Инф.: выкл";}
+ if(button){button.setAttribute("aria-pressed",String(labelsVisible));button.textContent="ⓘ";button.setAttribute("aria-label",labelsVisible?"Скрыть информацию":"Показать информацию");}
 }
 by("labels-toggle").onclick=()=>setGameInformation(!gameInfoOn);
 function focusProperty(p,o){
@@ -598,7 +598,7 @@ function setGameInformation(on){
  refreshGeoMarkers();
  updateMapLabels();
  const btn=by("art-info-toggle");
- btn.textContent=on?"Инф.: вкл":"Инф.: выкл";
+ btn.textContent="ⓘ";btn.setAttribute("aria-label",on?"Скрыть информацию":"Показать информацию");
  btn.setAttribute("aria-pressed",String(on));
 }
 by("art-info-toggle").onclick=()=>setGameInformation(!gameInfoOn);
