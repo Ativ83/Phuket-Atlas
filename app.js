@@ -330,7 +330,7 @@ function applySatelliteLayer(){
  if(geoBaseLayer)geoMap.removeLayer(geoBaseLayer);
  if(satelliteToken){
   geoBaseLayer=L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/512/{z}/{x}/{y}?access_token="+encodeURIComponent(satelliteToken),{
-    tileSize:512,zoomOffset:-1,maxZoom:20,
+    tileSize:512,zoomOffset:-1,maxZoom:20,keepBuffer:8,updateWhenIdle:true,
     attribution:'Imagery &copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   });
  }else{
