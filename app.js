@@ -362,6 +362,36 @@ scene.addEventListener("wheel",e=>{
 
 // Geographically grounded map: source tiles from OpenStreetMap; exact area coordinates from catalogue.
 let geoMap=null,geoEnabled=false,geoMarkers=[],geoBaseLayer=null;
+const gameGeoButton=by("game-location-toggle");
+const gameGeoDot=by("game-my-location");
+let gameGeoWatch=null,gameGeoEnabled=false;
+function stopGameGeolocation(){
+ gameGeoEnabled=false;
+ if(gameGeoWatch!==null&&navigator.geolocation){navigator.geolocation.clearWatch(gameGeoWatch);gameGeoWatch=null;}
+ gameGeoDot.classList.remove("is-visible");
+ gameGeoButton.setAttribute("aria-pressed","false");
+ gameGeoButton.setAttribute("aria-label","Показать моё местоположение на игровой карте");
+}
+gameGeoButton.onclick=()=>{
+ if(gameGeoEnabled){stopGameGeolocation();return;}
+ if(!navigator.geolocation||!window.isSecureContext)return;
+ // A location marker is drawn only for coordinates inside the illustrated Phuket area.
+ // Outside that area there is no map movement, pin, warning or visible effect.
+ gameGeoWatch=navigator.geolocation.watchPosition(position=>{
+  if(!gameGeoEnabled)return;
+  const {latitude:lat,longitude:lon}=position.coords;
+  if(!(lat>=bounds.south&&lat<=bounds.north&&lon>=bounds.west&&lon<=bounds.east)){
+   gameGeoDot.classList.remove("is-visible");return;
+  }
+  const p=xy({lat,lon});
+  gameGeoDot.style.left=(p.x/W*100)+"%";
+  gameGeoDot.style.top=(p.y/H*100)+"%";
+  gameGeoDot.classList.add("is-visible");
+ },()=>{stopGameGeolocation();},{enableHighAccuracy:true,maximumAge:30000,timeout:20000});
+ gameGeoEnabled=true;
+ gameGeoButton.setAttribute("aria-pressed","true");
+ gameGeoButton.setAttribute("aria-label","Скрыть моё местоположение на игровой карте");
+};
 const geoLocationButton=by("geo-location-toggle");
 let myLocationWatch=null,myLocationMarker=null,myAccuracyCircle=null,myLocationEnabled=false;
 function stopMyLocation(){
