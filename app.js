@@ -344,6 +344,40 @@ scene.addEventListener("wheel",e=>{
 
 // Geographically grounded map: source tiles from OpenStreetMap; exact area coordinates from catalogue.
 let geoMap=null,geoEnabled=false,geoMarkers=[],geoBaseLayer=null;
+const geoLocationButton=by("geo-location-toggle");
+let myLocationWatch=null,myLocationMarker=null,myAccuracyCircle=null,myLocationEnabled=false;
+function stopMyLocation(){
+ myLocationEnabled=false;
+ if(myLocationWatch!==null&&navigator.geolocation){navigator.geolocation.clearWatch(myLocationWatch);myLocationWatch=null;}
+ if(geoMap&&myLocationMarker)geoMap.removeLayer(myLocationMarker);
+ if(geoMap&&myAccuracyCircle)geoMap.removeLayer(myAccuracyCircle);
+ myLocationMarker=null;myAccuracyCircle=null;
+ geoLocationButton.setAttribute("aria-pressed","false");
+ geoLocationButton.setAttribute("aria-label","Показать мою геопозицию");
+ geoLocationButton.title="Моя геопозиция";
+}
+geoLocationButton.onclick=()=>{
+ if(myLocationEnabled){stopMyLocation();return;}
+ if(!navigator.geolocation||!window.isSecureContext){alert("Геопозиция доступна только в защищённом браузере (HTTPS) с поддержкой геолокации.");return;}
+ myLocationEnabled=true;
+ geoLocationButton.setAttribute("aria-pressed","true");
+ geoLocationButton.setAttribute("aria-label","Скрыть мою геопозицию");
+ geoLocationButton.title="Скрыть геопозицию";
+ let first=true;
+ myLocationWatch=navigator.geolocation.watchPosition(position=>{
+  if(!myLocationEnabled||!geoMap)return;
+  const ll=[position.coords.latitude,position.coords.longitude];
+  if(!myLocationMarker){
+   myLocationMarker=L.marker(ll,{icon:L.divIcon({className:"atlas-my-location",html:'<span class="atlas-my-location-dot"></span>',iconSize:[23,23],iconAnchor:[11,11]}),zIndexOffset:1200,interactive:false}).addTo(geoMap);
+   myAccuracyCircle=L.circle(ll,{radius:position.coords.accuracy,color:"#3194ff",weight:1,fillColor:"#3194ff",fillOpacity:.10,interactive:false}).addTo(geoMap);
+  }else{myLocationMarker.setLatLng(ll);myAccuracyCircle.setLatLng(ll).setRadius(position.coords.accuracy);}
+  if(first){first=false;geoMap.flyTo(ll,Math.max(geoMap.getZoom(),14),{duration:1.1});}
+ },error=>{
+  if(!myLocationEnabled)return;
+  stopMyLocation();
+  alert(error.code===1?"Разреши доступ к геопозиции для этого сайта в настройках Safari.":error.code===2?"Не удалось определить местоположение. Проверь службы геолокации и сеть.":"Истекло время определения местоположения. Повтори попытку.");
+ },{enableHighAccuracy:true,maximumAge:10000,timeout:16000});
+};
 const districtMapMarkers=new Map();
 const allNamedMarkers=[];
 let labelsVisible=false,focusedLabel=null;
