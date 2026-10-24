@@ -114,13 +114,13 @@ function districtCommonsURL(file){
 function districtImageWithFallback(img,urls,caption){
  let index=0;
  img.onerror=()=>{
-  if(++index<urls.length){img.src=urls[index];return;}
+  if(++index<urls.length){img.closest("figure")?.classList.add("district-photo-illustrative");img.src=urls[index];return;}
   const holder=document.createElement("div");
   holder.className="district-photo-fallback";
   holder.textContent="Фотография временно недоступна";
   img.replaceWith(holder);
  };
- if(caption) img.closest("figure").dataset.photoNote=caption;
+ if(caption) img.closest("figure").classList.add("district-photo-illustrative");
 }
 async function searchDistrictPhoto(img,place,region,backup){
  const query=districtPhotoQueries[place]||place+" "+region+" Phuket";
