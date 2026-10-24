@@ -139,7 +139,7 @@ async function searchDistrictPhoto(img,place,region,backup){
    const data=await response.json();
    const pages=Object.values(data.query?.pages||{}).filter(p=>p.imageinfo?.[0]?.thumburl&&/^image\//.test(p.imageinfo[0].mime||"image/jpeg"));
    const key=q.toLowerCase().split(/\s+/).filter(w=>w.length>3&&w!=="phuket"&&w!=="thailand");
-   const match=pages.sort((a,b)=>key.filter(w=>b.title.toLowerCase().includes(w)).length-key.filter(w=>a.title.toLowerCase().includes(w)).length)[0];
+   const match=pages.sort((a,b)=>key.filter(w=>b.title.toLowerCase().includes(w)).length-key.filter(w=>a.title.toLowerCase().includes(w)).length).find(v=>key.length&&key.filter(w=>v.title.toLowerCase().includes(w)).length>=Math.min(2,key.length));
    if(!match)continue;
    const found=match.imageinfo[0];
    img.src=found.thumburl;
