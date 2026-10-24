@@ -441,6 +441,8 @@ padding:1px 5px!important;
 
 /* Satellite eye is aligned horizontally with the top (+) zoom button; only property markers are controlled. */
 #scene.geo-mode #satellite-objects-eye{bottom:164px!important;right:67px!important;top:auto!important;transform:none!important}
+/* Match the game eye centerline to the + zoom button (same as real-map alignment). */
+#scene:not(.geo-mode) #satellite-objects-eye{bottom:164px!important;right:67px!important;top:auto!important;transform:none!important}
 
 /* Keep long property names inside the satellite viewport. */
 #real-map .phuket-map-label{max-width:min(210px,42vw)!important;width:max-content!important;white-space:normal!important;overflow-wrap:anywhere!important;text-align:left!important;line-height:1.2!important}
