@@ -530,10 +530,17 @@ if("serviceWorker" in navigator && location.protocol==="https:"){
   const ps=points.map(([x,y])=>[sx(x),sy(y)]), lengths=[],total=ps.slice(1).reduce((acc,p,i)=>{const a=ps[i];const d=Math.hypot(p[0]-a[0],p[1]-a[1]);lengths.push(d);return acc+d;},0);
   return {ps,lengths,total};
  }).filter(r=>r.total>0);
- // Drive continuously along the user-approved red-dot roads; reverse at each dead end.
- // No teleporting, hiding, or off-road motion.
+ // Six seconds on an approved road, then reappear in a DIFFERENT island area.
+ const routeGroups=[0,1,1,2,2,3,4,4,4,5,5,5,1,2];
  let routeIndex=Math.floor(Math.random()*segments.length);
- let selected=segments[routeIndex],position=Math.random()*selected.total,direction=1,last=0;
+ let selected=segments[routeIndex],position=0,direction=1,last=0,phaseStart=0;
+ const relocate=()=>{
+  const possible=segments.map((_,i)=>i).filter(i=>routeGroups[i]!==routeGroups[routeIndex]);
+  routeIndex=possible[Math.floor(Math.random()*possible.length)];
+  selected=segments[routeIndex];
+  position=Math.random()*selected.total;
+  direction=Math.random()<0.5?-1:1;
+ };
  const sample=(seg,d)=>{
   d=Math.max(0,Math.min(seg.total,d));
   for(let i=0;i<seg.lengths.length;i++){
@@ -549,12 +556,19 @@ if("serviceWorker" in navigator && location.protocol==="https:"){
  const tick=now=>{
   if(!last)last=now;
   const dt=Math.min((now-last)/1000,0.09);last=now;
+  if(!phaseStart)phaseStart=now;
+  if(now-phaseStart>=6000){
+   car.style.opacity="0";
+   relocate();
+   phaseStart=now;
+  }
   const speed=18;
   position+=direction*dt*speed;
   if(position>=selected.total){position=selected.total-(position-selected.total);direction=-1;}
   if(position<=0){position=-position;direction=1;}
   const [x,y,a]=sample(selected,position);
   car.setAttribute("transform","translate("+x+" "+y+") rotate("+(a+(direction<0?180:0))+")");
+  car.style.opacity="1";
   requestAnimationFrame(tick);
  };
  requestAnimationFrame(tick);
