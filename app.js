@@ -113,7 +113,7 @@ function showGameDistrict(p){
    const data=await response.json();
    const pages=Object.values(data.query?.pages||{}).filter(v=>v.imageinfo?.[0]?.thumburl);
    const place=query.toLowerCase().split(" phuket")[0];
-   const keywords=place.split(/\\s+/).filter(w=>w.length>3);
+   const keywords=place.split(/\s+/).filter(w=>w.length>3);
    const match=pages.find(v=>keywords.some(k=>v.title.toLowerCase().includes(k)));
    if(!match){placeholder.textContent="Фото этого места пока не найдено";return;}
    const img=document.createElement("img");img.loading="lazy";img.alt=place;img.src=match.imageinfo[0].thumburl;
