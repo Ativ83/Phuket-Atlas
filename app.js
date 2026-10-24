@@ -96,7 +96,7 @@ function showGameDistrict(p){
  by("sheet").classList.add("open");by("sheet").setAttribute("aria-hidden","false");by("overlay").hidden=false;
 }
 function go(id){const p=areas.find(x=>x.id===id);if(!p)return;
- if(!geoEnabled&&!showOnlyObjects&&gameDistrictReady===id){setDrawer(false);showGameDistrict(p);return;}
+ if(!geoEnabled&&!showOnlyObjects&&(gameDistrictReady===id||selected===id)){setDrawer(false);gameDistrictReady=id;showGameDistrict(p);return;}
  if(showOnlyObjects){setDrawer(false);selected=id;show(p);return;}
  setDrawer(false);selected=id;
  if(!geoEnabled)gameDistrictReady=id;
@@ -195,7 +195,7 @@ function closeBrochure(){
 }
 by("pdf-close").onclick=closeBrochure;
 by("pdf-viewer").addEventListener("click",e=>{if(e.target.id==="pdf-viewer")closeBrochure()});
-function close(){selected=null;by("sheet").classList.remove("open");by("sheet").setAttribute("aria-hidden","true");by("overlay").hidden=true;scale=1;panX=0;panY=0;applyView(true);render()}const drawer=by("district-drawer"),drawerToggle=by("district-toggle");
+function close(){gameDistrictReady=null;selected=null;by("sheet").classList.remove("open");by("sheet").setAttribute("aria-hidden","true");by("overlay").hidden=true;scale=1;panX=0;panY=0;applyView(true);render()}const drawer=by("district-drawer"),drawerToggle=by("district-toggle");
 function setDrawer(open){
  drawer.classList.toggle("drawer-open",open);
  drawerToggle.setAttribute("aria-expanded",String(open&&!showOnlyObjects));
