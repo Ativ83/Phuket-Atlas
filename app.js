@@ -547,7 +547,7 @@ geoLocationButton.onclick=()=>{
   by("atlas-location-message")?.remove();
   const ll=[position.coords.latitude,position.coords.longitude];
   if(!myLocationMarker){
-   myLocationMarker=L.marker(ll,{icon:L.divIcon({className:"atlas-my-location",html:'<img src="assets/atlas-person.svg" alt="">',iconSize:[15,19],iconAnchor:[7,19]}),zIndexOffset:1200,interactive:false}).addTo(geoMap);
+   myLocationMarker=L.marker(ll,{icon:L.divIcon({className:"atlas-my-location",html:'<img src="assets/atlas-person.svg" alt="">',iconSize:[30,38],iconAnchor:[15,38]}),zIndexOffset:1200,interactive:false}).addTo(geoMap);
    myAccuracyCircle=L.circle(ll,{radius:position.coords.accuracy,color:"#3194ff",weight:1,fillColor:"#3194ff",fillOpacity:.10,interactive:false}).addTo(geoMap);
   }else{myLocationMarker.setLatLng(ll);myAccuracyCircle.setLatLng(ll).setRadius(position.coords.accuracy);}
   if(first){first=false;geoMap.flyTo(ll,Math.max(geoMap.getZoom(),14),{duration:1.1});}
