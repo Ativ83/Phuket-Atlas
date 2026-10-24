@@ -8,8 +8,8 @@ function applyView(animate=false){
  // Allow travel across the enlarged island while keeping the map centred at 1x.
  // Limits grow with zoom so northern/southern and western/eastern locations remain reachable.
  const zoomExtra=Math.max(0,scale-1);
- const maxX=zoomExtra*world.offsetWidth*.30;
- const maxY=zoomExtra*world.offsetHeight*.34;
+ const maxX=zoomExtra*world.offsetWidth*.66;
+ const maxY=zoomExtra*world.offsetHeight*.70;
  scale=Number.isFinite(scale)?clamp(scale,1,3.5):1;
  panX=Number.isFinite(panX)?clamp(panX,-maxX,maxX):0;
  panY=Number.isFinite(panY)?clamp(panY,-maxY,maxY):0;
@@ -21,7 +21,13 @@ function applyView(animate=false){
 const escape=s=>String(s??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));const xy=o=>({x:(o.lon-bounds.west)/(bounds.east-bounds.west)*W,y:(bounds.north-o.lat)/(bounds.north-bounds.south)*H});const projectCount=()=>areas.reduce((n,p)=>n+(p.objects||[]).length,0);function shift(p){
  // Artistic HD image is not georeferenced: do not fly to invented coordinates.
  // Open the area's real catalogue without showing a false map position.
- scale=1.6;panX=0;panY=0;applyView(true);
+ scale=1.6;
+ const world=by("world"),scene=by("scene"),pos=xy(p);
+ // Translate the selected map pin toward the visible scene center.
+ panX=-(pos.x/W-.5)*world.offsetWidth*scale;
+ panY=-(pos.y/H-.5)*world.offsetHeight*scale;
+ // The scene edges are reachable even for Mai Khao and Rawai.
+ applyView(true);
 }
 const VISIBILITY_KEY="phuket_atlas_hidden_properties_v1";
 let hiddenProjects=new Set();
@@ -160,6 +166,7 @@ function showGameDistrict(p){
  by("detail").innerHTML='<div class="hero"><div><div class="tag">PHUKET · РАЙОН</div><h2>'+escape(p.name)+'</h2><small>'+escape(p.en)+'</small></div></div>'+
  '<div class="detail game-district-guide">'+general+'<div class="district-photo-gallery">'+gallery+'</div>'+
  '<section class="district-general district-general-extra"><span class="district-general-label">О РАЙОНЕ</span><h3>Особенности пляжа</h3><p>'+escape(facts[1])+'</p><h3>Кому подходит</h3><p>'+escape(facts[2])+'</p></section></div>';
+ by("sheet").scrollTop=0;by("detail").scrollTop=0;
  by("sheet").classList.add("open");by("sheet").setAttribute("aria-hidden","false");by("overlay").hidden=false;document.body.classList.add("game-guide-open");
  // Photograph credits are available in a single collapsible footer, not on each place card.
  const credits=[...by("detail").querySelectorAll(".district-photo-source")];
@@ -178,16 +185,12 @@ function showGameDistrict(p){
  }
  by("detail").querySelector(".game-district-guide")?.appendChild(creditsSection);
  const photoNodes=[...by("detail").querySelectorAll(".district-photo")];
- const regional=places.map(x=>x[1]).filter(Boolean);
- const fallbackFiles=[...new Set([...regional,"Naiton beach - panoramio.jpg","Bang Tao Beach (53667853591).jpg"])];
+ // No photos from other attractions: a failed match gets a neutral placeholder.
  for(const [i,figure] of photoNodes.entries()){
   const [title,file]=places[i],img=figure.querySelector("img");
   const verified=verifiedExternalPhotos[p.id]?.[title];
-  const backup=fallbackFiles.filter(f=>f!==file).map(districtCommonsURL);
-  if(file||verified){
-   districtImageWithFallback(img,backup,"");
-   // Broken original images fall back to another genuine district photograph.
-  }else searchDistrictPhoto(img,title,p.en,backup);
+  if(file||verified)districtImageWithFallback(img,[],"");
+  else searchDistrictPhoto(img,title,p.en,[]);
  }
 }
 
@@ -216,6 +219,7 @@ function show(p){
  by("detail").innerHTML='<div class="hero"><div><div class="tag">PHUKET · '+escape(p.region)+'</div><h2>'+escape(p.name)+'</h2><small>'+escape(p.en)+'</small></div>'+(list.length?'<button type="button" class="region-eye-toggle" aria-label="Показать или скрыть объекты района" aria-pressed="'+list.every(projectVisible)+'"><span class="eye-symbol" aria-hidden="true">'+visibilityEyeIcon(list.every(projectVisible))+'</span></button>':'')+'</div><div class="detail"><p>'+escape(p.summary)+'</p><h3>Мои объекты · '+list.length+'</h3>'+
  (list.length?list.map(objectHTML).join(""):'<div class="placeholder">В этом районе пока нет добавленных объектов.</div>')+
  '</div>';
+ by("sheet").scrollTop=0;
  by("sheet").classList.add("open");by("sheet").setAttribute("aria-hidden","false");by("overlay").hidden=false;
  const regionEye=by("detail").querySelector(".region-eye-toggle");
  if(regionEye)regionEye.onclick=()=>{
