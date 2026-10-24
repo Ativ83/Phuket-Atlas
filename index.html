@@ -481,8 +481,6 @@ padding:1px 5px!important;
 <!-- Car follows the road corridor marked in red by the user (screen-to-artwork calibrated).
      No free roaming: at route ends the car fades out before restarting. -->
 <g class="atlas-road-car" pointer-events="none">
- <animateMotion dur="54s" repeatCount="indefinite" rotate="auto" path="M 552.1 53.0 L 568.1 55.3 L 585.1 60.8 L 600.3 71.8 L 609.4 85.1 L 611.7 100.2 L 607.1 119.5 L 599.3 151.7 L 593.4 183.8 L 591.1 209.9 L 572.7 213.6 L 549.8 215.0 L 531.4 220.5 L 515.3 226.0 L 497.0 236.6 L 485.5 251.7 L 478.6 266.4 L 471.7 289.4 L 463.9 315.5 L 459.3 337.5 L 455.7 360.5 L 456.1 383.0 L 463.0 407.3 L 473.1 420.2 L 485.5 433.9 L 497.0 441.7 L 513.0 449.5 L 536.0 460.1 L 556.6 462.4 L 575.0 465.1 L 607.1 473.4 L 603.5 491.3 L 597.0 508.8 L 588.8 526.2 L 578.7 547.3 L 575.0 564.8 L 581.9 586.8 L 593.4 608.4 L 600.3 629.0 L 600.3 656.6"/>
- <animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.015;0.95;0.975;1" dur="54s" repeatCount="indefinite"/>
  <ellipse cx="-1" cy="2" rx="10" ry="5.8" fill="#001e31" opacity=".37"/>
  <rect x="-9.5" y="-5" width="19" height="10" rx="3.3" fill="#e64435" stroke="#fff3e3" stroke-width="1.5"/>
  <rect x="-3.9" y="-3.6" width="8.3" height="7.2" rx="1.7" fill="#a6daed" stroke="#29647a" stroke-width=".7"/>
@@ -493,7 +491,7 @@ padding:1px 5px!important;
  <path d="M 9 -3 L 10.5 -3 M 9 3 L 10.5 3" stroke="#fff8c2" stroke-width="1.6"/>
 </g>
 <!-- Decorative static speedboats; wake trails behind each stern. -->
-<g class="atlas-speedboats" pointer-events="none"><g transform="translate(118 610) rotate(-53)"><path d="M -80 0 Q -58 -8 -38 0 L -23 0" stroke="#ecfbff" stroke-width="5.5" opacity=".67" fill="none" stroke-linecap="round"/><path d="M -70 -9 Q -48 -4 -25 -7 M -70 9 Q -48 4 -25 7" stroke="#fff" stroke-width="2" opacity=".8" fill="none" stroke-linecap="round"/><path d="M-17-6 L6-6 Q17-4 21 0 Q17 4 6 6 L-17 6 L-22 0Z" fill="#fffdfa" stroke="#32566a" stroke-width="1.4"/><path d="M-5-4 L7-4 L13 0 L7 4 L-5 4Z" fill="#74b2cb" stroke="#477d94" stroke-width=".8"/></g><g transform="translate(245 1344) rotate(-72)"><path d="M -80 0 Q -58 -8 -38 0 L -23 0" stroke="#ecfbff" stroke-width="5.5" opacity=".67" fill="none" stroke-linecap="round"/><path d="M -70 -9 Q -48 -4 -25 -7 M -70 9 Q -48 4 -25 7" stroke="#fff" stroke-width="2" opacity=".8" fill="none" stroke-linecap="round"/><path d="M-17-6 L6-6 Q17-4 21 0 Q17 4 6 6 L-17 6 L-22 0Z" fill="#fffdfa" stroke="#32566a" stroke-width="1.4"/><path d="M-5-4 L7-4 L13 0 L7 4 L-5 4Z" fill="#74b2cb" stroke="#477d94" stroke-width=".8"/></g><g transform="translate(940 990) rotate(-125)"><path d="M -80 0 Q -58 -8 -38 0 L -23 0" stroke="#ecfbff" stroke-width="5.5" opacity=".67" fill="none" stroke-linecap="round"/><path d="M -70 -9 Q -48 -4 -25 -7 M -70 9 Q -48 4 -25 7" stroke="#fff" stroke-width="2" opacity=".8" fill="none" stroke-linecap="round"/><path d="M-17-6 L6-6 Q17-4 21 0 Q17 4 6 6 L-17 6 L-22 0Z" fill="#fffdfa" stroke="#32566a" stroke-width="1.4"/><path d="M-5-4 L7-4 L13 0 L7 4 L-5 4Z" fill="#74b2cb" stroke="#477d94" stroke-width=".8"/></g></g></svg><div id="pins"></div><div id="game-my-location" aria-hidden="true"></div></div><div class="compass">N<br>↑</div><button id="satellite-objects-eye" type="button" aria-pressed="true" aria-label="Скрыть все мои объекты" title="Показать или скрыть все мои объекты"></button><button id="game-location-toggle" type="button" aria-pressed="false" aria-label="Показать моё местоположение на игровой карте" title="Моя геопозиция"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.2" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button><button id="geo-location-toggle" type="button" aria-pressed="false" aria-label="Показать мою геопозицию" title="Моя геопозиция"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.2" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button><div class="buttons"><button id="zin" aria-label="Приблизить">+</button><button id="zout" aria-label="Отдалить">−</button><button id="reset" aria-label="Весь остров">⌂</button></div></section></div></div><div id="overlay" class="screen" hidden></div><section id="sheet" class="sheet" aria-label="Презентация локации" aria-hidden="true"><button class="close" id="close" aria-label="Закрыть">×</button><div id="detail"></div></section><section id="pdf-viewer" class="pdf-viewer" hidden aria-label="Просмотр PDF презентации"><div class="pdf-viewer-bar"><span>Презентация PURITA</span><button id="pdf-close" aria-label="Закрыть PDF">×</button></div><div id="pdf-status" class="pdf-viewer-status"></div><div id="pdf-pages" class="pdf-pages" role="document" aria-label="Страницы PDF-презентации"></div><div class="pdf-viewer-links"><a id="pdf-external" href="#" target="_blank" rel="noopener" hidden>Открыть PDF отдельно ↗</a><a id="pdf-materials" href="#" target="_blank" rel="noopener" hidden>Материалы проекта ↗</a></div></section><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="" defer></script><script src="app.js?v=mountain-road-loop-116" defer></script><script>
+<g class="atlas-speedboats" pointer-events="none"><g transform="translate(118 610) rotate(-53)"><path d="M -80 0 Q -58 -8 -38 0 L -23 0" stroke="#ecfbff" stroke-width="5.5" opacity=".67" fill="none" stroke-linecap="round"/><path d="M -70 -9 Q -48 -4 -25 -7 M -70 9 Q -48 4 -25 7" stroke="#fff" stroke-width="2" opacity=".8" fill="none" stroke-linecap="round"/><path d="M-17-6 L6-6 Q17-4 21 0 Q17 4 6 6 L-17 6 L-22 0Z" fill="#fffdfa" stroke="#32566a" stroke-width="1.4"/><path d="M-5-4 L7-4 L13 0 L7 4 L-5 4Z" fill="#74b2cb" stroke="#477d94" stroke-width=".8"/></g><g transform="translate(245 1344) rotate(-72)"><path d="M -80 0 Q -58 -8 -38 0 L -23 0" stroke="#ecfbff" stroke-width="5.5" opacity=".67" fill="none" stroke-linecap="round"/><path d="M -70 -9 Q -48 -4 -25 -7 M -70 9 Q -48 4 -25 7" stroke="#fff" stroke-width="2" opacity=".8" fill="none" stroke-linecap="round"/><path d="M-17-6 L6-6 Q17-4 21 0 Q17 4 6 6 L-17 6 L-22 0Z" fill="#fffdfa" stroke="#32566a" stroke-width="1.4"/><path d="M-5-4 L7-4 L13 0 L7 4 L-5 4Z" fill="#74b2cb" stroke="#477d94" stroke-width=".8"/></g><g transform="translate(940 990) rotate(-125)"><path d="M -80 0 Q -58 -8 -38 0 L -23 0" stroke="#ecfbff" stroke-width="5.5" opacity=".67" fill="none" stroke-linecap="round"/><path d="M -70 -9 Q -48 -4 -25 -7 M -70 9 Q -48 4 -25 7" stroke="#fff" stroke-width="2" opacity=".8" fill="none" stroke-linecap="round"/><path d="M-17-6 L6-6 Q17-4 21 0 Q17 4 6 6 L-17 6 L-22 0Z" fill="#fffdfa" stroke="#32566a" stroke-width="1.4"/><path d="M-5-4 L7-4 L13 0 L7 4 L-5 4Z" fill="#74b2cb" stroke="#477d94" stroke-width=".8"/></g></g></svg><div id="pins"></div><div id="game-my-location" aria-hidden="true"></div></div><div class="compass">N<br>↑</div><button id="satellite-objects-eye" type="button" aria-pressed="true" aria-label="Скрыть все мои объекты" title="Показать или скрыть все мои объекты"></button><button id="game-location-toggle" type="button" aria-pressed="false" aria-label="Показать моё местоположение на игровой карте" title="Моя геопозиция"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.2" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button><button id="geo-location-toggle" type="button" aria-pressed="false" aria-label="Показать мою геопозицию" title="Моя геопозиция"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.2" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button><div class="buttons"><button id="zin" aria-label="Приблизить">+</button><button id="zout" aria-label="Отдалить">−</button><button id="reset" aria-label="Весь остров">⌂</button></div></section></div></div><div id="overlay" class="screen" hidden></div><section id="sheet" class="sheet" aria-label="Презентация локации" aria-hidden="true"><button class="close" id="close" aria-label="Закрыть">×</button><div id="detail"></div></section><section id="pdf-viewer" class="pdf-viewer" hidden aria-label="Просмотр PDF презентации"><div class="pdf-viewer-bar"><span>Презентация PURITA</span><button id="pdf-close" aria-label="Закрыть PDF">×</button></div><div id="pdf-status" class="pdf-viewer-status"></div><div id="pdf-pages" class="pdf-pages" role="document" aria-label="Страницы PDF-презентации"></div><div class="pdf-viewer-links"><a id="pdf-external" href="#" target="_blank" rel="noopener" hidden>Открыть PDF отдельно ↗</a><a id="pdf-materials" href="#" target="_blank" rel="noopener" hidden>Материалы проекта ↗</a></div></section><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="" defer></script><script src="app.js?v=road-network-car-117" defer></script><script>
 if("serviceWorker" in navigator && location.protocol==="https:"){
  navigator.serviceWorker.register("./satellite-cache-sw.js",{scope:"./",updateViaCache:"none"})
   .catch(err=>console.warn("Satellite cache unavailable:",err));
@@ -519,5 +517,54 @@ if("serviceWorker" in navigator && location.protocol==="https:"){
  if(img.decode)img.decode().then(ready,failed);
  else if(img.complete&&img.naturalWidth>0)ready();
  else{img.addEventListener("load",ready,{once:true});img.addEventListener("error",failed,{once:true});}
+})();
+</script><script>
+/* Vehicle is strictly confined to the red-dotted road network on the October 24 reference screenshot.
+   Route coordinates are anchored to the full artwork; never interpolate between separate routes. */
+(function(){
+ const car=document.querySelector("svg.atlas-ambient .atlas-road-car");
+ if(!car)return;
+ const screenshotRoutes=[[[340,180],[340,226],[350,266],[368,289],[397,306],[438,316],[437,359],[431,407],[454,459],[491,477],[522,481],[559,514],[607,554],[632,590],[628,622],[605,657],[575,696]],[[438,408],[401,408],[380,419],[357,446],[347,481],[344,529],[355,555],[380,570],[413,573],[440,563],[456,537],[465,504],[465,479]],[[344,526],[301,526],[278,534],[257,556],[252,586]],[[354,680],[352,705],[324,729],[289,746],[284,773],[289,811],[277,851],[260,884],[255,910],[282,925],[320,928]],[[324,729],[351,708],[380,668],[412,643],[440,615],[456,575]],[[290,774],[310,817],[311,875],[311,939],[304,998],[298,1045]],[[578,804],[586,851],[598,901],[595,951],[577,1016],[574,1080],[590,1123],[600,1176],[597,1225],[575,1241]],[[579,805],[546,851],[520,890],[481,927],[452,936],[454,980],[485,998],[535,1012],[576,1020]],[[577,863],[544,898],[510,942],[494,1003],[489,1061],[453,1097],[428,1126],[434,1166],[448,1192]],[[320,1136],[319,1165],[329,1207],[340,1251],[362,1263],[403,1257],[424,1222],[450,1187],[465,1144],[487,1104],[511,1065],[544,1038]],[[320,1136],[319,1107],[317,1077]],[[454,1194],[436,1240],[418,1274],[402,1322]],[[292,526],[262,545],[258,574]],[[438,615],[470,608],[511,610],[549,615],[582,616],[616,618]]];
+ const sx=x=>(x+42)/0.894,sy=y=>(y-125)/0.894;
+ const segments=screenshotRoutes.map(points=>{
+  const ps=points.map(([x,y])=>[sx(x),sy(y)]), lengths=[],total=ps.slice(1).reduce((acc,p,i)=>{const a=ps[i];const d=Math.hypot(p[0]-a[0],p[1]-a[1]);lengths.push(d);return acc+d;},0);
+  return {ps,lengths,total};
+ }).filter(r=>r.total>0);
+ let selected=null,position=0,elapsed=0,travel=0,last=0,hiddenUntil=0;
+ const choose=(now)=>{
+  selected=segments[Math.floor(Math.random()*segments.length)];
+  position=Math.random()*selected.total*0.8;
+  travel=Math.min(selected.total-position,65+Math.random()*125);
+  elapsed=0;hiddenUntil=0;car.style.opacity="0";
+ };
+ const sample=(seg,d)=>{
+  for(let i=0;i<seg.lengths.length;i++){
+   const len=seg.lengths[i];
+   if(d<=len||i===seg.lengths.length-1){
+    const a=seg.ps[i],b=seg.ps[i+1],t=Math.min(1,Math.max(0,d/len));
+    return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI];
+   }
+   d-=len;
+  }
+ };
+ const tick=now=>{
+  if(!last)last=now;
+  const dt=Math.min((now-last)/1000,0.09);last=now;
+  if(!selected)choose(now);
+  if(hiddenUntil){
+   car.style.opacity="0";
+   if(now>=hiddenUntil)choose(now);
+  }else{
+   const speed=18; // artwork units per second
+   position+=dt*speed;elapsed+=dt*speed;
+   const [x,y,a]=sample(selected,position);
+   car.setAttribute("transform","translate("+x+" "+y+") rotate("+a+")");
+   const fade=Math.min(1,elapsed/12,(travel-elapsed)/12);
+   car.style.opacity=String(Math.max(0,fade));
+   if(elapsed>=travel||position>=selected.total){hiddenUntil=now+600+Math.random()*1800;car.style.opacity="0";}
+  }
+  requestAnimationFrame(tick);
+ };
+ requestAnimationFrame(tick);
 })();
 </script></body></html>
