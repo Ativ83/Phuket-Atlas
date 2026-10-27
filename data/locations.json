@@ -182,7 +182,7 @@
         "name": "MIDORI",
         "type": "Таунхаусы и виллы с бассейнами · Modern Wabi Sabi",
         "description": "Камерный жилой проект в районе Ratsada / Phuket Town, 20 домов в двух очередях: 7 таунхаусов и 13 вилл с бассейном. Таунхаусы — 3 спальни, 2 этажа, участок 85 м², площадь застройки 133 м², от 4,89 млн ฿. Вилла A — 4 спальни, 2 этажа, участок 162 м², площадь застройки 205 м², 9,49 млн ฿. Вилла B — 4 спальни, 3 этажа, участок 126 м², площадь застройки 340 м², 14,9 млн ฿.",
-        "address": "Ratsada, Mueang Phuket, рядом с Mission Hospital Phuket (точный адрес участка уточняется)",
+        "address": "Soi Phru Yai, Ratsada, Mueang Phuket, Phuket, Thailand — маркер MIDORI в Google Maps",
         "units": "20: Phase 1 — 7 таунхаусов; Phase 2 — 10 вилл Type A и 3 виллы Type B",
         "buildings": "Phase 1: таунхаусы, 2 этажа; Phase 2: виллы с бассейном, 2–3 этажа",
         "sizes": "Townhome: участок 85 м², застройка 133 м², 3 спальни; Villa A: участок 162 м², застройка 205 м², 4 спальни; Villa B: участок 126 м², застройка 340 м², 4 спальни",
@@ -194,10 +194,10 @@
         "mapUrl": "https://maps.app.goo.gl/c7bSipBzoHKop7A86?g_st=ic",
         "virtualTourUrl": "https://app.lapentor.com/sphere/midori",
         "materialsUrl": "https://drive.google.com/drive/folders/1noVSJ-k98iJRM1Pl4kIsa4-qH9Xy_biF?usp=drive_link",
-        "lat": 7.9067,
-        "lon": 98.3908,
-        "coordinateSource": "Ориентировочная метка у Mission Hospital Phuket, НЕ подтверждённая точка MIDORI; GPS проекта из короткой ссылки не удалось извлечь",
-        "notice": "Внимание: спутниковая метка ориентировочная — поставлена у Mission Hospital, в 350 м от которого проект находится по описанию. Точные координаты проекта нужно сверить по Google Maps. Площади земли в сообщении противоречивы: 3 рая 69,7 кв. ва = 5 078,8 м², а не 1 269,7 м². Срок сдачи Phase 1 (август 2026) требует подтверждения.",
+        "lat": 7.9264396,
+        "lon": 98.392172,
+        "coordinateSource": "Координаты маркера Midori By Porjai Group Development из Google Maps, предоставлены пользователем (7.9264396, 98.3921720)",
+        "notice": "Площади земли в сообщении противоречивы: 3 рая 69,7 кв. ва = 5 078,8 м², а не 1 269,7 м². Срок сдачи Phase 1 (август 2026) требует подтверждения.",
         "source": "Предоставленное описание MIDORI; публичные объявления по Midori Phuket Town."
       }
     ]
