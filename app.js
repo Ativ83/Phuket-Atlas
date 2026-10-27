@@ -201,7 +201,7 @@ function go(id){const p=areas.find(x=>x.id===id);if(!p)return;
  if(!geoEnabled)gameDistrictReady=id;
  by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)
 }function objectHTML(o){
- const fields=[["Адрес",o.address],["Цены",o.prices],["Площадь участка",o.land],["Состав комплекса",o.buildings],["Количество резиденций",o.units],["Площади",o.sizes],["Парковка",o.parking],["Девелопер",o.developer],["Портфель девелопера",o.developerPortfolio],["Разрешения",o.permits],["Планируемая сдача",o.completion],["Пляж",o.beach],["Инфраструктура",o.amenities],["Формы владения",o.ownership],["Продажи",o.sales],["Обслуживание",o.maintenance],["Разовый взнос",o.sinking]];
+ const fields=[["Адрес",o.address],["Цены",o.prices],["Площадь участка",o.land],["Состав комплекса",o.buildings],["Количество резиденций",o.units],["Площади",o.sizes],["Парковка",o.parking],["Девелопер",o.developer],["Портфель девелопера",o.developerPortfolio],["Разрешения",o.permits],["Планируемая сдача",o.completion],["Пляж",o.beach],["Инфраструктура",o.amenities],["Формы владения",o.ownership],["Продажи",o.sales],["Обслуживание",o.maintenance],["Разовый взнос",o.sinking],["График платежей",o.payment],["Меблировка",o.furnishing],["Инвестиционный сценарий (прогноз)",o.investment],["Полученные документы",o.documents]];
  const label=o.name==="PURITA Phuket Bangtao"?"PURITA":o.id==="the-residences-intercontinental-phuket"?"InterContinental":o.name;
  const sub=o.name==="PURITA Phuket Bangtao"?"PHUKET BANGTAO":o.id==="the-residences-intercontinental-phuket"?"THE RESIDENCES · KAMALA":"PHUKET TOWN · RATSADA";
  const isProjectFlipbook=o.materialsUrl&&/^https:\/\/flipbook\.proudrealestate\.co\.th\//.test(o.materialsUrl);
