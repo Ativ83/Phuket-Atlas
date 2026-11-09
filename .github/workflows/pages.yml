@@ -24,6 +24,12 @@ jobs:
           python3 -m json.tool data/locations.json > /dev/null
           test -f index.html
           test -f app.js
+      - name: Install Edge TTS
+        run: python3 -m pip install --disable-pip-version-check "edge-tts>=7,<9"
+      - name: Generate Russian audio guides for all 12 districts
+        run: |
+          python3 scripts/generate_district_audio.py
+          test "$(find assets/district-audio -maxdepth 1 -name '*.mp3' | wc -l)" -eq 12
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload site
