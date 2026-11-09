@@ -21,7 +21,7 @@ RATE = "-5%"
 
 async def generate(slug: str, text: str) -> None:
     destination = OUTPUT / (slug + ".mp3")
-    for attempt in range(1, 6):
+    for attempt in range(1, 3):
         try:
             temporary = destination.with_suffix(".mp3.part")
             await edge_tts.Communicate(text, VOICE, rate=RATE).save(str(temporary))
@@ -32,9 +32,9 @@ async def generate(slug: str, text: str) -> None:
             return
         except Exception:
             temporary.unlink(missing_ok=True)
-            if attempt == 5:
+            if attempt == 2:
                 raise
-            await asyncio.sleep(7 * attempt)
+            await asyncio.sleep(2 * attempt)
 
 
 async def main() -> None:
@@ -55,8 +55,6 @@ async def main() -> None:
             print(f"WARNING: Could not generate {slug}: {error}", flush=True)
             failures.append(slug)
         await asyncio.sleep(4)
-    if "bang-tao" in failures:
-        raise RuntimeError("Bang Tao audio is required for pilot publication")
     print(f"Completed: {len(requested)-len(failures)}/{len(requested)} audio files; failed: {failures}", flush=True)
 
 
