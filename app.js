@@ -1,5 +1,13 @@
 (()=>{"use strict";const by=id=>document.getElementById(id),W=620,H=920,bounds={west:98.20,east:98.48,north:8.20,south:7.72};let areas=[],selected=null,scale=1,panX=0,panY=0,gestureMoved=false;
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+// Label anchors for local areas in Bang Tao. Project pins remain independent.
+const bangTaoZones=[
+ {id:"layan",name:"Лаян",lat:8.03518,lon:98.29185}, // Ban Layan, GeoNames 1156637
+ {id:"laguna",name:"Laguna Phuket",lat:8.00789,lon:98.30077}, // Laguna Golf, OSM way 611340189
+ {id:"cherngtalay",name:"Чернгталай",lat:7.98563,lon:98.29545}, // Cherngtalay, GeoNames 7292555
+ {id:"pasak",name:"Пасак",lat:7.99672,lon:98.31128} // Ban Pa Sak, GeoNames 7091906
+];
+const zoneLabel=zone=>'<span class="atlas-zone-label">'+escape(zone.name)+'</span>';
 function applyView(animate=false){
  const world=by("world"),scene=by("scene");
  // Hard pan limits: the island centre must remain close to the viewport centre.
@@ -15,6 +23,7 @@ function applyView(animate=false){
  panY=Number.isFinite(panY)?clamp(panY,-maxY,maxY):0;
  by("hd-tiles")?.classList.toggle("show",scale>1.55);
  scene.classList.toggle("plane-near",scale>=1.7);
+ scene.classList.toggle("show-game-pasak",scale>=1.9);
  world.style.transition=animate?"transform .8s cubic-bezier(.17,.78,.12,1)":"none";
  world.style.transform="translate(calc(-50% + "+panX+"px),calc(-50% + "+panY+"px)) scale("+scale+")";
 }
@@ -91,7 +100,12 @@ function render(){updateSatelliteObjectsEye();const q=by("search").value.toLower
   const op=xy(p);op.x+=23+(index%7)*20;op.y+=15+Math.floor(index/7)*23;
   pins.push('<button class="pin project game-property-flag" type="button" aria-label="Открыть '+escape(o.name)+'" data-project-id="'+escape(o.id)+'" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="game-flag-icon" aria-hidden="true">📍</span></button>');
  });
- }by("pins").innerHTML=pins.join("");by("visibility-all")?.addEventListener("click",()=>{const ids=areas.flatMap(p=>(p.objects||[]).map(o=>o.id));const allVisible=ids.every(id=>!hiddenProjects.has(id));setProjectVisibility(ids,!allVisible);});
+  }
+ for(const zone of bangTaoZones){
+  const pos=xy(zone);
+  pins.push('<span class="atlas-zone game-zone zone-'+zone.id+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%">'+zoneLabel(zone)+'</span>');
+ }
+ by("pins").innerHTML=pins.join("");by("visibility-all")?.addEventListener("click",()=>{const ids=areas.flatMap(p=>(p.objects||[]).map(o=>o.id));const allVisible=ids.every(id=>!hiddenProjects.has(id));setProjectVisibility(ids,!allVisible);});
  document.querySelectorAll("[data-visibility-id]").forEach(btn=>btn.onclick=()=>setProjectVisibility([btn.dataset.visibilityId],hiddenProjects.has(btn.dataset.visibilityId)));
  document.querySelectorAll(".game-property-flag").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);const o=(p?.objects||[]).find(x=>x.id===el.dataset.projectId);if(p&&o){setDrawer(false);selected=p.id;show(p,o)}});
  document.querySelectorAll("[data-area]:not(.game-property-flag)").forEach(el=>el.onclick=()=>{const p=areas.find(x=>x.id===el.dataset.area);if(showOnlyObjects&&p){const o=(p.objects||[])[Number(el.dataset.objectIndex)];if(o){focusProperty(p,o);return;}}go(el.dataset.area)});by("numareas").textContent=areas.length;by("numprojects").textContent=projectCount();syncGameLayers()}const gameDistrictFacts={"mai-khao":["Пляж Май Кхао, национальный парк Сиринат, наблюдение за самолётами у аэропорта.","Очень длинный, сравнительно малолюдный берег; бывают сильные волны и опасные течения.","Для спокойного отдыха, уединённых резортов и жизни вдали от ночных развлечений."],"naithon":["Пляж Найтон, зелёные холмы, соседние бухты Най Янг и Банана-Бич.","Небольшой пляж с более камерной атмосферой; море сильно зависит от сезона.","Для размеренного отпуска и тихого проживания, особенно с собственным транспортом."],"bang-tao":["Комплекс Laguna Phuket, Boat Avenue, Porto de Phuket, пляж Банг Тао.","Протяжённый пляж и развитая курортная инфраструктура, beach clubs и рестораны.","Для семей, длительного проживания, комфортного отдыха и любителей развитых сервисов."],"surin":["Пляж Сурин, смотровые площадки на прибрежных холмах, соседняя бухта Панси.","Живописный пляж с прозрачной водой в спокойный сезон; в муссон возможен сильный прибой.","Для ценителей красивых пляжей, бутик-отелей и спокойного отдыха."],"kamala":["Пляж Камала, тематический парк Phuket FantaSea, район Millionaire’s Mile.","Бухта со сравнительно спокойной атмосферой; условия купания зависят от сезона.","Для семей, отдыха без суеты Патонга и длительного проживания."],"patong":["Улица Bangla Road, торговый центр Jungceylon, ночные рынки.","Оживлённый пляж с водными развлечениями и высокой туристической активностью.","Для любителей ночной жизни, шопинга и насыщенного краткосрочного отпуска."],"karon":["Пляж Карон, храм Wat Suwan Khirikhet и местный рынок.","Широкая песчаная береговая линия; встречаются опасные течения, особенно в сезон муссонов.","Для пляжного отпуска, пар и семей, предпочитающих умеренно активную курортную среду."],"kata":["Пляж Ката, смотровая площадка Karon Viewpoint, соседний Ката Ной.","Уютная бухта; популярна для купания в спокойный сезон и сёрфинга при волнах.","Для семей, пар, начинающих сёрферов и отдыха рядом с кафе и ресторанами."],"nai-harn":["Пляж Най Харн, озеро Най Харн, мыс Промтеп, смотровая площадка Windmill.","Песчаная бухта с зелёными холмами; в муссон необходима осторожность при купании.","Для размеренного отдыха, любителей природы и долгосрочного проживания на юге."],"rawai":["Набережная Раваи, рынок морепродуктов, пирс для лодок к соседним островам.","Берег преимущественно используется лодками; для пляжного купания обычно выбирают соседние бухты.","Для длительной жизни, любителей морских прогулок и местной гастрономии."],"chalong":["Храм Ват Чалонг, пирс Чалонг, близость Большого Будды.","Бухта преимущественно портовая, а не классический купальный пляж.","Для постоянного проживания, яхтинга, дайвинга и удобных поездок по югу острова."],"phuket-town":["Старый город с сино-португальской архитектурой, воскресный рынок Lard Yai, музеи и кафе.","Город расположен не на пляже; к морю нужно ехать.","Для городской жизни, работы, знакомства с культурой и местной кухней."]};
@@ -589,6 +603,14 @@ const geoBox=by("real-map"),modeButton=by("map-mode");
 function refreshGeoMarkers(){
  if(!geoMap)return;
  geoMarkers.forEach(m=>geoMap.removeLayer(m));geoMarkers=[];districtMapMarkers.clear();allNamedMarkers.length=0;focusedLabel=null;
+ if(gameInfoOn){
+  for(const zone of bangTaoZones){
+   const marker=L.marker([zone.lat,zone.lon],{pane:"atlasZones",interactive:false,keyboard:false,icon:L.divIcon({
+    className:"atlas-zone satellite-zone zone-"+zone.id,html:zoneLabel(zone),iconSize:[10,10],iconAnchor:[5,5]
+   })}).addTo(geoMap);
+   geoMarkers.push(marker);
+  }
+ }
  for(const p of areas){
   if(!Number.isFinite(p.lat)||!Number.isFinite(p.lon))continue;
   if(gameInfoOn){const marker=L.marker([p.lat,p.lon],{icon:L.divIcon({
@@ -691,11 +713,18 @@ function setGeoMode(on){
  if(on){
   if(!geoMap){
    geoMap=L.map(geoBox,{zoomControl:false,attributionControl:true,dragging:true,touchZoom:true,scrollWheelZoom:true,doubleClickZoom:true,boxZoom:true}).setView([7.96,98.34],10);
+   const zonePane=geoMap.createPane("atlasZones");
+   zonePane.style.zIndex="670";
+   zonePane.style.pointerEvents="none";
    geoMap.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
    applySatelliteLayer();
    refreshGeoMarkers();
    updateMapLabels();
-   geoMap.on("zoomend",()=>{if(geoMap.getZoom()<12.5)readyDistrictId=null});
+   geoMap.on("zoomend",()=>{
+    const zoom=geoMap.getZoom();
+    if(zoom<12.5)readyDistrictId=null;
+    geoBox.classList.toggle("show-satellite-pasak",zoom>=13);
+   });
   }
   // Restore the zoom after the satellite container becomes visible.
   const targetZoom=gameZoomToSatellite(scale);
