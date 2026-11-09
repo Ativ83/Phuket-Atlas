@@ -169,42 +169,20 @@ async function searchDistrictPhoto(img,place,region,backup){
  img.closest("figure").classList.add("district-photo-illustrative");
 }
 function districtAudio(p){
- if(p.id!=="bang-tao")return "";
- return '<div class="district-audio"><span>Послушать о районе · 0:37</span><span class="district-audio-status" role="status">Загружаем запись…</span><audio controls preload="metadata" hidden aria-label="Послушать о районе Банг Тао"></audio><a class="district-audio-download" href="assets/bang-tao-narration-ru-v3.mp3" download hidden>Скачать запись MP3</a></div>';
+ const url="assets/district-audio/"+encodeURIComponent(p.id)+".mp3";
+ return '<div class="district-audio"><span>Послушать о районе</span><span class="district-audio-status" role="status">Загружаем запись…</span><audio controls preload="metadata" aria-label="Послушать о районе '+escape(p.name)+'" src="'+url+'"></audio><a class="district-audio-download" href="'+url+'" download>Скачать запись MP3</a></div>';
 }
-let districtAudioSource;
-async function loadDistrictAudio(){
+function loadDistrictAudio(){
  const audio=by("detail").querySelector(".district-audio audio");
  if(!audio)return;
  const status=audio.parentElement.querySelector(".district-audio-status");
- const download=audio.parentElement.querySelector(".district-audio-download");
- const showError=()=>{
-  audio.hidden=true;
+ audio.addEventListener("loadedmetadata",()=>{status.hidden=true;},{once:true});
+ audio.addEventListener("error",()=>{
   status.hidden=false;
-  status.textContent="Запись можно скачать и послушать отдельно.";
-  download.hidden=false;
- };
- audio.addEventListener("error",showError,{once:true});
- // Fetch a complete file so the player uses a local media URL.
- const aac=audio.canPlayType('audio/mp4; codecs="mp4a.40.2"');
- const source=aac?"assets/bang-tao-narration-ru-v3.m4a":"assets/bang-tao-narration-ru-v3.mp3";
- const type=aac?"audio/mp4":"audio/mpeg";
- districtAudioSource??=fetch(source).then(async response=>{
-  if(!response.ok)throw new Error("Audio download failed");
-  return URL.createObjectURL(new Blob([await response.arrayBuffer()],{type}));
- }).catch(error=>{
-  districtAudioSource=null;
-  throw error;
- });
- try{
-  const url=await districtAudioSource;
-  if(!audio.isConnected)return;
-  audio.src=url;
-  audio.hidden=false;
-  status.hidden=true;
- }catch{
-  if(audio.isConnected)showError();
- }
+  status.textContent="Запись временно недоступна.";
+  audio.hidden=true;
+ },{once:true});
+ if(audio.readyState>=1)status.hidden=true;
 }
 function pauseDistrictAudio(){
  by("detail").querySelector(".district-audio audio")?.pause();
