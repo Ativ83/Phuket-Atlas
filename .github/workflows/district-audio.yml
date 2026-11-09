@@ -1,13 +1,6 @@
 name: Refresh free district audio
 on:
-  push:
-    paths:
-      - 'scripts/generate_district_audio.py'
-      - 'data/district-narrations-ru.json'
-      - '.github/workflows/district-audio.yml'
   workflow_dispatch:
-  schedule:
-    - cron: '20 2 * * *'
 permissions:
   contents: write
   actions: write
