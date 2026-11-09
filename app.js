@@ -168,10 +168,18 @@ async function searchDistrictPhoto(img,place,region,backup){
  districtImageWithFallback(img,backup.slice(1),"Если точного снимка нет, показана фотография района.");
  img.closest("figure").classList.add("district-photo-illustrative");
 }
+function districtAudio(p){
+ if(p.id!=="bang-tao")return "";
+ return '<div class="district-audio"><span>Послушать о районе · 0:27</span><audio controls preload="none" aria-label="Послушать о районе Банг Тао" src="assets/bang-tao-narration-ru.mp3"></audio></div>';
+}
+function pauseDistrictAudio(){
+ by("detail").querySelector(".district-audio audio")?.pause();
+}
 function showGameDistrict(p){
+ pauseDistrictAudio();
  const facts=gameDistrictFacts[p.id]||["Достопримечательности района уточняются.","Особенности пляжа уточняются.","Подходит для знакомства с местной инфраструктурой."];
  const places=gameDistrictPlaces[p.id]||[];
- const general='<section class="district-general"><span class="district-general-label">ОБЩАЯ ИНФОРМАЦИЯ О РАЙОНЕ</span><h3>Достопримечательности и интересные места</h3><p class="district-places-summary">'+escape(places.map(x=>x[0]).join(", "))+'.</p></section>';
+ const general='<section class="district-general"><span class="district-general-label">ОБЩАЯ ИНФОРМАЦИЯ О РАЙОНЕ</span><h3>Достопримечательности и интересные места</h3><p class="district-places-summary">'+escape(places.map(x=>x[0]).join(", "))+'.</p>'+districtAudio(p)+'</section>';
  const gallery=places.map(([title,file,comment])=>{
   const verified=verifiedExternalPhotos[p.id]?.[title];
   const source=verified?.[1]||(file?"https://commons.wikimedia.org/wiki/File:"+encodeURIComponent(file):"");
@@ -214,7 +222,7 @@ function go(id){const p=areas.find(x=>x.id===id);if(!p)return;
  if(showOnlyObjects){setDrawer(false);selected=id;show(p);return;}
  setDrawer(false);selected=id;
  if(!geoEnabled)gameDistrictReady=id;
- by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)
+ pauseDistrictAudio();by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)
 }function objectHTML(o,p){
  const fields=[["Адрес",o.address],["Цены",o.prices],["Площадь участка",o.land],["Состав комплекса",o.buildings],["Количество резиденций",o.units],["Площади",o.sizes],["Парковка",o.parking],["Девелопер",o.developer],["Портфель девелопера",o.developerPortfolio],["Разрешения",o.permits],["Планируемая сдача",o.completion],["Пляж",o.beach],["Инфраструктура",o.amenities],["Формы владения",o.ownership],["Продажи",o.sales],["Обслуживание",o.maintenance],["Разовый взнос",o.sinking],["График платежей",o.payment],["Меблировка",o.furnishing],["Инвестиционный сценарий (прогноз)",o.investment],["Полученные документы",o.documents]];
  const label=o.name==="PURITA Phuket Bangtao"?"PURITA":o.id==="the-residences-intercontinental-phuket"?"InterContinental":o.name;
@@ -231,8 +239,9 @@ function go(id){const p=areas.find(x=>x.id===id);if(!p)return;
  (o.notice?'<p class="project-disclaimer">'+escape(o.notice)+'</p>':"")+'</div></article>';
 }
 function show(p,project=null){
+ pauseDistrictAudio();
  const list=project?[project]:(p.objects||[]);
- by("detail").innerHTML='<div class="hero"><div><div class="tag">PHUKET · '+escape(p.region)+'</div><h2>'+escape(p.name)+'</h2><small>'+escape(p.en)+'</small></div>'+(list.length?'<button type="button" class="region-eye-toggle" aria-label="Показать или скрыть объекты района" aria-pressed="'+list.every(projectVisible)+'"><span class="eye-symbol" aria-hidden="true">'+visibilityEyeIcon(list.every(projectVisible))+'</span></button>':'')+'</div><div class="detail"><p>'+escape(p.summary)+'</p><h3>Мои объекты · '+list.length+'</h3>'+
+ by("detail").innerHTML='<div class="hero"><div><div class="tag">PHUKET · '+escape(p.region)+'</div><h2>'+escape(p.name)+'</h2><small>'+escape(p.en)+'</small></div>'+(list.length?'<button type="button" class="region-eye-toggle" aria-label="Показать или скрыть объекты района" aria-pressed="'+list.every(projectVisible)+'"><span class="eye-symbol" aria-hidden="true">'+visibilityEyeIcon(list.every(projectVisible))+'</span></button>':'')+'</div><div class="detail"><p>'+escape(p.summary)+'</p>'+(!project?districtAudio(p):"")+'<h3>Мои объекты · '+list.length+'</h3>'+
  (list.length?list.map(o=>objectHTML(o,p)).join(""):'<div class="placeholder">В этом районе пока нет добавленных объектов.</div>')+
  '</div>';
  by("sheet").scrollTop=0;
@@ -311,7 +320,7 @@ function closeBrochure(){
 }
 by("pdf-close").onclick=closeBrochure;
 by("pdf-viewer").addEventListener("click",e=>{if(e.target.id==="pdf-viewer")closeBrochure()});
-function close(){document.body.classList.remove("game-guide-open");gameDistrictReady=null;selected=null;by("sheet").classList.remove("open");by("sheet").setAttribute("aria-hidden","true");by("overlay").hidden=true;scale=1;panX=0;panY=0;applyView(true);render()}const drawer=by("district-drawer"),drawerToggle=by("district-toggle");
+function close(){document.body.classList.remove("game-guide-open");gameDistrictReady=null;selected=null;pauseDistrictAudio();by("sheet").classList.remove("open");by("sheet").setAttribute("aria-hidden","true");by("overlay").hidden=true;scale=1;panX=0;panY=0;applyView(true);render()}const drawer=by("district-drawer"),drawerToggle=by("district-toggle");
 function setDrawer(open){
  drawer.classList.toggle("drawer-open",open);
  drawerToggle.setAttribute("aria-expanded",String(open&&!showOnlyObjects));
@@ -765,7 +774,7 @@ go=function(id){
  if(!p)return;
  if(showOnlyObjects){setDrawer(false);selected=id;show(p);return;}
  setDrawer(false);selected=id;
- by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");
+ pauseDistrictAudio();by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");
  readyDistrictId=null;
  geoMap.flyTo([p.lat,p.lon],13,{duration:1.1});
  const districtMarker=districtMapMarkers.get(p.id);
