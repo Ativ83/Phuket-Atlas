@@ -180,59 +180,82 @@ function stopDistrictSpeech(){
  }
  spokenDistrict=null;
 }
-function loadDistrictAudio(){
+async function loadDistrictAudio(){
  const audio=by("detail").querySelector(".district-audio audio");
  if(!audio)return;
  const container=audio.closest(".district-audio");
  const status=container.querySelector(".district-audio-status");
  const download=container.querySelector(".district-audio-download");
  const fallback=container.querySelector(".district-speech-fallback");
+ const id=container.dataset.district;
+ const source=audio.getAttribute("src");
+ // GitHub Pages returns HTML for absent MP3s; never expose that as a download.
  const markReady=()=>{
   status.hidden=true;
+  audio.hidden=false;
   download.hidden=false;
   fallback.hidden=true;
  };
  const markMissing=()=>{
   status.hidden=false;
-  status.textContent="MP3 пока не создан. Можно прослушать текст голосом устройства.";
+  status.textContent="Готовая MP3-запись пока недоступна. Используйте голос устройства.";
   audio.hidden=true;
+  audio.removeAttribute("src");
+  audio.load();
   download.hidden=true;
   fallback.hidden=!('speechSynthesis' in window);
  };
- audio.addEventListener("loadedmetadata",markReady,{once:true});
  audio.addEventListener("error",markMissing,{once:true});
- if(audio.readyState>=1)markReady();
- fallback.addEventListener("click",async()=>{
+ try{
+  const response=await fetch(source,{method:"HEAD",cache:"no-store"});
+  const type=(response.headers.get("content-type")||"").toLowerCase();
+  if(!response.ok||(!type.includes("audio/")&&!type.includes("octet-stream")))throw Error("MP3 unavailable");
+  if(!audio.isConnected)return;
+  markReady();
+ }catch{
+  if(audio.isConnected)markMissing();
+ }
+ // Cache the spoken script ahead of user activation; iPhone Safari needs
+ // speechSynthesis.speak to run immediately in the click handler.
+ narrationScriptsPromise??=fetch("data/district-narrations-ru.json").then(r=>{if(!r.ok)throw Error("Scripts unavailable");return r.json();}).catch(e=>{narrationScriptsPromise=null;throw e;});
+ fallback.addEventListener("click",()=>{
   if(!window.speechSynthesis)return;
-  if(spokenDistrict===container.dataset.district){
+  if(spokenDistrict===id){
    stopDistrictSpeech();
    fallback.textContent="▶ Прослушать голосом устройства";
    return;
   }
   stopDistrictSpeech();
-  // The direct click starts the user-initiated browser speech fallback.
-  fallback.textContent="Загружаем текст…";
-  try{
-   narrationScriptsPromise??=fetch("data/district-narrations-ru.json").then(r=>{if(!r.ok)throw Error("Scripts unavailable");return r.json();}).catch(e=>{narrationScriptsPromise=null;throw e;});
-   const scripts=await narrationScriptsPromise;
-   const text=scripts[container.dataset.district];
-   if(!text)throw Error("District narration not found");
-   const parts=text.match(/[^.!?]+[.!?]*/g)||[text];
+  const scriptsReady=narrationScriptsPromise;
+  const begin=text=>{
+   if(!fallback.isConnected)return;
    const utterance=new SpeechSynthesisUtterance(text);
-   utterance.lang="ru-RU";utterance.rate=.94;
+   utterance.lang="ru-RU";
+   utterance.rate=.94;
    const voices=window.speechSynthesis.getVoices();
    utterance.voice=voices.find(v=>v.lang.toLowerCase().startsWith("ru")&&/male|муж|dmitry/i.test(v.name))||voices.find(v=>v.lang.toLowerCase().startsWith("ru"))||null;
-   spokenDistrict=container.dataset.district;
+   spokenDistrict=id;
    fallback.textContent="■ Остановить чтение";
    utterance.onend=utterance.onerror=()=>{
-    if(spokenDistrict===container.dataset.district){spokenDistrict=null;fallback.textContent="▶ Прослушать голосом устройства";}
+    if(spokenDistrict===id){spokenDistrict=null;fallback.textContent="▶ Прослушать голосом устройства";}
    };
    window.speechSynthesis.speak(utterance);
-  }catch{
-   fallback.textContent="▶ Повторить чтение";
-   status.textContent="Не удалось загрузить текст для озвучки.";
+  };
+  if(window.districtNarrationCache?.[id]){
+   begin(window.districtNarrationCache[id]);
+   return;
   }
+  fallback.textContent="Загружаем текст…";
+  scriptsReady.then(scripts=>{
+   window.districtNarrationCache=scripts;
+   if(scripts[id])begin(scripts[id]);
+   else status.textContent="Текст озвучки недоступен.";
+  }).catch(()=>{
+   fallback.textContent="▶ Повторить чтение";
+   status.textContent="Не удалось загрузить текст озвучки.";
+  });
  });
+ narrationScriptsPromise.then(scripts=>{window.districtNarrationCache=scripts;}).catch(()=>{});
 }
 function pauseDistrictAudio(){
  by("detail").querySelector(".district-audio audio")?.pause();
