@@ -474,6 +474,7 @@ padding:1px 5px!important;
 
 /* District guide belongs only to the illustrated map; hide map UI while its sheet is open. */
 body.game-guide-open #scene #game-location-toggle{display:none!important}
+body:has(#sheet.open) #scene :is(#game-location-toggle,#geo-location-toggle){display:none!important}
 .game-district-guide .district-photo-gallery{display:grid;grid-template-columns:1fr;gap:18px;margin:22px 0 30px}
 .game-district-guide .district-photo{margin:0;border:1px solid #d8be8961;background:#103947;border-radius:15px;overflow:hidden}
 .game-district-guide .district-photo[hidden]{display:none}
