@@ -88,8 +88,9 @@ function render(){updateSatelliteObjectsEye();const q=by("search").value.toLower
  const pos=xy(p);
  pins.push('<button class="pin game-region-pin '+(gameLabelsOnRight.has(p.id)?'label-right':'label-left')+' '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');
  (p.objects||[]).filter(hasProjectCoordinates).forEach((o,index)=>{
-  const op=xy(p);op.x+=23+(index%3)*15;op.y+=15+Math.floor(index/3)*20;
-  pins.push('<button class="pin project game-property-flag" type="button" aria-label="Открыть '+escape(o.name)+'" data-project-id="'+escape(o.id)+'" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="game-flag-icon" aria-hidden="true">📍</span></button>');
+  const op=xy(p);op.x+=23+(index%7)*20;op.y+=15+Math.floor(index/7)*23;
+  const label=o.name+(o.approximateLocation?" · примерное расположение":"");
+  pins.push('<button class="pin project game-property-flag'+(o.approximateLocation?' project-point-approx':'')+'" type="button" aria-label="Открыть '+escape(label)+'" data-project-id="'+escape(o.id)+'" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="game-flag-icon" aria-hidden="true">'+(o.approximateLocation?'≈':'📍')+'</span></button>');
  });
  }by("pins").innerHTML=pins.join("");by("visibility-all")?.addEventListener("click",()=>{const ids=areas.flatMap(p=>(p.objects||[]).map(o=>o.id));const allVisible=ids.every(id=>!hiddenProjects.has(id));setProjectVisibility(ids,!allVisible);});
  document.querySelectorAll("[data-visibility-id]").forEach(btn=>btn.onclick=()=>setProjectVisibility([btn.dataset.visibilityId],hiddenProjects.has(btn.dataset.visibilityId)));
@@ -202,7 +203,7 @@ function go(id){const p=areas.find(x=>x.id===id);if(!p)return;
  if(!geoEnabled)gameDistrictReady=id;
  by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)
 }function objectHTML(o,p){
- const fields=[["Адрес",o.address],["Цены",o.prices],["Площадь участка",o.land],["Состав комплекса",o.buildings],["Количество резиденций",o.units],["Площади",o.sizes],["Парковка",o.parking],["Девелопер",o.developer],["Портфель девелопера",o.developerPortfolio],["Разрешения",o.permits],["Планируемая сдача",o.completion],["Пляж",o.beach],["Инфраструктура",o.amenities],["Формы владения",o.ownership],["Продажи",o.sales],["Обслуживание",o.maintenance],["Разовый взнос",o.sinking],["График платежей",o.payment],["Меблировка",o.furnishing],["Инвестиционный сценарий (прогноз)",o.investment],["Полученные документы",o.documents]];
+ const fields=[["Адрес",o.address],["Точка на карте",o.approximateLocation?"Примерное расположение проекта. Точку въезда уточняйте отдельно.":null],["Цены",o.prices],["Площадь участка",o.land],["Состав комплекса",o.buildings],["Количество резиденций",o.units],["Площади",o.sizes],["Парковка",o.parking],["Девелопер",o.developer],["Портфель девелопера",o.developerPortfolio],["Разрешения",o.permits],["Планируемая сдача",o.completion],["Пляж",o.beach],["Инфраструктура",o.amenities],["Формы владения",o.ownership],["Продажи",o.sales],["Обслуживание",o.maintenance],["Разовый взнос",o.sinking],["График платежей",o.payment],["Меблировка",o.furnishing],["Инвестиционный сценарий (прогноз)",o.investment],["Полученные документы",o.documents]];
  const label=o.name==="PURITA Phuket Bangtao"?"PURITA":o.id==="the-residences-intercontinental-phuket"?"InterContinental":o.name;
  const sub=o.name==="PURITA Phuket Bangtao"?"PHUKET BANGTAO":o.id==="the-residences-intercontinental-phuket"?"THE RESIDENCES · KAMALA":o.id==="midori-phuket"?"PHUKET TOWN · RATSADA":p.en.toUpperCase();
  const isProjectFlipbook=o.materialsUrl&&/^https:\/\/flipbook\.proudrealestate\.co\.th\//.test(o.materialsUrl);
@@ -613,13 +614,15 @@ function refreshGeoMarkers(){
   geoMarkers.push(marker);}
   // Satellite: map projects to the actual GPS coordinates, never an offset district location.
   (p.objects||[]).filter(o=>projectVisible(o)&&hasProjectCoordinates(o)).forEach(o=>{
+   const approximate=o.approximateLocation;
+   const label=o.name+(approximate?" · примерное расположение":"");
    const m=L.marker([o.lat,o.lon],{icon:L.divIcon({
     className:"atlas-satellite-project-pin",
-    html:'<span class="atlas-satellite-pushpin" aria-hidden="true">📍</span>',
-    iconSize:[30,32],iconAnchor:[15,28]
-   }),zIndexOffset:650}).addTo(geoMap);
+    html:approximate?'<span class="satellite-point-approx" aria-hidden="true">≈</span>':'<span class="atlas-satellite-pushpin" aria-hidden="true">📍</span>',
+    iconSize:approximate?[22,22]:[30,32],iconAnchor:approximate?[11,11]:[15,28]
+   }),title:label,alt:label,zIndexOffset:approximate?500:650}).addTo(geoMap);
    m.on("click",()=>{selected=p.id;setDrawer(false);updateMapLabels("object:"+o.id);show(p,o)});
-   allNamedMarkers.push({marker:m,name:o.name,id:"object:"+o.id});
+   allNamedMarkers.push({marker:m,name:label,id:"object:"+o.id});
    geoMarkers.push(m);
   });
  }
@@ -765,4 +768,4 @@ const oldZoomIn=by("zin").onclick,oldZoomOut=by("zout").onclick,oldReset=by("res
 by("zin").onclick=()=>geoEnabled?geoMap.zoomIn():oldZoomIn();
 by("zout").onclick=()=>geoEnabled?geoMap.zoomOut():oldZoomOut();
 by("reset").onclick=()=>{if(geoEnabled){readyDistrictId=null;selected=null;focusedLabel=null;updateMapLabels();(computeOverviewZoom(),geoMap.flyTo([7.94,98.34],gameZoomToSatellite(1),{duration:1.1}))}else oldReset()};
-fetch("data/locations.json?v=telegram-catalogue-123").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render();refreshGeoMarkers()}).catch(e=>by("regions").textContent=e.message)})();
+fetch("data/locations.json?v=approximate-project-pins-124").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render();refreshGeoMarkers()}).catch(e=>by("regions").textContent=e.message)})();

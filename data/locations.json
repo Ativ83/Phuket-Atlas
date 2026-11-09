@@ -63,239 +63,379 @@
         "id": "the-title-heritage-bang-tao",
         "name": "The Title Heritage Bang-Tao",
         "type": "Кондоминиум",
-        "description": "Жилой комплекс в Чернгталай, рядом с Boat Avenue и Porto de Phuket."
+        "description": "Жилой комплекс в Чернгталай, рядом с Boat Avenue и Porto de Phuket.",
+        "lat": 7.9925,
+        "lon": 98.3064,
+        "approximateLocation": true,
+        "coordinateSource": "Метка проекта из ссылки на карте The Title Residence."
       },
       {
         "id": "layan-verde",
         "name": "Layan Verde",
         "type": "Кондоминиум",
         "description": "Жилой комплекс в районе Лаян. Проект включает несколько корпусов.",
-        "developerUrl": "https://layanverde.com/"
+        "developerUrl": "https://layanverde.com/",
+        "lat": 8.0254,
+        "lon": 98.2967,
+        "approximateLocation": true,
+        "coordinateSource": "Карта проекта Layan Verde, Invest Phuket."
       },
       {
         "id": "layan-green-park",
         "name": "Layan Green Park",
         "type": "Кондоминиум",
         "description": "Жилой комплекс в районе Лаян. Материалы проекта разделены на первую и вторую фазы.",
-        "developerUrl": "https://layangreenpark.com/"
+        "developerUrl": "https://layangreenpark.com/",
+        "lat": 8.0281,
+        "lon": 98.2961,
+        "approximateLocation": true,
+        "coordinateSource": "Карта проекта на сайте Layan Green Park. Общий ориентир для двух фаз."
       },
       {
         "id": "bamboo-forest",
         "name": "Bamboo Forest",
         "type": "Кондоминиум",
         "description": "Жилой комплекс Harmony Group в районе Лаян. В проекте представлены студии и квартиры с отдельными спальнями.",
-        "developerUrl": "https://harmonyphuket.com/projects/bamboo-forest/"
+        "developerUrl": "https://harmonyphuket.com/projects/bamboo-forest/",
+        "lat": 8.0284,
+        "lon": 98.2989,
+        "approximateLocation": true,
+        "coordinateSource": "Карта проекта Bamboo Forest, Invest Phuket."
       },
       {
         "id": "ayana-heights",
         "name": "AYANA Heights",
         "type": "Кондоминиум",
         "description": "Жилой комплекс в районе Лаян с панорамным остеклением. Варианты вида на море зависят от корпуса и этажа.",
-        "developerUrl": "https://ayanaphuket.com/ayana-heights-seaview-residences"
+        "developerUrl": "https://ayanaphuket.com/ayana-heights-seaview-residences",
+        "lat": 8.0232,
+        "lon": 98.2985,
+        "approximateLocation": true,
+        "coordinateSource": "Карта проекта AYANA Heights, Invest Phuket."
       },
       {
         "id": "sudara-residences",
         "name": "Sudara Residences",
         "type": "Кондоминиум",
         "description": "Резиденции в районе пляжа Банг Тао. В материалах проекта представлены планировки с одной, двумя и тремя спальнями.",
-        "developerUrl": "https://www.sudararesidences.com/"
+        "developerUrl": "https://www.sudararesidences.com/",
+        "lat": 7.9925,
+        "lon": 98.2954,
+        "approximateLocation": true,
+        "coordinateSource": "Карта проекта Sudara, Invest Phuket."
       },
       {
         "id": "clover-residence",
         "name": "Clover Residence",
         "type": "Виллы",
-        "description": "Комплекс вилл в районе Банг Тао, напротив Blue Tree, рядом с кампусом международной школы HeadStart."
+        "description": "Комплекс вилл в районе Банг Тао, напротив Blue Tree, рядом с кампусом международной школы HeadStart.",
+        "lat": 7.9832,
+        "lon": 98.3185,
+        "approximateLocation": true,
+        "coordinateSource": "Метка Clover Residence из ссылки, предоставленной пользователем."
       },
       {
         "id": "manor",
         "name": "Manor",
         "type": "Виллы",
-        "description": "Комплекс вилл в районе Банг Тао с частными бассейнами и собственной инфраструктурой. Проект разделён на несколько фаз."
+        "description": "Комплекс вилл в районе Банг Тао с частными бассейнами и собственной инфраструктурой. Проект разделён на несколько фаз.",
+        "lat": 7.9999,
+        "lon": 98.3384,
+        "approximateLocation": true,
+        "coordinateSource": "Метка Manor Phuket из ссылки, предоставленной пользователем."
       },
       {
         "id": "mori",
         "name": "Mori",
         "type": "Виллы",
-        "description": "Очередь вилл в локации Manor с доступом к инфраструктуре комплекса."
+        "description": "Очередь вилл в локации Manor с доступом к инфраструктуре комплекса.",
+        "lat": 8.0005,
+        "lon": 98.3413,
+        "approximateLocation": true,
+        "coordinateSource": "Карта проекта Mori, Invest Phuket."
       },
       {
         "id": "mona",
         "name": "Mona",
         "type": "Виллы",
-        "description": "Проект вилл в районе Банг Тао с возможностью индивидуальной планировки. В предоставленных материалах указаны участки от 1 340 м² и виллы площадью около 828 м²."
+        "description": "Проект вилл в районе Банг Тао с возможностью индивидуальной планировки. В предоставленных материалах указаны участки от 1 340 м² и виллы площадью около 828 м².",
+        "lat": 7.9985,
+        "lon": 98.3403,
+        "approximateLocation": true,
+        "coordinateSource": "Карта проекта MONA Estate, ZODIAC Estate."
       },
       {
         "id": "mori-the-valley",
         "name": "Mori The Valley",
         "type": "Дома и виллы",
-        "description": "Комплекс домов в зелёной части района Банг Тао с собственным клубным пространством."
+        "description": "Комплекс домов в зелёной части района Банг Тао с собственным клубным пространством.",
+        "lat": 8.0107,
+        "lon": 98.3323,
+        "approximateLocation": true,
+        "coordinateSource": "Координаты из ссылки проекта, предоставленной пользователем."
       },
       {
         "id": "sri-panwa-lagoon",
         "name": "Sri panwa Lagoon",
         "type": "Виллы и дома",
-        "description": "Проект в Чернгталай у лагуны. Предусмотрены виллы у воды с бассейнами и отдельная линейка домов Multi-Flex."
+        "description": "Проект в Чернгталай у лагуны. Предусмотрены виллы у воды с бассейнами и отдельная линейка домов Multi-Flex.",
+        "lat": 7.9825,
+        "lon": 98.3099,
+        "approximateLocation": true,
+        "coordinateSource": "Карта проекта Sri Panwa Lagoon, Invest Phuket."
       },
       {
         "id": "skypark-aurora",
         "name": "Skypark Aurora",
         "type": "Кондоминиум",
         "description": "Жилой комплекс рядом с Laguna Parkside в районе Банг Тао. В проекте есть компактные квартиры с одной спальней.",
-        "developerUrl": "https://www.lagunaphuket.com/live/resale/"
+        "developerUrl": "https://www.lagunaphuket.com/live/resale/",
+        "lat": 8.0007,
+        "lon": 98.301,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "skypark-celeste",
         "name": "Skypark Celeste",
         "type": "Кондоминиум",
         "description": "Апартаменты рядом с полем Laguna Golf Phuket. В комплексе предусмотрены бассейн и беговая дорожка на крыше.",
-        "developerUrl": "https://www.lagunaphuket.com/live/resale/"
+        "developerUrl": "https://www.lagunaphuket.com/live/resale/",
+        "lat": 8.0012,
+        "lon": 98.3015,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "skypark-elara",
         "name": "Skypark Elara",
         "type": "Кондоминиум",
         "description": "Апартаменты с одной, двумя и тремя спальнями в Laguna Lakelands. На крыше предусмотрены зоны отдыха и панорамный бассейн.",
-        "developerUrl": "https://www.lagunaphuket.com/live/resale/"
+        "developerUrl": "https://www.lagunaphuket.com/live/resale/",
+        "lat": 8.0165,
+        "lon": 98.314,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "laguna-lake-residences-aster",
         "name": "Laguna Lake Residences Aster",
         "type": "Кондоминиум",
         "description": "Резиденции с одной, двумя и тремя спальнями у входа в Laguna Phuket, рядом с Boat Avenue и Porto de Phuket.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 7.996,
+        "lon": 98.3011,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "bellaguna-lake-residences-lotus",
         "name": "Bellaguna Lake Residences Lotus",
         "type": "Кондоминиум",
         "description": "Резиденции у озера в Laguna Phuket. В проекте представлены квартиры с одной, двумя и тремя спальнями и пентхаусы.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 8.002,
+        "lon": 98.2968,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "bellaguna-golf-residences",
         "name": "Bellaguna Golf Residences",
         "type": "Кондоминиум",
         "description": "Пять малоэтажных зданий в Laguna Phuket. В проекте представлены квартиры с одной, двумя и тремя спальнями и пентхаусы.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 8.0106,
+        "lon": 98.3046,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "laguna-beach-residences-bayside",
         "name": "Laguna Beach Residences Bayside",
         "type": "Кондоминиум",
         "description": "Два малоэтажных корпуса в Laguna Phuket с апартаментами и пентхаусами. Для пентхаусов предусмотрены бассейны на крыше.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 8.0006,
+        "lon": 98.2953,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "laguna-beach-residences-seashore",
         "name": "Laguna Beach Residences Seashore",
         "type": "Кондоминиум",
         "description": "Прибрежный жилой проект Laguna Phuket. В презентации указаны планировки от 60 м².",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 7.994,
+        "lon": 98.2926,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "laguna-beach-residences-reef",
         "name": "Laguna Beach Residences Reef",
         "type": "Кондоминиум",
         "description": "Прибрежный проект в Laguna Phuket. В материалах представлены апартаменты с двумя и тремя спальнями.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 7.9947,
+        "lon": 98.2936,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "laguna-lakelands-waterside-residences",
         "name": "Laguna Lakelands Waterside Residences",
         "type": "Кондоминиум",
         "description": "Резиденции у воды в Laguna Lakelands. В материалах проекта представлены корпуса Waterside Residences / Lakeview.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 8.0161,
+        "lon": 98.3116,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "laguna-lakelands-waterfront-villas",
         "name": "Laguna Lakelands Waterfront Villas",
         "type": "Виллы",
         "description": "Виллы у воды в Laguna Lakelands с частными бассейнами.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 8.0149,
+        "lon": 98.3116,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "angsana-beachfront",
         "name": "Angsana Beachfront",
         "type": "Резиденции",
         "description": "Жилой проект на береговой линии Laguna Phuket.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 8.0066,
+        "lon": 98.295,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "angsana-golf-residences-topaz",
         "name": "Angsana Golf Residences Topaz",
         "type": "Кондоминиум",
         "description": "Резиденции с двумя и тремя спальнями и пентхаусы в Laguna Phuket.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 8.0024,
+        "lon": 98.3016,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "angsana-oceanview-residences",
         "name": "Angsana Oceanview Residences",
         "type": "Кондоминиум",
         "description": "Три малоэтажных здания в Laguna Phuket. В проекте предусмотрены резиденции с частными бассейнами и видами на море и лагуну.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 8.0037,
+        "lon": 98.2992,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "residences-at-garrya-phuket",
         "name": "Residences at Garrya Phuket",
         "type": "Кондоминиум",
         "description": "Апартаменты и пентхаусы в Laguna Phuket. В русскоязычных материалах представлены корпуса Peony и Wisteria.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 7.9932,
+        "lon": 98.291,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "banyan-tree-lake-residences-yara",
         "name": "Banyan Tree Lake Residences Yara",
         "type": "Виллы",
         "description": "Одноэтажные виллы у лагуны с частными бассейнами. В презентации есть варианты с тремя, четырьмя и пятью спальнями.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 8.0139,
+        "lon": 98.2956,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "banyan-tree-beach-residences-aegir",
         "name": "Banyan Tree Beach Residences Aegir",
         "type": "Виллы",
         "description": "Прибрежные виллы с четырьмя спальнями и частными бассейнами в Laguna Phuket.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 8.0166,
+        "lon": 98.2949,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "banyan-tree-beach-residences-mazu",
         "name": "Banyan Tree Beach Residences Mazu",
         "type": "Виллы",
         "description": "Виллы с четырьмя спальнями и частными бассейнами на побережье Банг Тао.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 7.9933,
+        "lon": 98.2894,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "banyan-tree-beach-residences-nammu",
         "name": "Banyan Tree Beach Residences Nammu",
         "type": "Таунхаусы",
         "description": "Многоуровневые таунхаусы с тремя спальнями и частными бассейнами у моря в Laguna Phuket.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 8.0136,
+        "lon": 98.2949,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "banyan-tree-beach-residences-nerea",
         "name": "Banyan Tree Beach Residences Nerea",
         "type": "Дуплексы",
         "description": "Шесть двухуровневых резиденций с тремя спальнями и частными бассейнами между лагунами и пляжем Банг Тао.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 8.0143,
+        "lon": 98.2961,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "banyan-tree-beach-residences-oceanus",
         "name": "Banyan Tree Beach Residences Oceanus",
         "type": "Резиденции",
         "description": "Коллекция из 16 резиденций в составе Banyan Tree Beach Residences в Laguna Phuket.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 7.9998,
+        "lon": 98.2929,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "banyan-tree-beach-residences-sirena",
         "name": "Banyan Tree Beach Residences Sirena",
         "type": "Кондоминиум",
         "description": "Резиденции с тремя спальнями и пентхаусы в Laguna Phuket. В проекте предусмотрены частные бассейны и террасы.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 8.017,
+        "lon": 98.2957,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       },
       {
         "id": "banyan-tree-beach-residences-varuna",
         "name": "Banyan Tree Beach Residences Varuna",
         "type": "Таунхаусы",
         "description": "Восемь прибрежных таунхаусов с четырьмя спальнями. В проекте предусмотрены частный лифт и бассейн на крыше.",
-        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket",
+        "lat": 7.9932,
+        "lon": 98.2898,
+        "approximateLocation": true,
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
       }
     ]
   },
@@ -400,7 +540,11 @@
         "name": "Essence",
         "type": "Кондоминиум",
         "description": "Жилой комплекс Harmony Group в Раваи. В проекте представлены студии и квартиры с отдельными спальнями.",
-        "developerUrl": "https://essencephuket.com/"
+        "developerUrl": "https://essencephuket.com/",
+        "lat": 7.8047,
+        "lon": 98.3339,
+        "approximateLocation": true,
+        "coordinateSource": "Карта проекта Essence Residence, FazWaz."
       }
     ]
   },
