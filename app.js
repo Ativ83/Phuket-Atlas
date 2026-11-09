@@ -170,7 +170,7 @@ async function searchDistrictPhoto(img,place,region,backup){
 }
 function districtAudio(p){
  if(p.id!=="bang-tao")return "";
- return '<div class="district-audio"><span>Послушать о районе · 0:46</span><span class="district-audio-status" role="status">Загружаем запись…</span><audio controls preload="metadata" hidden aria-label="Послушать о районе Банг Тао"></audio><a class="district-audio-download" href="assets/bang-tao-narration-ru-v2.mp3" download hidden>Скачать запись MP3</a></div>';
+ return '<div class="district-audio"><span>Послушать о районе · 0:37</span><span class="district-audio-status" role="status">Загружаем запись…</span><audio controls preload="metadata" hidden aria-label="Послушать о районе Банг Тао"></audio><a class="district-audio-download" href="assets/bang-tao-narration-ru-v3.mp3" download hidden>Скачать запись MP3</a></div>';
 }
 let districtAudioSource;
 async function loadDistrictAudio(){
@@ -187,7 +187,7 @@ async function loadDistrictAudio(){
  audio.addEventListener("error",showError,{once:true});
  // Fetch a complete file so the player uses a local media URL.
  const aac=audio.canPlayType('audio/mp4; codecs="mp4a.40.2"');
- const source=aac?"assets/bang-tao-narration-ru-v2.m4a":"assets/bang-tao-narration-ru-v2.mp3";
+ const source=aac?"assets/bang-tao-narration-ru-v3.m4a":"assets/bang-tao-narration-ru-v3.mp3";
  const type=aac?"audio/mp4":"audio/mpeg";
  districtAudioSource??=fetch(source).then(async response=>{
   if(!response.ok)throw new Error("Audio download failed");
