@@ -168,98 +168,18 @@ async function searchDistrictPhoto(img,place,region,backup){
  districtImageWithFallback(img,backup.slice(1),"Если точного снимка нет, показана фотография района.");
  img.closest("figure").classList.add("district-photo-illustrative");
 }
-let spokenDistrict=null;
-let narrationScriptsPromise=null;
+// One-region audio pilot: use a verified static MP3 with native iOS controls.
 function districtAudio(p){
- const url="assets/district-audio/"+encodeURIComponent(p.id)+".mp3";
- return '<div class="district-audio" data-district="'+escape(p.id)+'"><span>Послушать о районе</span><span class="district-audio-status" role="status">Проверяем запись…</span><audio controls preload="metadata" aria-label="Послушать о районе '+escape(p.name)+'" src="'+url+'"></audio><button type="button" class="district-speech-fallback" hidden>▶ Прослушать голосом устройства</button><a class="district-audio-download" href="'+url+'" download hidden>Скачать запись MP3</a></div>';
+ if(p.id!=="bang-tao")return "";
+ return '<div class="district-audio"><span>Банг Тао · аудиогид · 0:37</span><audio controls preload="metadata" playsinline aria-label="Прослушать аудиогид о Банг Тао"><source src="assets/bang-tao-narration-ru-v3.mp3" type="audio/mpeg">Ваш браузер не поддерживает воспроизведение MP3.</audio></div>';
 }
-function stopDistrictSpeech(){
- if(window.speechSynthesis){
-  window.speechSynthesis.cancel();
- }
- spokenDistrict=null;
-}
-async function loadDistrictAudio(){
+function loadDistrictAudio(){
  const audio=by("detail").querySelector(".district-audio audio");
  if(!audio)return;
- const container=audio.closest(".district-audio");
- const status=container.querySelector(".district-audio-status");
- const download=container.querySelector(".district-audio-download");
- const fallback=container.querySelector(".district-speech-fallback");
- const id=container.dataset.district;
- const source=audio.getAttribute("src");
- // GitHub Pages returns HTML for absent MP3s; never expose that as a download.
- const markReady=()=>{
-  status.hidden=true;
-  audio.hidden=false;
-  download.hidden=false;
-  fallback.hidden=true;
- };
- const markMissing=()=>{
-  status.hidden=false;
-  status.textContent="Готовая MP3-запись пока недоступна. Используйте голос устройства.";
-  audio.hidden=true;
-  audio.removeAttribute("src");
-  audio.load();
-  download.hidden=true;
-  fallback.hidden=!('speechSynthesis' in window);
- };
- audio.addEventListener("error",markMissing,{once:true});
- try{
-  const response=await fetch(source,{method:"HEAD",cache:"no-store"});
-  const type=(response.headers.get("content-type")||"").toLowerCase();
-  if(!response.ok||(!type.includes("audio/")&&!type.includes("octet-stream")))throw Error("MP3 unavailable");
-  if(!audio.isConnected)return;
-  markReady();
- }catch{
-  if(audio.isConnected)markMissing();
- }
- // Cache the spoken script ahead of user activation; iPhone Safari needs
- // speechSynthesis.speak to run immediately in the click handler.
- narrationScriptsPromise??=fetch("data/district-narrations-ru.json").then(r=>{if(!r.ok)throw Error("Scripts unavailable");return r.json();}).catch(e=>{narrationScriptsPromise=null;throw e;});
- fallback.addEventListener("click",()=>{
-  if(!window.speechSynthesis)return;
-  if(spokenDistrict===id){
-   stopDistrictSpeech();
-   fallback.textContent="▶ Прослушать голосом устройства";
-   return;
-  }
-  stopDistrictSpeech();
-  const scriptsReady=narrationScriptsPromise;
-  const begin=text=>{
-   if(!fallback.isConnected)return;
-   const utterance=new SpeechSynthesisUtterance(text);
-   utterance.lang="ru-RU";
-   utterance.rate=.94;
-   const voices=window.speechSynthesis.getVoices();
-   utterance.voice=voices.find(v=>v.lang.toLowerCase().startsWith("ru")&&/male|муж|dmitry/i.test(v.name))||voices.find(v=>v.lang.toLowerCase().startsWith("ru"))||null;
-   spokenDistrict=id;
-   fallback.textContent="■ Остановить чтение";
-   utterance.onend=utterance.onerror=()=>{
-    if(spokenDistrict===id){spokenDistrict=null;fallback.textContent="▶ Прослушать голосом устройства";}
-   };
-   window.speechSynthesis.speak(utterance);
-  };
-  if(window.districtNarrationCache?.[id]){
-   begin(window.districtNarrationCache[id]);
-   return;
-  }
-  fallback.textContent="Загружаем текст…";
-  scriptsReady.then(scripts=>{
-   window.districtNarrationCache=scripts;
-   if(scripts[id])begin(scripts[id]);
-   else status.textContent="Текст озвучки недоступен.";
-  }).catch(()=>{
-   fallback.textContent="▶ Повторить чтение";
-   status.textContent="Не удалось загрузить текст озвучки.";
-  });
- });
- narrationScriptsPromise.then(scripts=>{window.districtNarrationCache=scripts;}).catch(()=>{});
+ audio.addEventListener("error",()=>console.warn("Bang Tao audio loading failed"));
 }
 function pauseDistrictAudio(){
  by("detail").querySelector(".district-audio audio")?.pause();
- stopDistrictSpeech();
 }
 function showGameDistrict(p){
  pauseDistrictAudio();
