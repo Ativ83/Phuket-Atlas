@@ -21,7 +21,7 @@ RATE = "-5%"
 
 async def generate(slug: str, text: str) -> None:
     destination = OUTPUT / (slug + ".mp3")
-    for attempt in range(1, 4):
+    for attempt in range(1, 6):
         try:
             temporary = destination.with_suffix(".mp3.part")
             await edge_tts.Communicate(text, VOICE, rate=RATE).save(str(temporary))
@@ -32,9 +32,9 @@ async def generate(slug: str, text: str) -> None:
             return
         except Exception:
             temporary.unlink(missing_ok=True)
-            if attempt == 3:
+            if attempt == 5:
                 raise
-            await asyncio.sleep(3 * attempt)
+            await asyncio.sleep(7 * attempt)
 
 
 async def main() -> None:
@@ -42,13 +42,22 @@ async def main() -> None:
     parser.add_argument("districts", nargs="*", help="District IDs; default: all")
     args = parser.parse_args()
     scripts = json.loads(SOURCE.read_text(encoding="utf-8"))
-    requested = args.districts or list(scripts)
+    requested = args.districts or ["bang-tao", *(slug for slug in scripts if slug != "bang-tao")]
     unknown = set(requested).difference(scripts)
     if unknown:
         parser.error("Unknown district IDs: " + ", ".join(sorted(unknown)))
     OUTPUT.mkdir(parents=True, exist_ok=True)
+    failures = []
     for slug in requested:
-        await generate(slug, scripts[slug])
+        try:
+            await generate(slug, scripts[slug])
+        except Exception as error:
+            print(f"WARNING: Could not generate {slug}: {error}", flush=True)
+            failures.append(slug)
+        await asyncio.sleep(4)
+    if "bang-tao" in failures:
+        raise RuntimeError("Bang Tao audio is required for pilot publication")
+    print(f"Completed: {len(requested)-len(failures)}/{len(requested)} audio files; failed: {failures}", flush=True)
 
 
 if __name__ == "__main__":
