@@ -89,6 +89,7 @@ async def generate(slug: str, text: str) -> None:
                  "-f", "concat", "-safe", "0", "-i", str(playlist),
                  "-c:a", "libmp3lame", "-q:a", "4", "-y", str(temp_output)],
                 check=True,
+                cwd=str(directory),
             )
         if temp_output.stat().st_size < 2000:
             raise RuntimeError("Combined MP3 too small")
