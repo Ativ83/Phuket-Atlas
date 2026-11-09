@@ -40,6 +40,7 @@ async def generate(slug: str, text: str) -> None:
 async def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("districts", nargs="*", help="District IDs; default: all")
+    parser.add_argument("--force", action="store_true", help="Regenerate existing MP3 files")
     args = parser.parse_args()
     scripts = json.loads(SOURCE.read_text(encoding="utf-8"))
     requested = args.districts or ["bang-tao", *(slug for slug in scripts if slug != "bang-tao")]
@@ -49,6 +50,9 @@ async def main() -> None:
     OUTPUT.mkdir(parents=True, exist_ok=True)
     failures = []
     for slug in requested:
+        if (OUTPUT / (slug + ".mp3")).is_file() and not args.force:
+            print(f"SKIP existing {slug}", flush=True)
+            continue
         try:
             await generate(slug, scripts[slug])
         except Exception as error:
