@@ -58,6 +58,244 @@
         "lat": 7.998029,
         "lon": 98.304389,
         "coordinateSource": "Координаты Google Maps предоставлены пользователем"
+      },
+      {
+        "id": "the-title-heritage-bang-tao",
+        "name": "The Title Heritage Bang-Tao",
+        "type": "Кондоминиум",
+        "description": "Жилой комплекс в Чернгталай, рядом с Boat Avenue и Porto de Phuket."
+      },
+      {
+        "id": "layan-verde",
+        "name": "Layan Verde",
+        "type": "Кондоминиум",
+        "description": "Жилой комплекс в районе Лаян. Проект включает несколько корпусов.",
+        "developerUrl": "https://layanverde.com/"
+      },
+      {
+        "id": "layan-green-park",
+        "name": "Layan Green Park",
+        "type": "Кондоминиум",
+        "description": "Жилой комплекс в районе Лаян. Материалы проекта разделены на первую и вторую фазы.",
+        "developerUrl": "https://layangreenpark.com/"
+      },
+      {
+        "id": "bamboo-forest",
+        "name": "Bamboo Forest",
+        "type": "Кондоминиум",
+        "description": "Жилой комплекс Harmony Group в районе Лаян. В проекте представлены студии и квартиры с отдельными спальнями.",
+        "developerUrl": "https://harmonyphuket.com/projects/bamboo-forest/"
+      },
+      {
+        "id": "ayana-heights",
+        "name": "AYANA Heights",
+        "type": "Кондоминиум",
+        "description": "Жилой комплекс в районе Лаян с панорамным остеклением. Варианты вида на море зависят от корпуса и этажа.",
+        "developerUrl": "https://ayanaphuket.com/ayana-heights-seaview-residences"
+      },
+      {
+        "id": "sudara-residences",
+        "name": "Sudara Residences",
+        "type": "Кондоминиум",
+        "description": "Резиденции в районе пляжа Банг Тао. В материалах проекта представлены планировки с одной, двумя и тремя спальнями.",
+        "developerUrl": "https://www.sudararesidences.com/"
+      },
+      {
+        "id": "clover-residence",
+        "name": "Clover Residence",
+        "type": "Виллы",
+        "description": "Комплекс вилл в районе Банг Тао, напротив Blue Tree, рядом с кампусом международной школы HeadStart."
+      },
+      {
+        "id": "manor",
+        "name": "Manor",
+        "type": "Виллы",
+        "description": "Комплекс вилл в районе Банг Тао с частными бассейнами и собственной инфраструктурой. Проект разделён на несколько фаз."
+      },
+      {
+        "id": "mori",
+        "name": "Mori",
+        "type": "Виллы",
+        "description": "Очередь вилл в локации Manor с доступом к инфраструктуре комплекса."
+      },
+      {
+        "id": "mona",
+        "name": "Mona",
+        "type": "Виллы",
+        "description": "Проект вилл в районе Банг Тао с возможностью индивидуальной планировки. В предоставленных материалах указаны участки от 1 340 м² и виллы площадью около 828 м²."
+      },
+      {
+        "id": "mori-the-valley",
+        "name": "Mori The Valley",
+        "type": "Дома и виллы",
+        "description": "Комплекс домов в зелёной части района Банг Тао с собственным клубным пространством."
+      },
+      {
+        "id": "sri-panwa-lagoon",
+        "name": "Sri panwa Lagoon",
+        "type": "Виллы и дома",
+        "description": "Проект в Чернгталай у лагуны. Предусмотрены виллы у воды с бассейнами и отдельная линейка домов Multi-Flex."
+      },
+      {
+        "id": "skypark-aurora",
+        "name": "Skypark Aurora",
+        "type": "Кондоминиум",
+        "description": "Жилой комплекс рядом с Laguna Parkside в районе Банг Тао. В проекте есть компактные квартиры с одной спальней.",
+        "developerUrl": "https://www.lagunaphuket.com/live/resale/"
+      },
+      {
+        "id": "skypark-celeste",
+        "name": "Skypark Celeste",
+        "type": "Кондоминиум",
+        "description": "Апартаменты рядом с полем Laguna Golf Phuket. В комплексе предусмотрены бассейн и беговая дорожка на крыше.",
+        "developerUrl": "https://www.lagunaphuket.com/live/resale/"
+      },
+      {
+        "id": "skypark-elara",
+        "name": "Skypark Elara",
+        "type": "Кондоминиум",
+        "description": "Апартаменты с одной, двумя и тремя спальнями в Laguna Lakelands. На крыше предусмотрены зоны отдыха и панорамный бассейн.",
+        "developerUrl": "https://www.lagunaphuket.com/live/resale/"
+      },
+      {
+        "id": "laguna-lake-residences-aster",
+        "name": "Laguna Lake Residences Aster",
+        "type": "Кондоминиум",
+        "description": "Резиденции с одной, двумя и тремя спальнями у входа в Laguna Phuket, рядом с Boat Avenue и Porto de Phuket.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "bellaguna-lake-residences-lotus",
+        "name": "Bellaguna Lake Residences Lotus",
+        "type": "Кондоминиум",
+        "description": "Резиденции у озера в Laguna Phuket. В проекте представлены квартиры с одной, двумя и тремя спальнями и пентхаусы.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "bellaguna-golf-residences",
+        "name": "Bellaguna Golf Residences",
+        "type": "Кондоминиум",
+        "description": "Пять малоэтажных зданий в Laguna Phuket. В проекте представлены квартиры с одной, двумя и тремя спальнями и пентхаусы.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "laguna-beach-residences-bayside",
+        "name": "Laguna Beach Residences Bayside",
+        "type": "Кондоминиум",
+        "description": "Два малоэтажных корпуса в Laguna Phuket с апартаментами и пентхаусами. Для пентхаусов предусмотрены бассейны на крыше.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "laguna-beach-residences-seashore",
+        "name": "Laguna Beach Residences Seashore",
+        "type": "Кондоминиум",
+        "description": "Прибрежный жилой проект Laguna Phuket. В презентации указаны планировки от 60 м².",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "laguna-beach-residences-reef",
+        "name": "Laguna Beach Residences Reef",
+        "type": "Кондоминиум",
+        "description": "Прибрежный проект в Laguna Phuket. В материалах представлены апартаменты с двумя и тремя спальнями.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "laguna-lakelands-waterside-residences",
+        "name": "Laguna Lakelands Waterside Residences",
+        "type": "Кондоминиум",
+        "description": "Резиденции у воды в Laguna Lakelands. В материалах проекта представлены корпуса Waterside Residences / Lakeview.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "laguna-lakelands-waterfront-villas",
+        "name": "Laguna Lakelands Waterfront Villas",
+        "type": "Виллы",
+        "description": "Виллы у воды в Laguna Lakelands с частными бассейнами.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "angsana-beachfront",
+        "name": "Angsana Beachfront",
+        "type": "Резиденции",
+        "description": "Жилой проект на береговой линии Laguna Phuket.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "angsana-golf-residences-topaz",
+        "name": "Angsana Golf Residences Topaz",
+        "type": "Кондоминиум",
+        "description": "Резиденции с двумя и тремя спальнями и пентхаусы в Laguna Phuket.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "angsana-oceanview-residences",
+        "name": "Angsana Oceanview Residences",
+        "type": "Кондоминиум",
+        "description": "Три малоэтажных здания в Laguna Phuket. В проекте предусмотрены резиденции с частными бассейнами и видами на море и лагуну.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "residences-at-garrya-phuket",
+        "name": "Residences at Garrya Phuket",
+        "type": "Кондоминиум",
+        "description": "Апартаменты и пентхаусы в Laguna Phuket. В русскоязычных материалах представлены корпуса Peony и Wisteria.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "banyan-tree-lake-residences-yara",
+        "name": "Banyan Tree Lake Residences Yara",
+        "type": "Виллы",
+        "description": "Одноэтажные виллы у лагуны с частными бассейнами. В презентации есть варианты с тремя, четырьмя и пятью спальнями.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "banyan-tree-beach-residences-aegir",
+        "name": "Banyan Tree Beach Residences Aegir",
+        "type": "Виллы",
+        "description": "Прибрежные виллы с четырьмя спальнями и частными бассейнами в Laguna Phuket.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "banyan-tree-beach-residences-mazu",
+        "name": "Banyan Tree Beach Residences Mazu",
+        "type": "Виллы",
+        "description": "Виллы с четырьмя спальнями и частными бассейнами на побережье Банг Тао.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "banyan-tree-beach-residences-nammu",
+        "name": "Banyan Tree Beach Residences Nammu",
+        "type": "Таунхаусы",
+        "description": "Многоуровневые таунхаусы с тремя спальнями и частными бассейнами у моря в Laguna Phuket.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "banyan-tree-beach-residences-nerea",
+        "name": "Banyan Tree Beach Residences Nerea",
+        "type": "Дуплексы",
+        "description": "Шесть двухуровневых резиденций с тремя спальнями и частными бассейнами между лагунами и пляжем Банг Тао.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "banyan-tree-beach-residences-oceanus",
+        "name": "Banyan Tree Beach Residences Oceanus",
+        "type": "Резиденции",
+        "description": "Коллекция из 16 резиденций в составе Banyan Tree Beach Residences в Laguna Phuket.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "banyan-tree-beach-residences-sirena",
+        "name": "Banyan Tree Beach Residences Sirena",
+        "type": "Кондоминиум",
+        "description": "Резиденции с тремя спальнями и пентхаусы в Laguna Phuket. В проекте предусмотрены частные бассейны и террасы.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
+      },
+      {
+        "id": "banyan-tree-beach-residences-varuna",
+        "name": "Banyan Tree Beach Residences Varuna",
+        "type": "Таунхаусы",
+        "description": "Восемь прибрежных таунхаусов с четырьмя спальнями. В проекте предусмотрены частный лифт и бассейн на крыше.",
+        "developerUrl": "https://www.banyangroupresidences.com/thailand/phuket"
       }
     ]
   },
@@ -156,7 +394,15 @@
     "lat": 7.783,
     "lon": 98.328,
     "summary": "Южная часть острова, набережная и лодочные причалы.",
-    "objects": []
+    "objects": [
+      {
+        "id": "essence",
+        "name": "Essence",
+        "type": "Кондоминиум",
+        "description": "Жилой комплекс Harmony Group в Раваи. В проекте представлены студии и квартиры с отдельными спальнями.",
+        "developerUrl": "https://essencephuket.com/"
+      }
+    ]
   },
   {
     "id": "chalong",
