@@ -88,7 +88,8 @@
         "lat": 8.0281,
         "lon": 98.2961,
         "approximateLocation": true,
-        "coordinateSource": "Карта проекта на сайте Layan Green Park. Общий ориентир для двух фаз."
+        "coordinateSource": "Карта проекта на сайте Layan Green Park. Общий ориентир для двух фаз.",
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1Cmb3nsvHnSAocE_kutbzegaP6U63jvPe"
       },
       {
         "id": "bamboo-forest",
@@ -573,7 +574,8 @@
         "lat": 7.8047,
         "lon": 98.3339,
         "approximateLocation": true,
-        "coordinateSource": "Карта проекта Essence Residence, FazWaz."
+        "coordinateSource": "Карта проекта Essence Residence, FazWaz.",
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1H3GUl02dvddhMnwqhdngnvnTaJWF0DfV"
       }
     ]
   },
