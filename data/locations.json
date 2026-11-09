@@ -56,7 +56,8 @@
         "salesEmail": "puritaphuketbangtao@gmail.com",
         "lat": 7.998029,
         "lon": 98.304389,
-        "coordinateSource": "Координаты Google Maps предоставлены пользователем"
+        "coordinateSource": "Координаты Google Maps предоставлены пользователем",
+        "clientDriveUrl": "https://drive.google.com/file/d/1SAmmGb3Ks41aca8ZYmCSMZ6pZpch4tOS/view"
       },
       {
         "id": "the-title-heritage-bang-tao",
@@ -77,7 +78,8 @@
         "lat": 8.0254,
         "lon": 98.2967,
         "approximateLocation": true,
-        "coordinateSource": "Карта проекта Layan Verde, Invest Phuket."
+        "coordinateSource": "Карта проекта Layan Verde, Invest Phuket.",
+        "clientDriveUrl": "https://drive.google.com/file/d/1-wGwHZFFOXw2iVI0Lj5zCWnMNh6zrzCZ/view"
       },
       {
         "id": "layan-green-park",
@@ -89,7 +91,7 @@
         "lon": 98.2961,
         "approximateLocation": true,
         "coordinateSource": "Карта проекта на сайте Layan Green Park. Общий ориентир для двух фаз.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1Cmb3nsvHnSAocE_kutbzegaP6U63jvPe"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/18lkrHOdRyJWrBY0u9MC2ge-N0v7Z9QOp"
       },
       {
         "id": "bamboo-forest",
@@ -101,7 +103,7 @@
         "lon": 98.2989,
         "approximateLocation": true,
         "coordinateSource": "Карта проекта Bamboo Forest, Invest Phuket.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1vNPkF7KF0-Sbe6np6CP-RpkiM7i0wAvC"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1cMJUzvLBGpAOVhoACypisvq9K59uWnXX"
       },
       {
         "id": "ayana-heights",
@@ -124,7 +126,7 @@
         "lon": 98.2954,
         "approximateLocation": true,
         "coordinateSource": "Карта проекта Sudara, Invest Phuket.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1IJDBmrTWvr3Y8ARVmjG-MYaLHjaBi4gW"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1Zrvj623N3h-muK0qu4krtmCYkcB5XKlh"
       },
       {
         "id": "clover-residence",
@@ -135,7 +137,7 @@
         "lon": 98.3185,
         "approximateLocation": true,
         "coordinateSource": "Метка Clover Residence из ссылки, предоставленной пользователем.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1vbQ5gRscAKzQeCVcqI-cRe58eY7yaAWp"
+        "clientDriveUrl": "https://drive.google.com/file/d/1efPoXkdzIJ9nBORB3oVPWPEnDw6goXwv/view"
       },
       {
         "id": "manor",
@@ -146,7 +148,7 @@
         "lon": 98.3384,
         "approximateLocation": true,
         "coordinateSource": "Метка Manor Phuket из ссылки, предоставленной пользователем.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1z7-KjrnaSpQH_XT7nazBgOHfX9Jqvhbl"
+        "clientDriveUrl": "https://drive.google.com/file/d/12a7MNaqFpvPlSwr10i0CelFs0BU9dKbv/view"
       },
       {
         "id": "mori",
@@ -157,7 +159,7 @@
         "lon": 98.3413,
         "approximateLocation": true,
         "coordinateSource": "Карта проекта Mori, Invest Phuket.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1HOT3Q4dfWpD05bEepv-g9cn9P_L5xXSL"
+        "clientDriveUrl": "https://drive.google.com/file/d/1g9qm8GxDDim03r4c6Acby8niL19hnioY/view"
       },
       {
         "id": "mona",
@@ -168,7 +170,7 @@
         "lon": 98.3403,
         "approximateLocation": true,
         "coordinateSource": "Карта проекта MONA Estate, ZODIAC Estate.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1bE9kJRXBNZ3VV4EwBe8mA8ESabnSP3Wz"
+        "clientDriveUrl": "https://drive.google.com/file/d/1_uYeveq3E_uIrVfKClmbr7Z3sbH2wgiY/view"
       },
       {
         "id": "mori-the-valley",
@@ -179,7 +181,7 @@
         "lon": 98.3323,
         "approximateLocation": true,
         "coordinateSource": "Координаты из ссылки проекта, предоставленной пользователем.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1TKUszKlSaVZrjfmNzLVOFuW_aOyw13pU"
+        "clientDriveUrl": "https://drive.google.com/file/d/19hVXyjoQ0_TX1Uqoh_cC9EwL0uxBFBNs/view"
       },
       {
         "id": "sri-panwa-lagoon",
@@ -212,7 +214,7 @@
         "lon": 98.3015,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1XX52-DK0hxy5jhvW3F1ERjUnJgSZ735p"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/118mdomZhGP6yRl0HyuDUbFn4gX3uLTbK"
       },
       {
         "id": "skypark-elara",
@@ -224,7 +226,7 @@
         "lon": 98.314,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1J2CmNksUICgG4oNlG1CjrMyV1h_oU2Ls"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1T_h6Vs463y589XT5de-jziaDhMD1fonv"
       },
       {
         "id": "laguna-lake-residences-aster",
@@ -236,7 +238,7 @@
         "lon": 98.3011,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1z8Mdvv8w7q2GmakWqBqhGwerXy2E-8sz"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1nyx-oJ95eyP5HCRRXKVsP_ARORnuJ5c2"
       },
       {
         "id": "bellaguna-lake-residences-lotus",
@@ -248,7 +250,7 @@
         "lon": 98.2968,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1rRX-eK2BaKhUJdh5eh_N0Ei16mjP_Wbg"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/16eOw22k2DH9dGC66lDcS00WDsZayaTwu"
       },
       {
         "id": "bellaguna-golf-residences",
@@ -260,7 +262,7 @@
         "lon": 98.3046,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/13nM31Ii5lfGarWL7Dhzw2_FFxCyZAU5R"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1Zg30gfsV2xBCUhwNrHkAN-sbyKqO5Yvl"
       },
       {
         "id": "laguna-beach-residences-bayside",
@@ -272,7 +274,7 @@
         "lon": 98.2953,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1j6wJ0YAyp1hmM2Y5EKWnuEram6iPtr5l"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1-En2VS7BzdsJc0hc5XTnbcZ4z1FKeYTA"
       },
       {
         "id": "laguna-beach-residences-seashore",
@@ -284,7 +286,7 @@
         "lon": 98.2926,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1-BW-4oZuWNZO2rYonclx10URJLyb_smO"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1HblxAeNBTwe6pz_83yOB6b0U4SOXkmLz"
       },
       {
         "id": "laguna-beach-residences-reef",
@@ -296,7 +298,7 @@
         "lon": 98.2936,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1WoRjRva23z4SV2mK9oTnjfXyomW0yFed"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1S3ScZG8MQADMogX7_3od-9Id5E7TJ3mb"
       },
       {
         "id": "laguna-lakelands-waterside-residences",
@@ -308,7 +310,7 @@
         "lon": 98.3116,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1rrwHZDP_d0A9Ib7ylus43UdEJDlZjeg-"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1ZphvSzEGBn7dZc6hGIKTOmA3pcifLOB4"
       },
       {
         "id": "laguna-lakelands-waterfront-villas",
@@ -320,7 +322,7 @@
         "lon": 98.3116,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/10XWyduHnUWRb23nNpAWzMfrJaokG850o"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1WAEbi3nWaWw-2UlMu9ZeN3GYiZLfZJKn"
       },
       {
         "id": "angsana-beachfront",
@@ -332,7 +334,7 @@
         "lon": 98.295,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1Gd6NpGZUV7ZArwycaLFPUBUBmYWuumlp"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1sb8EKG5dISNrBOmFNNaT7ld-U1bx9I70"
       },
       {
         "id": "angsana-golf-residences-topaz",
@@ -344,7 +346,7 @@
         "lon": 98.3016,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1Ce8c5zhQ8xAJXaAckVXiZg4Z0RdRR5x_"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/15M_8l0S-VhSJRtB0FdXYJHD3b6Ll3hrH"
       },
       {
         "id": "angsana-oceanview-residences",
@@ -356,7 +358,7 @@
         "lon": 98.2992,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1y_2G2gb-fqfh6wCfYcZ8OMSTQAtw5vdu"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1vxlXgMeQAZtDwXB6YbwLGfii_q4M8mIc"
       },
       {
         "id": "residences-at-garrya-phuket",
@@ -368,7 +370,7 @@
         "lon": 98.291,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/19OuhFbQkF8pRxZWMqdLRoGyovx_BeZS4"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1re6fVpFIXPl500PRT-aRBH50bpBi-jtz"
       },
       {
         "id": "banyan-tree-lake-residences-yara",
@@ -380,7 +382,7 @@
         "lon": 98.2956,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1iFvkYbfCaZ3eA0kujW9sRI-8jadWSSox"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1P3_bObrlsUPSn7Zq9xc6vIcTKJnWBr9n"
       },
       {
         "id": "banyan-tree-beach-residences-aegir",
@@ -392,7 +394,7 @@
         "lon": 98.2949,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1gGeCDOYWJ5OT5icpH4tx5G66-OqZD4EO"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/19AcaERwyLVoXG0UjAubbALMgayx0IgSj"
       },
       {
         "id": "banyan-tree-beach-residences-mazu",
@@ -404,7 +406,7 @@
         "lon": 98.2894,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1voeK5LKqBC5nZkSqLsPtI-vy_b6gfzcj"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1AVhhY4zQGNdmmvxWzwm5qHeCV23PGbr8"
       },
       {
         "id": "banyan-tree-beach-residences-nammu",
@@ -416,7 +418,7 @@
         "lon": 98.2949,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1Kyudvzzckq80KPfs36HqvUU6fyrKjbq7"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1wewNXrTc_bUGHTdkyR_VndHGbYKEgg6u"
       },
       {
         "id": "banyan-tree-beach-residences-nerea",
@@ -428,7 +430,7 @@
         "lon": 98.2961,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1j56NdyIzvfe8nTM-h4LFQgw1-F-jLGZT"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1_FB45H6E_D9RYXUHLBxnVKZNF_TTovbQ"
       },
       {
         "id": "banyan-tree-beach-residences-oceanus",
@@ -440,7 +442,7 @@
         "lon": 98.2929,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/13lBpkd7bDUJBQkFuKi95hGRKdP0A0z9u"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1rfXKpkBW69I5lXRHEzqbvBxSlEP8p7Zn"
       },
       {
         "id": "banyan-tree-beach-residences-sirena",
@@ -452,7 +454,7 @@
         "lon": 98.2957,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1NcKL9DImQH01qOV_UDcqEGgZYGcoiLiC"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1euxQXL6beYHNP6faurLTSYY336TZimB5"
       },
       {
         "id": "banyan-tree-beach-residences-varuna",
@@ -464,7 +466,7 @@
         "lon": 98.2898,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1Xka-hQGxwrdeZIfgLRaGckk3s0pySC7K"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/10jTZX_hF0UYEEl0DqIlzR67YBXZ4ZYjK"
       }
     ]
   },
@@ -512,7 +514,7 @@
         "lat": 7.961856439994244,
         "lon": 98.2878164911507,
         "coordinateSource": "Координаты проекта (не отеля и не sales gallery) по опубликованному обзору Think of Living; Google Maps: 7.961856439994244, 98.2878164911507",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1j032x_OxjW2BP9ajZlvhbE6f-VDwriwC"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1mOLcaQguSSg15s6AA2KwuSVqWTkJFfMY"
       }
     ]
   },
@@ -575,7 +577,7 @@
         "lon": 98.3339,
         "approximateLocation": true,
         "coordinateSource": "Карта проекта Essence Residence, FazWaz.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1H3GUl02dvddhMnwqhdngnvnTaJWF0DfV"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1fQePMXDrO6mmNmyB1stVltxyyCcZI8RB"
       }
     ]
   },
@@ -627,7 +629,7 @@
         "furnishing": "Modern Home: базовая комплектация включена; Smart Living — 250 000 ฿; Fully Furnished — 400 000 ฿. Полная меблировка Villa A — 1 млн ฿; Sea View — 1,5 млн ฿ (по русской презентации).",
         "investment": "Прогноз по инвестиционной презентации: долгосрочная аренда 7,6–9,1% годовых после 10% комиссии; краткосрочная 9,3–12% после 40% операционных расходов; гарантированная программа — 6% на 1–3 года, до 14 дней личного проживания, с сезонными исключениями и отдельным договором. Все показатели прогнозные, до налогов, не гарантируют результат.",
         "documents": "new salekit phase 1-2.pdf — планы Modern Home и прайс 06.10.2026; Midori_Presentation_RU.pdf — обзор, планировки, комплектация, условия оплаты; Midori_Investor_Presentation_RU.pdf — расчёты аренды и доходности.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1Vin3ka5rndzpaGVPtpzYnX3tZo28v5rs"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1rgXgB0C3AwRX2cw-3l-raZwo1eRHSj1x"
       }
     ]
   }

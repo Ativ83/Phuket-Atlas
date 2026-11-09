@@ -211,7 +211,7 @@ function go(id){const p=areas.find(x=>x.id===id);if(!p)return;
  (isProjectFlipbook?'<a class="brochure-link" href="'+escape(o.materialsUrl)+'" target="_blank" rel="noopener">Открыть презентацию резиденций ↗</a>':'')+
  (o.virtualTourUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.virtualTourUrl)+'">Виртуальный тур 360° ↗</a>':"")+
  (o.mapUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.mapUrl)+'">Расположение в Google Maps ↗</a>':"")+
- (o.clientDriveUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.clientDriveUrl)+'">Фото и материалы на Google Диске ↗</a>':"")+
+ (o.clientDriveUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.clientDriveUrl)+'">'+(o.clientDriveUrl.startsWith("https://drive.google.com/file/")?"Презентация на Google Диске":"Материалы проекта на Google Диске")+' ↗</a>':"")+
  (o.salesPhone?'<p><a href="tel:'+escape(o.salesPhone.replace(/[^+0-9]/g,""))+'">'+escape(o.salesContact?"Контакт "+o.salesContact+": ":"Отдел продаж: ")+escape(o.salesPhone)+'</a></p>':"")+
  (o.salesEmail?'<p><a href="mailto:'+escape(o.salesEmail)+'">'+escape(o.salesEmail)+'</a></p>':"")+
  (o.notice?'<p class="project-disclaimer">'+escape(o.notice)+'</p>':"")+'</div></article>';
@@ -765,4 +765,4 @@ const oldZoomIn=by("zin").onclick,oldZoomOut=by("zout").onclick,oldReset=by("res
 by("zin").onclick=()=>geoEnabled?geoMap.zoomIn():oldZoomIn();
 by("zout").onclick=()=>geoEnabled?geoMap.zoomOut():oldZoomOut();
 by("reset").onclick=()=>{if(geoEnabled){readyDistrictId=null;selected=null;focusedLabel=null;updateMapLabels();(computeOverviewZoom(),geoMap.flyTo([7.94,98.34],gameZoomToSatellite(1),{duration:1.1}))}else oldReset()};
-fetch("data/locations.json?v=telegram-materials-129").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render();refreshGeoMarkers()}).catch(e=>by("regions").textContent=e.message)})();
+fetch("data/locations.json?v=project-materials-130").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render();refreshGeoMarkers()}).catch(e=>by("regions").textContent=e.message)})();
