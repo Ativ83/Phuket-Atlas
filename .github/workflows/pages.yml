@@ -24,21 +24,13 @@ jobs:
           python3 -m json.tool data/locations.json > /dev/null
           test -f index.html
           test -f app.js
-      - name: Install Edge TTS
-        run: python3 -m pip install --disable-pip-version-check "edge-tts>=7,<9"
-      - name: Generate Russian district audio (best effort)
-        timeout-minutes: 8
-        continue-on-error: true
-        run: |
-          python3 -u scripts/generate_district_audio.py
-      - name: Keep Bang Tao narration playable if TTS is unavailable
+      - name: Ensure Bang Tao has playable fallback audio
         run: |
           mkdir -p assets/district-audio
           if [ ! -s assets/district-audio/bang-tao.mp3 ]; then
             cp assets/bang-tao-narration-ru-v3.mp3 assets/district-audio/bang-tao.mp3
           fi
           test -s assets/district-audio/bang-tao.mp3
-          echo "Ready MP3 recordings: $(find assets/district-audio -maxdepth 1 -name '*.mp3' | wc -l) of 12"
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload site
