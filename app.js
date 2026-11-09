@@ -90,7 +90,7 @@ function render(){updateSatelliteObjectsEye();const q=by("search").value.toLower
  (p.objects||[]).filter(hasProjectCoordinates).forEach((o,index)=>{
   const op=xy(p);op.x+=23+(index%7)*20;op.y+=15+Math.floor(index/7)*23;
   const label=o.name+(o.approximateLocation?" · примерное расположение":"");
-  pins.push('<button class="pin project game-property-flag'+(o.approximateLocation?' project-point-approx':'')+'" type="button" aria-label="Открыть '+escape(label)+'" data-project-id="'+escape(o.id)+'" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="game-flag-icon" aria-hidden="true">'+(o.approximateLocation?'≈':'📍')+'</span></button>');
+  pins.push('<button class="pin project game-property-flag" type="button" aria-label="Открыть '+escape(label)+'" data-project-id="'+escape(o.id)+'" data-area="'+escape(p.id)+'" style="left:'+(op.x/W*100)+'%;top:'+(op.y/H*100)+'%"><span class="game-flag-icon" aria-hidden="true">📍</span></button>');
  });
  }by("pins").innerHTML=pins.join("");by("visibility-all")?.addEventListener("click",()=>{const ids=areas.flatMap(p=>(p.objects||[]).map(o=>o.id));const allVisible=ids.every(id=>!hiddenProjects.has(id));setProjectVisibility(ids,!allVisible);});
  document.querySelectorAll("[data-visibility-id]").forEach(btn=>btn.onclick=()=>setProjectVisibility([btn.dataset.visibilityId],hiddenProjects.has(btn.dataset.visibilityId)));
@@ -618,8 +618,8 @@ function refreshGeoMarkers(){
    const label=o.name+(approximate?" · примерное расположение":"");
    const m=L.marker([o.lat,o.lon],{icon:L.divIcon({
     className:"atlas-satellite-project-pin",
-    html:approximate?'<span class="satellite-point-approx" aria-hidden="true">≈</span>':'<span class="atlas-satellite-pushpin" aria-hidden="true">📍</span>',
-    iconSize:approximate?[22,22]:[30,32],iconAnchor:approximate?[11,11]:[15,28]
+    html:'<span class="atlas-satellite-pushpin" aria-hidden="true">📍</span>',
+    iconSize:[30,32],iconAnchor:[15,28]
    }),title:label,alt:label,zIndexOffset:approximate?500:650}).addTo(geoMap);
    m.on("click",()=>{selected=p.id;setDrawer(false);updateMapLabels("object:"+o.id);show(p,o)});
    allNamedMarkers.push({marker:m,name:label,id:"object:"+o.id});
