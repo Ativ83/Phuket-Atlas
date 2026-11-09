@@ -168,24 +168,75 @@ async function searchDistrictPhoto(img,place,region,backup){
  districtImageWithFallback(img,backup.slice(1),"Если точного снимка нет, показана фотография района.");
  img.closest("figure").classList.add("district-photo-illustrative");
 }
+let spokenDistrict=null;
+let narrationScriptsPromise=null;
 function districtAudio(p){
  const url="assets/district-audio/"+encodeURIComponent(p.id)+".mp3";
- return '<div class="district-audio"><span>Послушать о районе</span><span class="district-audio-status" role="status">Загружаем запись…</span><audio controls preload="metadata" aria-label="Послушать о районе '+escape(p.name)+'" src="'+url+'"></audio><a class="district-audio-download" href="'+url+'" download>Скачать запись MP3</a></div>';
+ return '<div class="district-audio" data-district="'+escape(p.id)+'"><span>Послушать о районе</span><span class="district-audio-status" role="status">Проверяем запись…</span><audio controls preload="metadata" aria-label="Послушать о районе '+escape(p.name)+'" src="'+url+'"></audio><button type="button" class="district-speech-fallback" hidden>▶ Прослушать голосом устройства</button><a class="district-audio-download" href="'+url+'" download hidden>Скачать запись MP3</a></div>';
+}
+function stopDistrictSpeech(){
+ if(window.speechSynthesis){
+  window.speechSynthesis.cancel();
+ }
+ spokenDistrict=null;
 }
 function loadDistrictAudio(){
  const audio=by("detail").querySelector(".district-audio audio");
  if(!audio)return;
- const status=audio.parentElement.querySelector(".district-audio-status");
- audio.addEventListener("loadedmetadata",()=>{status.hidden=true;},{once:true});
- audio.addEventListener("error",()=>{
+ const container=audio.closest(".district-audio");
+ const status=container.querySelector(".district-audio-status");
+ const download=container.querySelector(".district-audio-download");
+ const fallback=container.querySelector(".district-speech-fallback");
+ const markReady=()=>{
+  status.hidden=true;
+  download.hidden=false;
+  fallback.hidden=true;
+ };
+ const markMissing=()=>{
   status.hidden=false;
-  status.textContent="Запись временно недоступна.";
+  status.textContent="MP3 пока не создан. Можно прослушать текст голосом устройства.";
   audio.hidden=true;
- },{once:true});
- if(audio.readyState>=1)status.hidden=true;
+  download.hidden=true;
+  fallback.hidden=!('speechSynthesis' in window);
+ };
+ audio.addEventListener("loadedmetadata",markReady,{once:true});
+ audio.addEventListener("error",markMissing,{once:true});
+ if(audio.readyState>=1)markReady();
+ fallback.addEventListener("click",async()=>{
+  if(!window.speechSynthesis)return;
+  if(spokenDistrict===container.dataset.district){
+   stopDistrictSpeech();
+   fallback.textContent="▶ Прослушать голосом устройства";
+   return;
+  }
+  stopDistrictSpeech();
+  // The direct click starts the user-initiated browser speech fallback.
+  fallback.textContent="Загружаем текст…";
+  try{
+   narrationScriptsPromise??=fetch("data/district-narrations-ru.json").then(r=>{if(!r.ok)throw Error("Scripts unavailable");return r.json();}).catch(e=>{narrationScriptsPromise=null;throw e;});
+   const scripts=await narrationScriptsPromise;
+   const text=scripts[container.dataset.district];
+   if(!text)throw Error("District narration not found");
+   const parts=text.match(/[^.!?]+[.!?]*/g)||[text];
+   const utterance=new SpeechSynthesisUtterance(text);
+   utterance.lang="ru-RU";utterance.rate=.94;
+   const voices=window.speechSynthesis.getVoices();
+   utterance.voice=voices.find(v=>v.lang.toLowerCase().startsWith("ru")&&/male|муж|dmitry/i.test(v.name))||voices.find(v=>v.lang.toLowerCase().startsWith("ru"))||null;
+   spokenDistrict=container.dataset.district;
+   fallback.textContent="■ Остановить чтение";
+   utterance.onend=utterance.onerror=()=>{
+    if(spokenDistrict===container.dataset.district){spokenDistrict=null;fallback.textContent="▶ Прослушать голосом устройства";}
+   };
+   window.speechSynthesis.speak(utterance);
+  }catch{
+   fallback.textContent="▶ Повторить чтение";
+   status.textContent="Не удалось загрузить текст для озвучки.";
+  }
+ });
 }
 function pauseDistrictAudio(){
  by("detail").querySelector(".district-audio audio")?.pause();
+ stopDistrictSpeech();
 }
 function showGameDistrict(p){
  pauseDistrictAudio();
