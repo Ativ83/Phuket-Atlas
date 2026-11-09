@@ -24,7 +24,7 @@ RATE = "-5%"
 
 def split_narration(text: str, limit: int = 550) -> list[str]:
     """Use short segments to avoid Edge service dropping long requests."""
-    sentences = re.split(r"(?<=[.!?])\\s+", " ".join(text.split()))
+    sentences = re.split(r"(?<=[.!?])\s+", " ".join(text.split()))
     chunks: list[str] = []
     current = ""
     for sentence in sentences:
