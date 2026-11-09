@@ -211,7 +211,6 @@ function go(id){const p=areas.find(x=>x.id===id);if(!p)return;
  (isProjectFlipbook?'<a class="brochure-link" href="'+escape(o.materialsUrl)+'" target="_blank" rel="noopener">Открыть презентацию резиденций ↗</a>':'')+
  (o.virtualTourUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.virtualTourUrl)+'">Виртуальный тур 360° ↗</a>':"")+
  (o.mapUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.mapUrl)+'">Расположение в Google Maps ↗</a>':"")+
- (o.developerUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.developerUrl)+'">Сайт девелопера ↗</a>':"")+
  (o.clientDriveUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.clientDriveUrl)+'">Фото и материалы на Google Диске ↗</a>':"")+
  (o.salesPhone?'<p><a href="tel:'+escape(o.salesPhone.replace(/[^+0-9]/g,""))+'">'+escape(o.salesContact?"Контакт "+o.salesContact+": ":"Отдел продаж: ")+escape(o.salesPhone)+'</a></p>':"")+
  (o.salesEmail?'<p><a href="mailto:'+escape(o.salesEmail)+'">'+escape(o.salesEmail)+'</a></p>':"")+
