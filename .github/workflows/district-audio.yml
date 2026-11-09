@@ -26,7 +26,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install Edge TTS
-        run: python -m pip install "edge-tts>=7,<9"
+        run: python -m pip install "edge-tts>=7,<9" imageio-ffmpeg
       - name: Generate or improve missing narration files
         run: |
           mkdir -p assets/district-audio
@@ -36,7 +36,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/district-audio/*.mp3
+          git add -A assets/district-audio/
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
