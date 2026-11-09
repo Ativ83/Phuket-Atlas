@@ -170,7 +170,41 @@ async function searchDistrictPhoto(img,place,region,backup){
 }
 function districtAudio(p){
  if(p.id!=="bang-tao")return "";
- return '<div class="district-audio"><span>Послушать о районе · 0:27</span><audio controls preload="none" aria-label="Послушать о районе Банг Тао" src="assets/bang-tao-narration-ru.mp3"></audio></div>';
+ return '<div class="district-audio"><span>Послушать о районе · 0:27</span><span class="district-audio-status" role="status">Загружаем запись…</span><audio controls preload="metadata" hidden aria-label="Послушать о районе Банг Тао"></audio><a class="district-audio-download" href="assets/bang-tao-narration-ru.mp3" download hidden>Скачать запись MP3</a></div>';
+}
+let districtAudioSource;
+async function loadDistrictAudio(){
+ const audio=by("detail").querySelector(".district-audio audio");
+ if(!audio)return;
+ const status=audio.parentElement.querySelector(".district-audio-status");
+ const download=audio.parentElement.querySelector(".district-audio-download");
+ const showError=()=>{
+  audio.hidden=true;
+  status.hidden=false;
+  status.textContent="Запись можно скачать и послушать отдельно.";
+  download.hidden=false;
+ };
+ audio.addEventListener("error",showError,{once:true});
+ // Fetch a complete file so the player uses a local media URL.
+ const aac=audio.canPlayType('audio/mp4; codecs="mp4a.40.2"');
+ const source=aac?"assets/bang-tao-narration-ru.m4a":"assets/bang-tao-narration-ru.mp3";
+ const type=aac?"audio/mp4":"audio/mpeg";
+ districtAudioSource??=fetch(source).then(async response=>{
+  if(!response.ok)throw new Error("Audio download failed");
+  return URL.createObjectURL(new Blob([await response.arrayBuffer()],{type}));
+ }).catch(error=>{
+  districtAudioSource=null;
+  throw error;
+ });
+ try{
+  const url=await districtAudioSource;
+  if(!audio.isConnected)return;
+  audio.src=url;
+  audio.hidden=false;
+  status.hidden=true;
+ }catch{
+  if(audio.isConnected)showError();
+ }
 }
 function pauseDistrictAudio(){
  by("detail").querySelector(".district-audio audio")?.pause();
@@ -189,6 +223,7 @@ function showGameDistrict(p){
  by("detail").innerHTML='<div class="hero"><div><div class="tag">PHUKET · РАЙОН</div><h2>'+escape(p.name)+'</h2><small>'+escape(p.en)+'</small></div></div>'+
  '<div class="detail game-district-guide">'+general+'<div class="district-photo-gallery">'+gallery+'</div>'+
  '<section class="district-general district-general-extra"><span class="district-general-label">О РАЙОНЕ</span><h3>Особенности пляжа</h3><p>'+escape(facts[1])+'</p><h3>Кому подходит</h3><p>'+escape(facts[2])+'</p></section></div>';
+ loadDistrictAudio();
  by("sheet").scrollTop=0;by("detail").scrollTop=0;
  by("sheet").classList.add("open");by("sheet").setAttribute("aria-hidden","false");by("overlay").hidden=false;document.body.classList.add("game-guide-open");
  // Photograph credits are available in a single collapsible footer, not on each place card.
@@ -244,6 +279,7 @@ function show(p,project=null){
  by("detail").innerHTML='<div class="hero"><div><div class="tag">PHUKET · '+escape(p.region)+'</div><h2>'+escape(p.name)+'</h2><small>'+escape(p.en)+'</small></div>'+(list.length?'<button type="button" class="region-eye-toggle" aria-label="Показать или скрыть объекты района" aria-pressed="'+list.every(projectVisible)+'"><span class="eye-symbol" aria-hidden="true">'+visibilityEyeIcon(list.every(projectVisible))+'</span></button>':'')+'</div><div class="detail"><p>'+escape(p.summary)+'</p>'+(!project?districtAudio(p):"")+'<h3>Мои объекты · '+list.length+'</h3>'+
  (list.length?list.map(o=>objectHTML(o,p)).join(""):'<div class="placeholder">В этом районе пока нет добавленных объектов.</div>')+
  '</div>';
+ loadDistrictAudio();
  by("sheet").scrollTop=0;
  by("sheet").classList.add("open");by("sheet").setAttribute("aria-hidden","false");by("overlay").hidden=false;
  const regionEye=by("detail").querySelector(".region-eye-toggle");
