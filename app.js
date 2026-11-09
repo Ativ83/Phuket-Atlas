@@ -207,12 +207,12 @@ function go(id){const p=areas.find(x=>x.id===id);if(!p)return;
  const sub=o.name==="PURITA Phuket Bangtao"?"PHUKET BANGTAO":o.id==="the-residences-intercontinental-phuket"?"THE RESIDENCES · KAMALA":o.id==="midori-phuket"?"PHUKET TOWN · RATSADA":p.en.toUpperCase();
  const isProjectFlipbook=o.materialsUrl&&/^https:\/\/flipbook\.proudrealestate\.co\.th\//.test(o.materialsUrl);
  return '<article class="object property-card"><div class="project-cover"><span>'+escape(label)+'</span><small>'+escape(sub)+'</small></div><div class="project-content"><small>'+escape(o.type||"Недвижимость")+'</small><h3>'+escape(o.name)+'</h3><p>'+escape(o.description||"")+'</p><dl class="property-facts">'+fields.filter(x=>x[1]).map(x=>'<div><dt>'+escape(x[0])+'</dt><dd>'+escape(x[1])+'</dd></div>').join("")+'</dl>'+
- (o.pdf&&o.pdf.startsWith("presentations/")&&o.pdf.endsWith(".pdf")?'<button class="brochure-open" data-pdf="'+escape(o.pdf)+'" data-materials="'+escape(o.materialsUrl||"")+'">Посмотреть PDF-презентацию</button>':'')+
+ (o.pdf&&o.pdf.startsWith("presentations/")&&o.pdf.endsWith(".pdf")?'<button class="brochure-open" data-pdf="'+escape(o.pdf)+'" data-materials="'+escape(o.clientDriveUrl||"")+'">Посмотреть PDF-презентацию</button>':'')+
  (isProjectFlipbook?'<a class="brochure-link" href="'+escape(o.materialsUrl)+'" target="_blank" rel="noopener">Открыть презентацию резиденций ↗</a>':'')+
  (o.virtualTourUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.virtualTourUrl)+'">Виртуальный тур 360° ↗</a>':"")+
  (o.mapUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.mapUrl)+'">Расположение в Google Maps ↗</a>':"")+
  (o.developerUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.developerUrl)+'">Сайт девелопера ↗</a>':"")+
- (o.materialsUrl&&!isProjectFlipbook?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.materialsUrl)+'">Агентские материалы ↗</a>':"")+
+ (o.clientDriveUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.clientDriveUrl)+'">Фото и материалы на Google Диске ↗</a>':"")+
  (o.salesPhone?'<p><a href="tel:'+escape(o.salesPhone.replace(/[^+0-9]/g,""))+'">'+escape(o.salesContact?"Контакт "+o.salesContact+": ":"Отдел продаж: ")+escape(o.salesPhone)+'</a></p>':"")+
  (o.salesEmail?'<p><a href="mailto:'+escape(o.salesEmail)+'">'+escape(o.salesEmail)+'</a></p>':"")+
  (o.notice?'<p class="project-disclaimer">'+escape(o.notice)+'</p>':"")+'</div></article>';
@@ -766,4 +766,4 @@ const oldZoomIn=by("zin").onclick,oldZoomOut=by("zout").onclick,oldReset=by("res
 by("zin").onclick=()=>geoEnabled?geoMap.zoomIn():oldZoomIn();
 by("zout").onclick=()=>geoEnabled?geoMap.zoomOut():oldZoomOut();
 by("reset").onclick=()=>{if(geoEnabled){readyDistrictId=null;selected=null;focusedLabel=null;updateMapLabels();(computeOverviewZoom(),geoMap.flyTo([7.94,98.34],gameZoomToSatellite(1),{duration:1.1}))}else oldReset()};
-fetch("data/locations.json?v=approximate-project-pins-124").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render();refreshGeoMarkers()}).catch(e=>by("regions").textContent=e.message)})();
+fetch("data/locations.json?v=client-drive-127").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render();refreshGeoMarkers()}).catch(e=>by("regions").textContent=e.message)})();
