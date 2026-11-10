@@ -1,0 +1,32 @@
+name: Import Bang Tao ElevenLabs voice
+on:
+  push:
+    paths:
+      - '.github/workflows/import-bang-tao-elevenlabs.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import-audio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Download and validate speech recording
+        env:
+          AUDIO_URL: 'https://elevenlabsusercontent.com/database/workspace/2118d3ea5005402f82a105eb81585cfb/content_generation/zzmBivuhLkwu6ooS5gDD/jzkzf9W9sB7K308oW4E5/content.mp3?Expires=1794290400&KeyName=assets-cdn-key-1&Signature=aN4mL7QnUJ5VyBLzBGxydpVH73A='
+        run: |
+          set -euo pipefail
+          mkdir -p assets/district-audio
+          curl -fL --retry 3 --max-time 120 "$AUDIO_URL" -o assets/district-audio/bang-tao.mp3
+          file assets/district-audio/bang-tao.mp3
+          test "$(wc -c < assets/district-audio/bang-tao.mp3)" -gt 50000
+          ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 assets/district-audio/bang-tao.mp3
+      - name: Publish audio to Atlas
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/district-audio/bang-tao.mp3
+          git diff --cached --quiet || git commit -m "Publish Bang Tao ElevenLabs narration"
+          git push
