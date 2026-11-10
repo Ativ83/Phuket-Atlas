@@ -25,6 +25,7 @@ jobs:
           python3 -m json.tool data/locations.json > /dev/null
           test -f index.html
           test -f app.js
+          node --check app.js
       - name: Ensure Bang Tao has playable fallback audio
         run: |
           mkdir -p assets/district-audio
