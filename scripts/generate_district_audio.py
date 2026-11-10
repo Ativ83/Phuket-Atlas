@@ -23,38 +23,45 @@ VOICE = "ru-RU-DmitryNeural"
 RATE = "-5%"
 
 
-# Stress cues for the Russian synthetic narrator. Display text remains untouched.
-# Thai is tonal: these marks guide natural Russian-language reading, not Thai phonetics.
+# Edge TTS may read Cyrillic words with combining acute marks as broken syllables.
+# Keep names as uninterrupted Cyrillic words in the actual speech input.
+# Do not add U+0301 stress signs here; this caused e.g. "Пато́нг" to fragment.
+# A future pronunciation correction must use a tested, plain-text phonetic alias.
 PRONUNCIATION = {
-    "Май Кхао": "Май Кха́о",
-    "Найтон": "Найто́н",
-    "Сиринат": "Сирина́т",
-    "Сурин": "Сури́н",
-    "Камала": "Камала́",
-    "Камалы": "Камалы́",
-    "Патонг": "Пато́нг",
-    "Патонга": "Пато́нга",
-    "Патонгом": "Пато́нгом",
-    "Карон": "Каро́н",
-    "Карона": "Каро́на",
-    "Ката": "Ката́",
-    "Каты": "Каты́",
-    "Кате": "Кате́",
-    "Най Харн": "Най Ха́рн",
-    "Раваи": "Рава́и",
-    "Чалонг": "Чало́нг",
-    "Чалонга": "Чало́нга",
-    "Пхукет Таун": "Пху́кет Та́ун",
-    "Пхукета": "Пху́кета",
-    "Пхукете": "Пху́кете",
-    "Пхукет": "Пху́кет",
+    "Май Кхао": "Май Кхао",
+    "Найтон": "Найтон",
+    "Сиринат": "Сиринат",
+    "Сурин": "Сурин",
+    "Камала": "Камала",
+    "Камалы": "Камалы",
+    "Патонг": "Патонг",
+    "Патонга": "Патонга",
+    "Патонгом": "Патонгом",
+    "Карон": "Карон",
+    "Карона": "Карона",
+    "Ката": "Ката",
+    "Каты": "Каты",
+    "Кате": "Кате",
+    "Най Харн": "Най Харн",
+    "Раваи": "Раваи",
+    "Чалонг": "Чалонг",
+    "Чалонга": "Чалонга",
+    "Пхукет Таун": "Пхукет Таун",
+    "Пхукета": "Пхукета",
+    "Пхукете": "Пхукете",
+    "Пхукет": "Пхукет",
 }
 
 def add_stress_cues(text: str) -> str:
-    for original, marked in sorted(PRONUNCIATION.items(), key=lambda pair: -len(pair[0])):
-        text = re.sub(r"(?<![А-Яа-яЁё])" + re.escape(original) + r"(?![А-Яа-яЁё])", marked, text)
+    # Normalize pre-existing stress accents too, so no combining marks reach TTS.
+    text = re.sub(r"[\\u0300-\\u036f]", "", text)
+    for original, replacement in sorted(PRONUNCIATION.items(), key=lambda pair: -len(pair[0])):
+        text = re.sub(
+            r"(?<![А-Яа-яЁё])" + re.escape(original) + r"(?![А-Яа-яЁё])",
+            lambda _match: replacement,
+            text,
+        )
     return text
-
 
 def split_narration(text: str, limit: int = 550) -> list[str]:
     """Use short segments to avoid Edge service dropping long requests."""
