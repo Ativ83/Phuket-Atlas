@@ -1,6 +1,12 @@
-name = "phuket-atlas-broker-ai"
+name = "phuket-atlas-private"
 main = "src/index.js"
 compatibility_date = "2026-11-10"
+workers_dev = true
+
+[assets]
+directory = "../private-dist"
+binding = "ASSETS"
+run_worker_first = true
 
 [vars]
 OPENAI_MODEL = "gpt-5-mini"
