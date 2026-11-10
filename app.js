@@ -294,7 +294,7 @@ function go(id){const p=areas.find(x=>x.id===id);if(!p)return;
  if(!geoEnabled)gameDistrictReady=id;
  pauseDistrictAudio();by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)
 }function objectHTML(o,p){
- const fields=[["Адрес",o.address],["Цены",o.prices],["Площадь участка",o.land],["Состав комплекса",o.buildings],["Количество резиденций",o.units],["Площади",o.sizes],["Парковка",o.parking],["Девелопер",o.developer],["Портфель девелопера",o.developerPortfolio],["Разрешения",o.permits],["Планируемая сдача",o.completion],["Пляж",o.beach],["Инфраструктура",o.amenities],["Формы владения",o.ownership],["Продажи",o.sales],["Обслуживание",o.maintenance],["Разовый взнос",o.sinking],["График платежей",o.payment],["Меблировка",o.furnishing],["Инвестиционный сценарий (прогноз)",o.investment],["Полученные документы",o.documents]];
+ const fields=[["Адрес",o.address],["Цены",o.prices],["Площадь участка",o.land],["Состав комплекса",o.buildings],["Количество резиденций",o.units],["Площади",o.sizes],["Парковка",o.parking],["Девелопер",o.developer],["Портфель девелопера",o.developerPortfolio],["Разрешения",o.permits],["Срок сдачи",o.handoverLabel||o.completion],["Примечание к сроку",o.handoverNote],["Пляж",o.beach],["Инфраструктура",o.amenities],["Формы владения",o.ownership],["Продажи",o.sales],["Обслуживание",o.maintenance],["Разовый взнос",o.sinking],["График платежей",o.payment],["Меблировка",o.furnishing],["Инвестиционный сценарий (прогноз)",o.investment],["Полученные документы",o.documents]];
  const label=o.name==="PURITA Phuket Bangtao"?"PURITA":o.id==="the-residences-intercontinental-phuket"?"InterContinental":o.name;
  const sub=o.name==="PURITA Phuket Bangtao"?"PHUKET BANGTAO":o.id==="the-residences-intercontinental-phuket"?"THE RESIDENCES · KAMALA":o.id==="midori-phuket"?"PHUKET TOWN · RATSADA":p.en.toUpperCase();
  const isProjectFlipbook=o.materialsUrl&&/^https:\/\/flipbook\.proudrealestate\.co\.th\//.test(o.materialsUrl);
@@ -303,6 +303,7 @@ function go(id){const p=areas.find(x=>x.id===id);if(!p)return;
  (isProjectFlipbook?'<a class="brochure-link" href="'+escape(o.materialsUrl)+'" target="_blank" rel="noopener">Открыть презентацию резиденций ↗</a>':'')+
  (o.virtualTourUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.virtualTourUrl)+'">Виртуальный тур 360° ↗</a>':"")+
  (o.mapUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.mapUrl)+'">Расположение в Google Maps ↗</a>':"")+
+ (o.handoverSource?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.handoverSource)+'">Источник срока сдачи · Google Drive ↗</a>':'')+
  (o.clientDriveUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.clientDriveUrl)+'">'+(o.clientDriveUrl.startsWith("https://drive.google.com/file/")?"Презентация на Google Диске":"Материалы проекта на Google Диске")+' ↗</a>':"")+
  (o.salesPhone?'<p><a href="tel:'+escape(o.salesPhone.replace(/[^+0-9]/g,""))+'">'+escape(o.salesContact?"Контакт "+o.salesContact+": ":"Отдел продаж: ")+escape(o.salesPhone)+'</a></p>':"")+
  (o.salesEmail?'<p><a href="mailto:'+escape(o.salesEmail)+'">'+escape(o.salesEmail)+'</a></p>':"")+
