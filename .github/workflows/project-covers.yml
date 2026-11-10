@@ -1,0 +1,28 @@
+name: Import project cover images from Drive
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch source photo from Drive
+        run: |
+          python -m pip install --quiet gdown Pillow
+          mkdir -p assets/project-covers
+          gdown --id 1CnM5dbt3-Rfg-K_GkikdGMNcOGvNJAfa -O /tmp/layan-green-park.jpg
+          python - <<'PY'
+          from PIL import Image, ImageOps
+          im=Image.open('/tmp/layan-green-park.jpg')
+          print('Source image:',im.size)
+          im=ImageOps.fit(im.convert('RGB'),(1280,720))
+          im.save('assets/project-covers/layan-green-park.jpg',quality=83,optimize=True)
+          PY
+      - name: Publish image
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/project-covers/
+          git diff --cached --quiet || (git commit -m "Add authentic Layan Green Park cover" && git push)
