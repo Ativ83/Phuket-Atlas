@@ -300,7 +300,7 @@ function go(id){const p=areas.find(x=>x.id===id);if(!p)return;
  const hasValue=x=>x!==null&&x!==undefined&&String(x).trim()!=="";
  const units=data.units||[];
  const rows=units.length?units.map(u=>{
-  const area=hasValue(u.area)?"от "+escape(String(u.area))+" м²":"Уточняется";
+  const area=hasValue(u.area)?(u.areaIsMinimum===false?"":"от ")+escape(String(u.area))+" м²":"Уточняется";
   const price=hasValue(u.price)?"от "+escape(String(u.price))+" млн ฿":"Уточняется";
   return '<div class="unit-summary-row" role="row"><strong role="cell">'+escape(u.layout)+'</strong><span role="cell">'+area+'</span><span role="cell">'+price+'</span></div>';
  }).join(""):'<p class="unit-summary-unavailable">Площади и цены по типам уточняются по актуальному прайсу застройщика.</p>';
