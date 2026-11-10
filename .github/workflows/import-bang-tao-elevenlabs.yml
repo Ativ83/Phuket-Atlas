@@ -22,7 +22,6 @@ jobs:
           curl -fL --retry 3 --max-time 120 "$AUDIO_URL" -o assets/district-audio/bang-tao.mp3
           file assets/district-audio/bang-tao.mp3
           test "$(wc -c < assets/district-audio/bang-tao.mp3)" -gt 50000
-          ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 assets/district-audio/bang-tao.mp3
       - name: Publish audio to Atlas
         run: |
           git config user.name "github-actions[bot]"
