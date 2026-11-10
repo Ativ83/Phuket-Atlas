@@ -4,6 +4,10 @@
 const $=id=>document.getElementById(id);
 const view=$("broker-ai-panel"), trigger=$("broker-ai-open");
 if(!view||!trigger)return;
+// Public GitHub Pages cannot enforce identity. Keep controls out of normal visitor UI.
+// The server independently authenticates every AI request.
+if(new URLSearchParams(location.search).get("broker")!=="1")return;
+trigger.hidden=false;
 const output=$("broker-ai-messages"), form=$("broker-ai-form"), input=$("broker-ai-input");
 const setting=$("broker-ai-settings"), endpoint=$("broker-ai-url"), access=$("broker-ai-token"), status=$("broker-ai-status");
 const chips=$("broker-ai-suggestions");
