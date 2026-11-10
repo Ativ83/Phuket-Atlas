@@ -37,6 +37,7 @@ jobs:
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "Refresh generated district narration MP3 files"
-            git push
+            git pull --rebase origin main
+            git push origin HEAD:main
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
