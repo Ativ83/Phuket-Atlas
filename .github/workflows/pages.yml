@@ -1,4 +1,5 @@
 name: Publish Phuket Atlas
+# Publish after ElevenLabs audio import; ensures latest MP3 is deployed.
 on:
   push:
     branches: [main]
