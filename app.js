@@ -171,7 +171,7 @@ async function searchDistrictPhoto(img,place,region,backup){
 // One-region audio pilot: use a verified static MP3 with native iOS controls.
 function districtAudio(p){
  if(p.id!=="bang-tao")return "";
- return '<div class="district-audio"><span>Банг Тао · аудиогид · 0:37</span><audio controls preload="metadata" playsinline aria-label="Прослушать аудиогид о Банг Тао"><source src="assets/bang-tao-narration-ru-v3.mp3" type="audio/mpeg">Ваш браузер не поддерживает воспроизведение MP3.</audio></div>';
+ return '<div class="district-audio"><span>Банг Тао · расширенный аудиогид</span><audio controls preload="metadata" playsinline aria-label="Прослушать аудиогид о Банг Тао"><source src="assets/district-audio/bang-tao.mp3" type="audio/mpeg">Ваш браузер не поддерживает воспроизведение MP3.</audio></div>';
 }
 function loadDistrictAudio(){
  const audio=by("detail").querySelector(".district-audio audio");
