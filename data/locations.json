@@ -57,7 +57,11 @@
         "lat": 7.998029,
         "lon": 98.304389,
         "coordinateSource": "Координаты Google Maps предоставлены пользователем",
-        "clientDriveUrl": "https://drive.google.com/file/d/1SAmmGb3Ks41aca8ZYmCSMZ6pZpch4tOS/view"
+        "clientDriveUrl": "https://drive.google.com/file/d/1SAmmGb3Ks41aca8ZYmCSMZ6pZpch4tOS/view",
+        "handoverYear": 2028,
+        "handoverLabel": "2028, месяц уточняется",
+        "handoverStatus": "conflict",
+        "handoverNote": "В материалах указаны июнь и ноябрь 2028; требуется подтверждение застройщика"
       },
       {
         "id": "the-title-heritage-bang-tao",
@@ -79,7 +83,12 @@
         "lon": 98.2967,
         "approximateLocation": true,
         "coordinateSource": "Карта проекта Layan Verde, Invest Phuket.",
-        "clientDriveUrl": "https://drive.google.com/file/d/1-wGwHZFFOXw2iVI0Lj5zCWnMNh6zrzCZ/view"
+        "clientDriveUrl": "https://drive.google.com/file/d/1-wGwHZFFOXw2iVI0Lj5zCWnMNh6zrzCZ/view",
+        "handoverYear": 2028,
+        "handoverLabel": "Декабрь 2028 (план)",
+        "handoverStatus": "planned",
+        "handoverSource": "https://drive.google.com/file/d/1QeKw_ZpZau_TPkQrXGDOdVv6miEXs3HE/view",
+        "handoverNote": "Гайд по проекту Layan Verde, обновлён 02.11.2026; в проекте несколько фаз"
       },
       {
         "id": "layan-green-park",
@@ -91,7 +100,12 @@
         "lon": 98.2961,
         "approximateLocation": true,
         "coordinateSource": "Карта проекта на сайте Layan Green Park. Общий ориентир для двух фаз.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/18lkrHOdRyJWrBY0u9MC2ge-N0v7Z9QOp"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/18lkrHOdRyJWrBY0u9MC2ge-N0v7Z9QOp",
+        "handoverYear": 2026,
+        "handoverLabel": "Фаза 1 завершена в 2024; фаза 2 — план 2026",
+        "handoverStatus": "phased",
+        "handoverSource": "https://drive.google.com/file/d/1owvh9eLIr-DlwvGlaygs5_VW26MniadS/view",
+        "handoverNote": "Гайд 02.11.2026; фактическую передачу фазы 2 необходимо подтвердить"
       },
       {
         "id": "bamboo-forest",
@@ -126,7 +140,12 @@
         "lon": 98.2954,
         "approximateLocation": true,
         "coordinateSource": "Карта проекта Sudara, Invest Phuket.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1Zrvj623N3h-muK0qu4krtmCYkcB5XKlh"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1Zrvj623N3h-muK0qu4krtmCYkcB5XKlh",
+        "handoverYear": 2027,
+        "handoverLabel": "III квартал 2027 (план)",
+        "handoverStatus": "planned",
+        "handoverSource": "https://drive.google.com/file/d/12Tiu3Q3imCQyoC53FnKeeVGXYoBiqX58/view",
+        "handoverNote": "Project Details and Price Range, 28.08.2026"
       },
       {
         "id": "clover-residence",
@@ -514,7 +533,11 @@
         "lat": 7.961856439994244,
         "lon": 98.2878164911507,
         "coordinateSource": "Координаты проекта (не отеля и не sales gallery) по опубликованному обзору Think of Living; Google Maps: 7.961856439994244, 98.2878164911507",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1mOLcaQguSSg15s6AA2KwuSVqWTkJFfMY"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1mOLcaQguSSg15s6AA2KwuSVqWTkJFfMY",
+        "handoverYear": 2027,
+        "handoverLabel": "2027, срок уточняется",
+        "handoverStatus": "unverified",
+        "handoverNote": "В имеющейся карточке указаны III квартал и конец 2027; подтверждение не завершено"
       }
     ]
   },
@@ -629,7 +652,11 @@
         "furnishing": "Modern Home: базовая комплектация включена; Smart Living — 250 000 ฿; Fully Furnished — 400 000 ฿. Полная меблировка Villa A — 1 млн ฿; Sea View — 1,5 млн ฿ (по русской презентации).",
         "investment": "Прогноз по инвестиционной презентации: долгосрочная аренда 7,6–9,1% годовых после 10% комиссии; краткосрочная 9,3–12% после 40% операционных расходов; гарантированная программа — 6% на 1–3 года, до 14 дней личного проживания, с сезонными исключениями и отдельным договором. Все показатели прогнозные, до налогов, не гарантируют результат.",
         "documents": "new salekit phase 1-2.pdf — планы Modern Home и прайс 06.10.2026; Midori_Presentation_RU.pdf — обзор, планировки, комплектация, условия оплаты; Midori_Investor_Presentation_RU.pdf — расчёты аренды и доходности.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1rgXgB0C3AwRX2cw-3l-raZwo1eRHSj1x"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1rgXgB0C3AwRX2cw-3l-raZwo1eRHSj1x",
+        "handoverYear": 2026,
+        "handoverLabel": "Фаза 1: план — август 2026; фактическая сдача не подтверждена",
+        "handoverStatus": "unverified",
+        "handoverNote": "Первоначальное сообщение; требуется акт ввода или подтверждение застройщика"
       }
     ]
   }
