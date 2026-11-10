@@ -83,7 +83,7 @@ async def generate(slug: str, text: str) -> None:
             temp_output.write_bytes(files[0].read_bytes())
         else:
             playlist = directory / "list.txt"
-            playlist.write_text("".join(f"file '{part.name}'\\n" for part in files))
+            playlist.write_text("".join(f"file '{part.name}'\n" for part in files))
             subprocess.run(
                 [imageio_ffmpeg.get_ffmpeg_exe(), "-hide_banner", "-loglevel", "error",
                  "-f", "concat", "-safe", "0", "-i", str(playlist),
