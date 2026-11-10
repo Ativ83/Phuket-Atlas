@@ -36,6 +36,20 @@ PROJECTS=[
  ("skypark-elara","1irT9_Pgnot6t713n01biWs9nZ6-XKMLT",2,"pdf"),
  ("residences-at-garrya-phuket","1n1dpy8zmROra8TVVulyWK70lrMavNh6N",9,"pdf"),
  ("angsana-golf-residences-topaz","1aLF-N5zzBFWc30jAXHSvXiLtF8VH3IOW",4,"pdf"),
+ ("clover-residence","1efPoXkdzIJ9nBORB3oVPWPEnDw6goXwv",10,"pdf"),
+ ("mona","1_uYeveq3E_uIrVfKClmbr7Z3sbH2wgiY",8,"pdf"),
+ ("mori-the-valley","19hVXyjoQ0_TX1Uqoh_cC9EwL0uxBFBNs",0,"pdf"),
+ ("laguna-lakelands-waterside-residences","1k7S-S89MGBgpKj69VfOqt3aPuPWs0uFe",2,"pdf"),
+ ("angsana-oceanview-residences","1iQRTnvvreROylHRJ58qKzLEYtMvodvPn",1,"pdf"),
+ ("banyan-tree-lake-residences-yara","1TMjyWftPLf95-eSizeWITiaaA_pO0CBI",3,"pdf"),
+ ("banyan-tree-beach-residences-mazu","1FCu1j4K7DDPe7DlaWrj19zTOCapX1t_2",2,"pdf"),
+ ("banyan-tree-beach-residences-nammu","11OsvqT1nCnJCuR_G8h6dsuZL9JwziSmI",6,"pdf"),
+ ("banyan-tree-beach-residences-nerea","1omgeRL1NNMNT7yo11xxCGNXTTV6sX38R",3,"pdf"),
+ ("banyan-tree-beach-residences-varuna","1sI1vWvokcoEWvdcyKhBg4NZGdoB6bI9T",10,"pdf"),
+ ("banyan-tree-beach-residences-oceanus","1od5IU3H18jj9OLZDQAfASaz6LHYJbz4z",2,"pdf"),
+ ("banyan-tree-beach-residences-sirena","1L8brYhd4ZUHSj-wH0WFMVql0540MNndJ",3,"pdf"),
+ ("angsana-beachfront","1pnAieGvO0ho1oFWonZekJuYhZXmc1D5M",2,"pdf"),
+ ("sri-panwa-lagoon","1WgWq_DOt5wXnZn7v1Cw-RwX5b_NsMYq1",0,"image"),
 ]
 
 def convert(path, media_type, page):
@@ -52,6 +66,9 @@ def main():
     failures=[]
     with tempfile.TemporaryDirectory() as tmp:
         for slug,file_id,page,media_type in PROJECTS:
+            if (OUT/(slug+".jpg")).is_file():
+                print("EXISTS",slug,flush=True)
+                continue
             target=Path(tmp)/(slug+(".pdf" if media_type=="pdf" else ".jpg"))
             try:
                 subprocess.run(["gdown",file_id,"-O",str(target)],
