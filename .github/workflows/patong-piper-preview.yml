@@ -22,6 +22,9 @@ jobs:
       - name: Install free Piper TTS
         run: |
           python -m pip install "piper-tts>=1.2,<2"
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          command -v ffmpeg
           ffmpeg -version | head -n 1
       - name: Download Russian Denis voice
         run: |
