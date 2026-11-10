@@ -1145,7 +1145,40 @@
         "handoverYear": 2027,
         "handoverLabel": "2027, срок уточняется",
         "handoverStatus": "unverified",
-        "handoverNote": "В имеющейся карточке указаны III квартал и конец 2027; подтверждение не завершено"
+        "handoverNote": "В имеющейся карточке указаны III квартал и конец 2027; подтверждение не завершено",
+        "salesSummary": {
+          "propertyType": "Премиальные резиденции",
+          "units": [
+            {
+              "layout": "1BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "2BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "3BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "4BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "5BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": "FH / LH — зависит от лота",
+          "audience": "Для семей, покупателей второго дома и тех, кому важно проживание рядом с пятизвёздочным курортом.",
+          "pricingNote": "По информации представителя, формы владения различаются по типу резиденции. Площади ориентировочно 59–425 м², актуальные цены и наличие по запросу."
+        }
       }
     ]
   },
@@ -1208,7 +1241,20 @@
         "lon": 98.3339,
         "approximateLocation": true,
         "coordinateSource": "Карта проекта Essence Residence, FazWaz.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1fQePMXDrO6mmNmyB1stVltxyyCcZI8RB"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1fQePMXDrO6mmNmyB1stVltxyyCcZI8RB",
+        "salesSummary": {
+          "propertyType": "Кондоминиум",
+          "units": [
+            {
+              "layout": "Студия",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для одного человека, пары и тех, кто рассматривает длительное проживание в районе Раваи.",
+          "pricingNote": "Актуальные площади, стартовые цены и формы собственности требуют проверки."
+        }
       }
     ]
   },
@@ -1264,7 +1310,31 @@
         "handoverYear": 2026,
         "handoverLabel": "Фаза 1: план — август 2026; фактическая сдача не подтверждена",
         "handoverStatus": "unverified",
-        "handoverNote": "Первоначальное сообщение; требуется акт ввода или подтверждение застройщика"
+        "handoverNote": "Первоначальное сообщение; требуется акт ввода или подтверждение застройщика",
+        "salesSummary": {
+          "propertyType": "Дома / виллы",
+          "units": [
+            {
+              "layout": "Modern Home · 3BR",
+              "area": "133",
+              "price": "4,89"
+            },
+            {
+              "layout": "Pool Villa · 4BR",
+              "area": "205",
+              "price": "9,5"
+            },
+            {
+              "layout": "Sea View · 4BR",
+              "area": "240",
+              "price": "14,9"
+            }
+          ],
+          "ownership": null,
+          "audience": "Для семей, которым важны собственный дом, приватность и жизнь в Phuket Town; Sea View — для покупателей, ценящих виды.",
+          "pricingNote": "Цены из презентации и промо-прайса на 06.10.2026. Размер Sea View Villa требует уточнения по конкретному юниту.",
+          "sourceUrl": "https://drive.google.com/drive/folders/1rgXgB0C3AwRX2cw-3l-raZwo1eRHSj1x"
+        }
       }
     ]
   }
