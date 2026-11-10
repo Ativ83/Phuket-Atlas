@@ -168,15 +168,25 @@ async function searchDistrictPhoto(img,place,region,backup){
  districtImageWithFallback(img,backup.slice(1),"Если точного снимка нет, показана фотография района.");
  img.closest("figure").classList.add("district-photo-illustrative");
 }
-// One-region audio pilot: use a verified static MP3 with native iOS controls.
+// Play only real, published MP3 recordings. Missing files never show a broken player.
 function districtAudio(p){
- if(p.id!=="bang-tao")return "";
- return '<div class="district-audio"><span>Банг Тао · расширенный аудиогид</span><audio controls preload="metadata" playsinline aria-label="Прослушать аудиогид о Банг Тао"><source src="assets/district-audio/bang-tao.mp3" type="audio/mpeg">Ваш браузер не поддерживает воспроизведение MP3.</audio></div>';
+ const url="assets/district-audio/"+encodeURIComponent(p.id)+".mp3";
+ return '<div class="district-audio" data-district-id="'+escape(p.id)+'" '+(p.id==="bang-tao"?'':'hidden')+'><span>Послушать о районе</span><audio controls preload="metadata" playsinline aria-label="Прослушать аудиогид о районе '+escape(p.name)+'"><source src="'+url+'" type="audio/mpeg">Ваш браузер не поддерживает MP3.</audio></div>';
 }
-function loadDistrictAudio(){
+async function loadDistrictAudio(){
  const audio=by("detail").querySelector(".district-audio audio");
  if(!audio)return;
- audio.addEventListener("error",()=>console.warn("Bang Tao audio loading failed"));
+ const holder=audio.closest(".district-audio");
+ const src=audio.querySelector("source")?.getAttribute("src");
+ if(!src)return;
+ try{
+  const response=await fetch(src,{method:"HEAD"});
+  const type=(response.headers.get("content-type")||"").toLowerCase();
+  if(!response.ok||(!type.includes("audio/")&&!type.includes("octet-stream")))throw Error("Missing audio");
+  if(holder.isConnected){holder.hidden=false;audio.load();}
+ }catch{
+  if(holder.isConnected){audio.pause();holder.remove();}
+ }
 }
 function pauseDistrictAudio(){
  by("detail").querySelector(".district-audio audio")?.pause();
