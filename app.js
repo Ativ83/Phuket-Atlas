@@ -60,7 +60,8 @@ function syncGameLayers(){
   pin.style.setProperty("pointer-events",infoOn?"auto":"none","important");
  });
  container.querySelectorAll(".game-property-flag").forEach(pin=>{
-  const visible=!hiddenProjects.has(pin.dataset.projectId);
+  const property=areas.flatMap(area=>area.objects||[]).find(o=>o.id===pin.dataset.projectId);
+  const visible=Boolean(property&&projectVisible(property)&&matchesHandover(property));
   pin.style.setProperty("display",visible?"flex":"none","important");
   pin.style.setProperty("pointer-events",visible?"auto":"none","important");
  });
@@ -445,7 +446,7 @@ by("sheet").addEventListener("touchend",e=>{
  if(dx>85&&Math.abs(dy)<65&&dx>Math.abs(dy)*1.5)close();
 },{passive:true});
 by("sheet").addEventListener("touchcancel",()=>sheetSwipeStart=null,{passive:true});
-document.onkeydown=e=>{if(e.key==="Escape")close()};by("search").oninput=render;by("handover-filter").onchange=()=>{by("regions").scrollTop=0;render()};by("reset").onclick=close;by("zin").onclick=()=>{scale=clamp(scale*1.25,1,3.5);applyView(true)};
+document.onkeydown=e=>{if(e.key==="Escape")close()};by("search").oninput=render;by("handover-filter").onchange=()=>{by("regions").scrollTop=0;render();refreshGeoMarkers();updateMapLabels()};by("reset").onclick=close;by("zin").onclick=()=>{scale=clamp(scale*1.25,1,3.5);applyView(true)};
 by("zout").onclick=()=>{scale=clamp(scale/1.25,1,3.5);applyView(true)};
 const scene=by("scene"), pointers=new Map();
 let previousMid=null,previousDistance=null,downAt=null,suppressClickUntil=0;
@@ -714,7 +715,7 @@ function refreshGeoMarkers(){
   allNamedMarkers.push({marker,name:p.name,id:"area:"+p.id});
   geoMarkers.push(marker);}
   // Satellite: map projects to the actual GPS coordinates, never an offset district location.
-  (p.objects||[]).filter(o=>projectVisible(o)&&hasProjectCoordinates(o)).forEach(o=>{
+  (p.objects||[]).filter(o=>projectVisible(o)&&matchesHandover(o)&&hasProjectCoordinates(o)).forEach(o=>{
    const approximate=o.approximateLocation;
    const m=L.marker([o.lat,o.lon],{icon:L.divIcon({
     className:"atlas-satellite-project-pin",
