@@ -1,0 +1,44 @@
+name: Preview Patong Piper voice (free)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/patong-piper-preview.yml'
+      - 'scripts/generate_patong_piper_preview.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install free Piper TTS
+        run: |
+          python -m pip install "piper-tts>=1.2,<2"
+          ffmpeg -version | head -n 1
+      - name: Download Russian Denis voice
+        run: |
+          mkdir -p tmp-piper-model
+          BASE=https://huggingface.co/rhasspy/piper-voices/resolve/main/ru/ru_RU/denis/medium
+          curl -fL --retry 4 --retry-delay 3 "$BASE/ru_RU-denis-medium.onnx?download=true" -o tmp-piper-model/ru_RU-denis-medium.onnx
+          curl -fL --retry 4 --retry-delay 3 "$BASE/ru_RU-denis-medium.onnx.json?download=true" -o tmp-piper-model/ru_RU-denis-medium.onnx.json
+          test "$(wc -c < tmp-piper-model/ru_RU-denis-medium.onnx)" -gt 10000000
+      - name: Generate isolated Patong sample
+        run: python scripts/generate_patong_piper_preview.py
+      - name: Commit preview without replacing live recording
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/district-audio/patong-piper-test.mp3
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish independent Piper voice sample for Patong"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
