@@ -12,6 +12,7 @@ import re
 import imageio_ffmpeg
 import subprocess
 import tempfile
+import random
 from pathlib import Path
 
 import edge_tts
@@ -63,7 +64,7 @@ def add_stress_cues(text: str) -> str:
         )
     return text
 
-def split_narration(text: str, limit: int = 550) -> list[str]:
+def split_narration(text: str, limit: int = 230) -> list[str]:
     """Use short segments to avoid Edge service dropping long requests."""
     sentences = re.split(r"(?<=[.!?])\s+", " ".join(text.split()))
     chunks: list[str] = []
@@ -94,17 +95,27 @@ def split_narration(text: str, limit: int = 550) -> list[str]:
 
 
 async def make_segment(text: str, destination: Path) -> None:
-    for attempt in range(1, 4):
+    # The Edge service intermittently closes WebSocket sessions without returning audio.
+    # Retry independently; never publish an incomplete recording.
+    max_attempts = 8
+    for attempt in range(1, max_attempts + 1):
         try:
             await edge_tts.Communicate(text, VOICE, rate=RATE).save(str(destination))
             if destination.stat().st_size < 2000:
                 raise RuntimeError("Segment too small")
             return
-        except Exception:
+        except Exception as error:
             destination.unlink(missing_ok=True)
-            if attempt == 3:
+            print(
+                f"Edge TTS attempt {attempt}/{max_attempts} failed: "
+                f"{type(error).__name__}: {error}; "
+                f"voice={VOICE}, characters={len(text)}, "
+                f"edge_tts={getattr(edge_tts, '__version__', 'unknown')}",
+                flush=True,
+            )
+            if attempt == max_attempts:
                 raise
-            await asyncio.sleep(4 * attempt)
+            await asyncio.sleep(min(35, 4 * attempt) + random.uniform(0, 2))
 
 
 async def generate(slug: str, text: str) -> None:
