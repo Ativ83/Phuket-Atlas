@@ -1,4 +1,5 @@
 name: Import project cover images from Drive
+# Second import: remaining Bang Tao brochure exterior images.
 on:
   push:
     paths:
