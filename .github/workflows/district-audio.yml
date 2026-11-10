@@ -1,4 +1,4 @@
-name: Generate missing Phuket district audio
+name: Generate corrected Phuket district audio
 on:
   push:
     paths:
@@ -26,7 +26,7 @@ jobs:
       - name: Generate or improve missing narration files
         run: |
           mkdir -p assets/district-audio
-          python -u scripts/generate_district_audio.py
+          python -u scripts/generate_district_audio.py --force mai-khao naithon surin kamala patong karon kata nai-harn rawai chalong phuket-town
       - name: Commit successful MP3 recordings
         id: commit
         run: |
