@@ -159,6 +159,8 @@ async def main() -> None:
             failures.append(slug)
         await asyncio.sleep(4)
     print(f"Completed: {len(requested)-len(failures)}/{len(requested)} audio files; failed: {failures}", flush=True)
+    if failures:
+        raise RuntimeError("Audio generation failed for: " + ", ".join(failures))
 
 
 if __name__ == "__main__":
