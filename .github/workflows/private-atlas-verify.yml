@@ -1,0 +1,30 @@
+name: Validate private Phuket Atlas
+on:
+  push:
+    paths:
+      - "ai-worker/**"
+      - "scripts/build_private_atlas.py"
+      - "broker-ai.js"
+      - "app.js"
+      - "index.html"
+      - "data/**"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate private frontend and server
+        run: |
+          node --check broker-ai.js
+          node --check app.js
+          node --check ai-worker/src/index.js
+          python3 -m json.tool data/locations.json > /dev/null
+          python3 scripts/build_private_atlas.py
+          test -s private-dist/index.html
+          test -s private-dist/data/locations.json
+          test ! -d private-dist/.github
+          test ! -d private-dist/ai-worker
+          test ! -d private-dist/scripts
