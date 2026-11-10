@@ -1,5 +1,8 @@
 name: Import project cover images from Drive
 on:
+  push:
+    paths:
+      - ".github/workflows/project-covers.yml"
   workflow_dispatch:
 permissions:
   contents: write
