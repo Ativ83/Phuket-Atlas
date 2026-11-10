@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - '.github/workflows/district-audio.yml'
+      - 'scripts/generate_district_audio.py'
+      - 'data/district-narrations-ru.json'
   workflow_dispatch:
 permissions:
   contents: write
