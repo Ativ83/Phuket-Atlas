@@ -15,7 +15,7 @@ jobs:
           persist-credentials: true
       - name: Download and validate speech recording
         env:
-          AUDIO_URL: 'https://elevenlabsusercontent.com/database/workspace/2118d3ea5005402f82a105eb81585cfb/content_generation/zzmBivuhLkwu6ooS5gDD/jzkzf9W9sB7K308oW4E5/content.mp3?Expires=1794290400&KeyName=assets-cdn-key-1&Signature=aN4mL7QnUJ5VyBLzBGxydpVH73A='
+          AUDIO_URL: 'https://elevenlabsusercontent.com/database/workspace/2118d3ea5005402f82a105eb81585cfb/content_generation/2Ae3KHDhzSOnKf9VbyBo/02q4ku4S5rNb3Nb6zOEu/content.mp3?Expires=1794294000&KeyName=assets-cdn-key-1&Signature=4nBy7VrGnrFf8OKnhImPwtZFJy4='
         run: |
           set -euo pipefail
           mkdir -p assets/district-audio
