@@ -6,7 +6,8 @@ const view=$("broker-ai-panel"), trigger=$("broker-ai-open");
 if(!view||!trigger)return;
 // Public GitHub Pages cannot enforce identity. Keep controls out of normal visitor UI.
 // The server independently authenticates every AI request.
-if(new URLSearchParams(location.search).get("broker")!=="1")return;
+const onPublicPages=location.hostname==="ativ83.github.io";
+if(onPublicPages&&new URLSearchParams(location.search).get("broker")!=="1")return;
 trigger.hidden=false;
 const output=$("broker-ai-messages"), form=$("broker-ai-form"), input=$("broker-ai-input");
 const setting=$("broker-ai-settings"), endpoint=$("broker-ai-url"), access=$("broker-ai-token"), status=$("broker-ai-status");
@@ -88,16 +89,16 @@ async function send(q){
  q=String(q||"").trim().slice(0,1200);if(!q||busy)return;
  add(q,"user");input.value="";busy=true;form.querySelector("button[type=submit]").disabled=true;
  const matches=quickMatch(q);showMatches(matches);
- const base=endpoint.value.trim().replace(/\/+$/,"");
- const token=access.value.trim();
+ const base=onPublicPages?endpoint.value.trim().replace(/\/+$/,""):location.origin;
+ const token=onPublicPages?access.value.trim():"";
  const previous=conversation.slice(-8);
  conversation.push({role:"user",content:q});
  const reply=add(base?"Запрашиваю AI…":"");
- if(base&&token){
+ if(base&&(!onPublicPages||token)){
   try{
    if(!/^https:\/\//.test(base))throw Error("Адрес API должен начинаться с https://");
-   const response=await fetch(base+"/chat",{
-    method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},
+   const response=await fetch(base+(onPublicPages?"/chat":"/api/chat"),{
+    method:"POST",headers:onPublicPages?{"Content-Type":"application/json","Authorization":"Bearer "+token}:{"Content-Type":"application/json"},
     body:JSON.stringify({message:q,history:previous,candidates:matches.map(x=>x.id)}),signal:AbortSignal.timeout(25000)
    });
    const data=await response.json().catch(()=>({}));
@@ -105,7 +106,7 @@ async function send(q){
    reply.textContent=String(data.answer||"Пустой ответ от AI");
   }catch(e){reply.textContent="AI недоступен: "+e.message+"\n\n"+matchesText(matches,q);}
  }else{
-  reply.textContent=matchesText(matches,q)+"\n\nДля диалога с AI подключи защищённый API в настройках.";
+  reply.textContent=matchesText(matches,q)+"\n\nДля диалога с AI потребуется подключить OpenAI API на защищённом сервере.";
  }
  conversation.push({role:"assistant",content:reply.textContent.slice(0,4000)});
  busy=false;form.querySelector("button[type=submit]").disabled=false;
@@ -113,6 +114,7 @@ async function send(q){
 }
 trigger.addEventListener("click",()=>{view.classList.add("open");view.setAttribute("aria-hidden","false");input.focus()});
 $("broker-ai-close").addEventListener("click",()=>{view.classList.remove("open");view.setAttribute("aria-hidden","true")});
+if(!onPublicPages){$("broker-ai-config").hidden=true;status.textContent="Закрытый Atlas · каталог загружается";}
 $("broker-ai-config").addEventListener("click",()=>{setting.hidden=!setting.hidden});
 $("broker-ai-reset").addEventListener("click",()=>{conversation=[];output.replaceChildren();chips.replaceChildren();add("Диалог очищен. Данные каталога остаются доступны.")});
 form.addEventListener("submit",e=>{e.preventDefault();send(input.value)});
