@@ -23,6 +23,39 @@ VOICE = "ru-RU-DmitryNeural"
 RATE = "-5%"
 
 
+# Stress cues for the Russian synthetic narrator. Display text remains untouched.
+# Thai is tonal: these marks guide natural Russian-language reading, not Thai phonetics.
+PRONUNCIATION = {
+    "Май Кхао": "Май Кха́о",
+    "Найтон": "Найто́н",
+    "Сиринат": "Сирина́т",
+    "Сурин": "Сури́н",
+    "Камала": "Камала́",
+    "Камалы": "Камалы́",
+    "Патонг": "Пато́нг",
+    "Патонга": "Пато́нга",
+    "Патонгом": "Пато́нгом",
+    "Карон": "Каро́н",
+    "Карона": "Каро́на",
+    "Ката": "Ката́",
+    "Каты": "Каты́",
+    "Кате": "Кате́",
+    "Най Харн": "Най Ха́рн",
+    "Раваи": "Рава́и",
+    "Чалонг": "Чало́нг",
+    "Чалонга": "Чало́нга",
+    "Пхукет Таун": "Пху́кет Та́ун",
+    "Пхукета": "Пху́кета",
+    "Пхукете": "Пху́кете",
+    "Пхукет": "Пху́кет",
+}
+
+def add_stress_cues(text: str) -> str:
+    for original, marked in sorted(PRONUNCIATION.items(), key=lambda pair: -len(pair[0])):
+        text = re.sub(r"(?<![А-Яа-яЁё])" + re.escape(original) + r"(?![А-Яа-яЁё])", marked, text)
+    return text
+
+
 def split_narration(text: str, limit: int = 550) -> list[str]:
     """Use short segments to avoid Edge service dropping long requests."""
     sentences = re.split(r"(?<=[.!?])\s+", " ".join(text.split()))
@@ -69,7 +102,7 @@ async def make_segment(text: str, destination: Path) -> None:
 
 async def generate(slug: str, text: str) -> None:
     destination = OUTPUT / (slug + ".mp3")
-    segments = split_narration(text)
+    segments = split_narration(add_stress_cues(text))
     with tempfile.TemporaryDirectory(prefix="phuket-tts-") as directory:
         directory = Path(directory)
         files = []
