@@ -1,4 +1,4 @@
-name: Generate Bang Tao pilot audio
+name: Generate missing Phuket district audio
 on:
   push:
     paths:
@@ -26,13 +26,13 @@ jobs:
       - name: Generate or improve missing narration files
         run: |
           mkdir -p assets/district-audio
-          python -u scripts/generate_district_audio.py bang-tao --force
+          python -u scripts/generate_district_audio.py
       - name: Commit successful MP3 recordings
         id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A assets/district-audio/bang-tao.mp3
+          git add -A assets/district-audio/
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
