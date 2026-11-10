@@ -41,3 +41,8 @@ jobs:
             git push origin HEAD:main
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+      - name: Republish website after saving generated recordings
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --ref main
