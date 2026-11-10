@@ -133,8 +133,19 @@ function scrollSearchToBest(query){
  const target=list.scrollTop+(item.top-container.top)-(list.clientHeight-item.height)/2;
  list.scrollTo({top:Math.max(0,target),behavior:"auto"});
 }
-function render(){updateSatelliteObjectsEye();const q=by("search").value.toLowerCase();const filtered=areas.filter(p=>showOnlyObjects?(p.objects||[]).length>0:(p.name+" "+p.en+" "+(p.objects||[]).map(o=>o.name).join(" ")).toLowerCase().includes(q));by("regions").innerHTML=showOnlyObjects?
- (filtered.length?'<div class="property-visibility-all"><button type="button" class="visibility-action visibility-eye visibility-eye-all" id="visibility-all" title="Показать или скрыть все объекты" aria-label="Показать или скрыть все объекты">'+visibilityEyeIcon(areas.every(a=>(a.objects||[]).every(projectVisible)))+'</button></div>'+filtered.flatMap(p=>(p.objects||[]).map((o,i)=>'<div class="property-visibility-row"><button class="region property-listing" data-area="'+escape(p.id)+'" data-object-index="'+i+'"><div><span>'+escape(o.name)+'</span><small>'+escape(p.name)+(o.type?' · '+escape(o.type):'')+'</small></div><i>›</i></button><button type="button" class="visibility-action visibility-eye" data-visibility-id="'+escape(o.id)+'" aria-pressed="'+projectVisible(o)+'" aria-label="'+(projectVisible(o)?'Скрыть':'Показать')+' булавку '+escape(o.name)+'">'+visibilityEyeIcon(projectVisible(o))+'</button></div>')).join(""):'<div class="placeholder">Пока нет объектов. Добавим сюда только ваши проекты из PDF-презентаций.</div>'):
+// Filter property listings by confirmed or qualified handover year.
+function matchesHandover(o){
+ const year=by("handover-filter")?.value||"all";
+ if(year==="all")return true;
+ if(year==="unknown")return !o.handoverYear||o.handoverStatus==="unverified";
+ if(o.handoverStatus==="unverified")return false;
+ if(year==="ready")return o.handoverStatus==="completed";
+ if(year==="2029+")return Number(o.handoverYear)>=2029;
+ return String(o.handoverYear)===year;
+}
+function handoverSummary(o){return o.handoverLabel||"Срок сдачи не подтверждён";}
+function render(){updateSatelliteObjectsEye();const q=by("search").value.toLowerCase();const filtered=areas.filter(p=>showOnlyObjects?(p.objects||[]).length>0:(p.name+" "+p.en+" "+(p.objects||[]).map(o=>o.name).join(" ")).toLowerCase().includes(q));by("handover-filter-wrap").hidden=!showOnlyObjects;by("regions").innerHTML=showOnlyObjects?
+ (filtered.length?'<div class="property-visibility-all"><button type="button" class="visibility-action visibility-eye visibility-eye-all" id="visibility-all" title="Показать или скрыть все объекты" aria-label="Показать или скрыть все объекты">'+visibilityEyeIcon(areas.every(a=>(a.objects||[]).every(projectVisible)))+'</button></div>'+filtered.flatMap(p=>(p.objects||[]).map((o,i)=>({o,i})).filter(({o})=>matchesHandover(o)).map(({o,i})=>'<div class="property-visibility-row"><button class="region property-listing" data-area="'+escape(p.id)+'" data-object-index="'+i+'"><div><span>'+escape(o.name)+'</span><small>'+escape(p.name)+(o.type?' · '+escape(o.type):'')+' · '+escape(handoverSummary(o))+'</small></div><i>›</i></button><button type="button" class="visibility-action visibility-eye" data-visibility-id="'+escape(o.id)+'" aria-pressed="'+projectVisible(o)+'" aria-label="'+(projectVisible(o)?'Скрыть':'Показать')+' булавку '+escape(o.name)+'">'+visibilityEyeIcon(projectVisible(o))+'</button></div>')).join(""):'<div class="placeholder">Объекты по выбранному сроку не найдены.</div>'):
  filtered.map(p=>'<button class="region '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'"><div><span>'+escape(p.name)+'</span><small>'+escape(p.en)+' · '+(p.objects||[]).length+' объектов</small></div><i>›</i></button>').join("");const gameLabelsOnRight=new Set(["nai-thon","surin","patong","kata","rawai","chalong","phuket-town"]);const pins=[];for(const p of areas){
  const pos=xy(p);
  pins.push('<button class="pin game-region-pin '+(gameLabelsOnRight.has(p.id)?'label-right':'label-left')+' '+(selected===p.id?'active':'')+'" data-area="'+escape(p.id)+'" style="left:'+(pos.x/W*100)+'%;top:'+(pos.y/H*100)+'%"><span class="dot"></span><label>'+escape(p.en)+'</label></button>');
@@ -433,7 +444,7 @@ by("sheet").addEventListener("touchend",e=>{
  if(dx>85&&Math.abs(dy)<65&&dx>Math.abs(dy)*1.5)close();
 },{passive:true});
 by("sheet").addEventListener("touchcancel",()=>sheetSwipeStart=null,{passive:true});
-document.onkeydown=e=>{if(e.key==="Escape")close()};by("search").oninput=render;by("reset").onclick=close;by("zin").onclick=()=>{scale=clamp(scale*1.25,1,3.5);applyView(true)};
+document.onkeydown=e=>{if(e.key==="Escape")close()};by("search").oninput=render;by("handover-filter").onchange=()=>{by("regions").scrollTop=0;render()};by("reset").onclick=close;by("zin").onclick=()=>{scale=clamp(scale*1.25,1,3.5);applyView(true)};
 by("zout").onclick=()=>{scale=clamp(scale/1.25,1,3.5);applyView(true)};
 const scene=by("scene"), pointers=new Map();
 let previousMid=null,previousDistance=null,downAt=null,suppressClickUntil=0;
