@@ -1,0 +1,6 @@
+name = "phuket-atlas-broker-ai"
+main = "src/index.js"
+compatibility_date = "2026-11-10"
+
+[vars]
+OPENAI_MODEL = "gpt-5-mini"
