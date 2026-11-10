@@ -224,7 +224,7 @@ async function searchDistrictPhoto(img,place,region,backup){
 }
 // Play only real, published MP3 recordings. Missing files never show a broken player.
 function districtAudio(p){
- const url="assets/district-audio/"+encodeURIComponent(p.id)+".mp3";
+ const url="assets/district-audio/"+encodeURIComponent(p.id)+".mp3?v=20261111-pronunciation-fix";
  return '<div class="district-audio" data-district-id="'+escape(p.id)+'" '+(p.id==="bang-tao"?'':'hidden')+'><span>Послушать о районе</span><audio controls preload="metadata" playsinline aria-label="Прослушать аудиогид о районе '+escape(p.name)+'"><source src="'+url+'" type="audio/mpeg">Ваш браузер не поддерживает MP3.</audio></div>';
 }
 async function loadDistrictAudio(){
