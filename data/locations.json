@@ -61,7 +61,36 @@
         "handoverYear": 2028,
         "handoverLabel": "2028, месяц уточняется",
         "handoverStatus": "conflict",
-        "handoverNote": "В материалах указаны июнь и ноябрь 2028; требуется подтверждение застройщика"
+        "handoverNote": "В материалах указаны июнь и ноябрь 2028; требуется подтверждение застройщика",
+        "salesSummary": {
+          "propertyType": "Кондоминиум и вилла",
+          "units": [
+            {
+              "layout": "1BR",
+              "area": "56,4",
+              "price": ""
+            },
+            {
+              "layout": "2BR",
+              "area": "93",
+              "price": ""
+            },
+            {
+              "layout": "2BR Plus",
+              "area": "124,5",
+              "price": ""
+            },
+            {
+              "layout": "Вилла",
+              "area": "708",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для семей и постоянного проживания: просторные планировки, бассейн, фитнес и коворкинг.",
+          "pricingNote": "Размеры по буклету застройщика; цены и условия владения запрашиваются отдельно.",
+          "sourceUrl": "https://drive.google.com/file/d/1SAmmGb3Ks41aca8ZYmCSMZ6pZpch4tOS/view"
+        }
       },
       {
         "id": "the-title-heritage-bang-tao",
@@ -71,7 +100,15 @@
         "lat": 7.9925,
         "lon": 98.3064,
         "approximateLocation": true,
-        "coordinateSource": "Метка проекта из ссылки на карте The Title Residence."
+        "coordinateSource": "Метка проекта из ссылки на карте The Title Residence.",
+        "salesSummary": {
+          "propertyType": "Кондоминиум",
+          "units": [],
+          "ownership": null,
+          "audience": "Для семей, которым нужны повседневная инфраструктура, магазины и рестораны рядом с домом.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "layan-verde",
@@ -88,7 +125,36 @@
         "handoverLabel": "Декабрь 2028 (план)",
         "handoverStatus": "planned",
         "handoverSource": "https://drive.google.com/file/d/1QeKw_ZpZau_TPkQrXGDOdVv6miEXs3HE/view",
-        "handoverNote": "Гайд по проекту Layan Verde, обновлён 02.11.2026; в проекте несколько фаз"
+        "handoverNote": "Гайд по проекту Layan Verde, обновлён 02.11.2026; в проекте несколько фаз",
+        "salesSummary": {
+          "propertyType": "Кондоминиум · Premium / Luxury",
+          "units": [
+            {
+              "layout": "Студия",
+              "area": "36,2",
+              "price": "7,9"
+            },
+            {
+              "layout": "1BR",
+              "area": "54,2",
+              "price": "11,3"
+            },
+            {
+              "layout": "2BR",
+              "area": "100,5",
+              "price": "20,1"
+            },
+            {
+              "layout": "3BR",
+              "area": "152,7",
+              "price": "30,6"
+            }
+          ],
+          "ownership": "FH / LH",
+          "audience": "Для постоянного проживания, семей и тех, кому важны инфраструктура и курортное управление.",
+          "pricingNote": "Указаны минимумы линейки Premium; отдельная Luxury-линейка от 23,1 млн ฿. Прайс от 02.11.2026.",
+          "sourceUrl": "https://drive.google.com/file/d/1QeKw_ZpZau_TPkQrXGDOdVv6miEXs3HE/view"
+        }
       },
       {
         "id": "layan-green-park",
@@ -105,7 +171,36 @@
         "handoverLabel": "Фаза 1 завершена в 2024; фаза 2 — план 2026",
         "handoverStatus": "phased",
         "handoverSource": "https://drive.google.com/file/d/1owvh9eLIr-DlwvGlaygs5_VW26MniadS/view",
-        "handoverNote": "Гайд 02.11.2026; фактическую передачу фазы 2 необходимо подтвердить"
+        "handoverNote": "Гайд 02.11.2026; фактическую передачу фазы 2 необходимо подтвердить",
+        "salesSummary": {
+          "propertyType": "Кондоминиум · фазы 1 и 2",
+          "units": [
+            {
+              "layout": "Студия",
+              "area": "30",
+              "price": "5,757"
+            },
+            {
+              "layout": "1BR",
+              "area": "45",
+              "price": "9,035"
+            },
+            {
+              "layout": "2BR",
+              "area": "76",
+              "price": "15,85"
+            },
+            {
+              "layout": "3BR",
+              "area": "127",
+              "price": "28"
+            }
+          ],
+          "ownership": null,
+          "audience": "Для семей, зимовки и инвесторов, рассматривающих управляемую аренду.",
+          "pricingNote": "Минимальные значения из гайда от 02.11.2026 по двум фазам. Наличие и условия отдельных лотов требуют проверки.",
+          "sourceUrl": "https://drive.google.com/file/d/1owvh9eLIr-DlwvGlaygs5_VW26MniadS/view"
+        }
       },
       {
         "id": "bamboo-forest",
@@ -117,7 +212,31 @@
         "lon": 98.2989,
         "approximateLocation": true,
         "coordinateSource": "Карта проекта Bamboo Forest, Invest Phuket.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1cMJUzvLBGpAOVhoACypisvq9K59uWnXX"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1cMJUzvLBGpAOVhoACypisvq9K59uWnXX",
+        "salesSummary": {
+          "propertyType": "Кондоминиум",
+          "units": [
+            {
+              "layout": "Студия",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "2BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "3BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для проживания, зимовки и сочетания жизни с работой; концепция предусматривает разные сценарии использования.",
+          "pricingNote": "Планировки подтверждены в презентации, актуальные минимумы и цены уточняются.",
+          "sourceUrl": "https://drive.google.com/file/d/1hsbOk7md2VjulkOl7NCRJhpRVDUJ_bkS/view"
+        }
       },
       {
         "id": "ayana-heights",
@@ -128,7 +247,15 @@
         "lat": 8.0232,
         "lon": 98.2985,
         "approximateLocation": true,
-        "coordinateSource": "Карта проекта AYANA Heights, Invest Phuket."
+        "coordinateSource": "Карта проекта AYANA Heights, Invest Phuket.",
+        "salesSummary": {
+          "propertyType": "Кондоминиум",
+          "units": [],
+          "ownership": null,
+          "audience": "Для отдыха и аренды; привлекательность зависит от вида из конкретного корпуса и этажа.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "sudara-residences",
@@ -145,7 +272,31 @@
         "handoverLabel": "III квартал 2027 (план)",
         "handoverStatus": "planned",
         "handoverSource": "https://drive.google.com/file/d/12Tiu3Q3imCQyoC53FnKeeVGXYoBiqX58/view",
-        "handoverNote": "Project Details and Price Range, 28.08.2026"
+        "handoverNote": "Project Details and Price Range, 28.08.2026",
+        "salesSummary": {
+          "propertyType": "Кондоминиум",
+          "units": [
+            {
+              "layout": "1BR",
+              "area": "52",
+              "price": "12,14"
+            },
+            {
+              "layout": "2BR",
+              "area": "80",
+              "price": "18,54"
+            },
+            {
+              "layout": "3BR",
+              "area": "110",
+              "price": "24,46"
+            }
+          ],
+          "ownership": "FH / LH",
+          "audience": "Для семей и постоянного проживания, ценящих комфорт, клубную инфраструктуру и управление Andara.",
+          "pricingNote": "Стартовые цены округлены до сотых млн ฿; таблица проекта от 28.08.2026.",
+          "sourceUrl": "https://drive.google.com/file/d/12Tiu3Q3imCQyoC53FnKeeVGXYoBiqX58/view"
+        }
       },
       {
         "id": "clover-residence",
@@ -156,7 +307,15 @@
         "lon": 98.3185,
         "approximateLocation": true,
         "coordinateSource": "Метка Clover Residence из ссылки, предоставленной пользователем.",
-        "clientDriveUrl": "https://drive.google.com/file/d/1efPoXkdzIJ9nBORB3oVPWPEnDw6goXwv/view"
+        "clientDriveUrl": "https://drive.google.com/file/d/1efPoXkdzIJ9nBORB3oVPWPEnDw6goXwv/view",
+        "salesSummary": {
+          "propertyType": "Виллы",
+          "units": [],
+          "ownership": null,
+          "audience": "Для семей с детьми, которым важно жить рядом с международной школой и Blue Tree.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "manor",
@@ -167,7 +326,15 @@
         "lon": 98.3384,
         "approximateLocation": true,
         "coordinateSource": "Метка Manor Phuket из ссылки, предоставленной пользователем.",
-        "clientDriveUrl": "https://drive.google.com/file/d/12a7MNaqFpvPlSwr10i0CelFs0BU9dKbv/view"
+        "clientDriveUrl": "https://drive.google.com/file/d/12a7MNaqFpvPlSwr10i0CelFs0BU9dKbv/view",
+        "salesSummary": {
+          "propertyType": "Виллы",
+          "units": [],
+          "ownership": null,
+          "audience": "Для семей, которым нужны просторный дом, частный бассейн и клубная инфраструктура.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "mori",
@@ -178,7 +345,21 @@
         "lon": 98.3413,
         "approximateLocation": true,
         "coordinateSource": "Карта проекта Mori, Invest Phuket.",
-        "clientDriveUrl": "https://drive.google.com/file/d/1g9qm8GxDDim03r4c6Acby8niL19hnioY/view"
+        "clientDriveUrl": "https://drive.google.com/file/d/1g9qm8GxDDim03r4c6Acby8niL19hnioY/view",
+        "salesSummary": {
+          "propertyType": "Виллы",
+          "units": [
+            {
+              "layout": "3BR",
+              "area": "229,95",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для семей, которым нужна отдельная вилла с приватностью и доступом к инфраструктуре комплекса.",
+          "pricingNote": "Площадь 229,95 м² для представленной в буклете планировки; не заявлена как минимальная.",
+          "sourceUrl": "https://drive.google.com/file/d/1g9qm8GxDDim03r4c6Acby8niL19hnioY/view"
+        }
       },
       {
         "id": "mona",
@@ -189,7 +370,15 @@
         "lon": 98.3403,
         "approximateLocation": true,
         "coordinateSource": "Карта проекта MONA Estate, ZODIAC Estate.",
-        "clientDriveUrl": "https://drive.google.com/file/d/1_uYeveq3E_uIrVfKClmbr7Z3sbH2wgiY/view"
+        "clientDriveUrl": "https://drive.google.com/file/d/1_uYeveq3E_uIrVfKClmbr7Z3sbH2wgiY/view",
+        "salesSummary": {
+          "propertyType": "Виллы",
+          "units": [],
+          "ownership": null,
+          "audience": "Для покупателей просторных индивидуальных вилл и больших земельных участков.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "mori-the-valley",
@@ -200,7 +389,15 @@
         "lon": 98.3323,
         "approximateLocation": true,
         "coordinateSource": "Координаты из ссылки проекта, предоставленной пользователем.",
-        "clientDriveUrl": "https://drive.google.com/file/d/19hVXyjoQ0_TX1Uqoh_cC9EwL0uxBFBNs/view"
+        "clientDriveUrl": "https://drive.google.com/file/d/19hVXyjoQ0_TX1Uqoh_cC9EwL0uxBFBNs/view",
+        "salesSummary": {
+          "propertyType": "Виллы и дома",
+          "units": [],
+          "ownership": null,
+          "audience": "Для семей, предпочитающих более зелёную жилую среду и клубную инфраструктуру.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "sri-panwa-lagoon",
@@ -210,7 +407,15 @@
         "lat": 7.9825,
         "lon": 98.3099,
         "approximateLocation": true,
-        "coordinateSource": "Карта проекта Sri Panwa Lagoon, Invest Phuket."
+        "coordinateSource": "Карта проекта Sri Panwa Lagoon, Invest Phuket.",
+        "salesSummary": {
+          "propertyType": "Виллы / дома Multi-Flex",
+          "units": [],
+          "ownership": null,
+          "audience": "Для семей и покупателей, которым нужен большой дом с возможностью гибко использовать комнаты.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "skypark-aurora",
@@ -221,7 +426,21 @@
         "lat": 8.0007,
         "lon": 98.301,
         "approximateLocation": true,
-        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте."
+        "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
+        "salesSummary": {
+          "propertyType": "Кондоминиум",
+          "units": [
+            {
+              "layout": "1BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для одного человека, пары или сезонного проживания в Laguna.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "skypark-celeste",
@@ -233,7 +452,31 @@
         "lon": 98.3015,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/118mdomZhGP6yRl0HyuDUbFn4gX3uLTbK"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/118mdomZhGP6yRl0HyuDUbFn4gX3uLTbK",
+        "salesSummary": {
+          "propertyType": "Кондоминиум",
+          "units": [
+            {
+              "layout": "Студия",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "1BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "2BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для пар, отдыха и сдачи в аренду; есть общие пространства на крыше.",
+          "pricingNote": null,
+          "sourceUrl": "https://drive.google.com/file/d/13PpqQFai-ylY0MCLUpK2ec1UG2rHJPmA/view"
+        }
       },
       {
         "id": "skypark-elara",
@@ -245,7 +488,31 @@
         "lon": 98.314,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1T_h6Vs463y589XT5de-jziaDhMD1fonv"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1T_h6Vs463y589XT5de-jziaDhMD1fonv",
+        "salesSummary": {
+          "propertyType": "Кондоминиум",
+          "units": [
+            {
+              "layout": "1BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "2BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "3BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для семей и постоянного проживания в природном окружении Laguna Lakelands.",
+          "pricingNote": null,
+          "sourceUrl": "https://drive.google.com/file/d/1irT9_Pgnot6t713n01biWs9nZ6-XKMLT/view"
+        }
       },
       {
         "id": "laguna-lake-residences-aster",
@@ -257,7 +524,31 @@
         "lon": 98.3011,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1nyx-oJ95eyP5HCRRXKVsP_ARORnuJ5c2"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1nyx-oJ95eyP5HCRRXKVsP_ARORnuJ5c2",
+        "salesSummary": {
+          "propertyType": "Кондоминиум",
+          "units": [
+            {
+              "layout": "1BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "2BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "3BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для семей и длительного проживания рядом с Boat Avenue и Porto de Phuket.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "bellaguna-lake-residences-lotus",
@@ -269,7 +560,31 @@
         "lon": 98.2968,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/16eOw22k2DH9dGC66lDcS00WDsZayaTwu"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/16eOw22k2DH9dGC66lDcS00WDsZayaTwu",
+        "salesSummary": {
+          "propertyType": "Кондоминиум / пентхаусы",
+          "units": [
+            {
+              "layout": "1BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "2BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "3BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для семей и покупателей, предпочитающих тихие резиденции с видом на озеро.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "bellaguna-golf-residences",
@@ -281,7 +596,31 @@
         "lon": 98.3046,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1Zg30gfsV2xBCUhwNrHkAN-sbyKqO5Yvl"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1Zg30gfsV2xBCUhwNrHkAN-sbyKqO5Yvl",
+        "salesSummary": {
+          "propertyType": "Кондоминиум / пентхаусы",
+          "units": [
+            {
+              "layout": "1BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "2BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "3BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для любителей гольфа, спокойного отдыха и постоянного проживания в Laguna.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "laguna-beach-residences-bayside",
@@ -293,7 +632,31 @@
         "lon": 98.2953,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1-En2VS7BzdsJc0hc5XTnbcZ4z1FKeYTA"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1-En2VS7BzdsJc0hc5XTnbcZ4z1FKeYTA",
+        "salesSummary": {
+          "propertyType": "Кондоминиум / пентхаусы",
+          "units": [
+            {
+              "layout": "1BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "2BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "3BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для семей и отдыха у пляжа; премиальные пентхаусы подходят покупателям, ценящим приватность.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "laguna-beach-residences-seashore",
@@ -305,7 +668,31 @@
         "lon": 98.2926,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1HblxAeNBTwe6pz_83yOB6b0U4SOXkmLz"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1HblxAeNBTwe6pz_83yOB6b0U4SOXkmLz",
+        "salesSummary": {
+          "propertyType": "Кондоминиум",
+          "units": [
+            {
+              "layout": "1BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "2BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "3BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для пляжного отдыха, второго дома и сезонной аренды.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "laguna-beach-residences-reef",
@@ -317,7 +704,31 @@
         "lon": 98.2936,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1S3ScZG8MQADMogX7_3od-9Id5E7TJ3mb"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1S3ScZG8MQADMogX7_3od-9Id5E7TJ3mb",
+        "salesSummary": {
+          "propertyType": "Кондоминиум",
+          "units": [
+            {
+              "layout": "1BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "2BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "3BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для покупателей, ориентированных на близость к морю и курортную инфраструктуру.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "laguna-lakelands-waterside-residences",
@@ -329,7 +740,15 @@
         "lon": 98.3116,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1ZphvSzEGBn7dZc6hGIKTOmA3pcifLOB4"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1ZphvSzEGBn7dZc6hGIKTOmA3pcifLOB4",
+        "salesSummary": {
+          "propertyType": "Кондоминиум",
+          "units": [],
+          "ownership": null,
+          "audience": "Для семей и любителей активной жизни среди озёр, парков и прогулочных маршрутов.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "laguna-lakelands-waterfront-villas",
@@ -341,7 +760,15 @@
         "lon": 98.3116,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1WAEbi3nWaWw-2UlMu9ZeN3GYiZLfZJKn"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1WAEbi3nWaWw-2UlMu9ZeN3GYiZLfZJKn",
+        "salesSummary": {
+          "propertyType": "Виллы",
+          "units": [],
+          "ownership": null,
+          "audience": "Для семей, которым нужны приватность, бассейн и природное окружение.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "angsana-beachfront",
@@ -353,7 +780,15 @@
         "lon": 98.295,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1sb8EKG5dISNrBOmFNNaT7ld-U1bx9I70"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1sb8EKG5dISNrBOmFNNaT7ld-U1bx9I70",
+        "salesSummary": {
+          "propertyType": "Кондоминиум / резиденции",
+          "units": [],
+          "ownership": null,
+          "audience": "Для покупателей премиального жилья у пляжа и второго дома для отдыха.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "angsana-golf-residences-topaz",
@@ -365,7 +800,26 @@
         "lon": 98.3016,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/15M_8l0S-VhSJRtB0FdXYJHD3b6Ll3hrH"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/15M_8l0S-VhSJRtB0FdXYJHD3b6Ll3hrH",
+        "salesSummary": {
+          "propertyType": "Кондоминиум / пентхаусы",
+          "units": [
+            {
+              "layout": "2BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "3BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для семей и любителей гольфа, которым важны инфраструктура Laguna и приватность.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "angsana-oceanview-residences",
@@ -377,7 +831,15 @@
         "lon": 98.2992,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1vxlXgMeQAZtDwXB6YbwLGfii_q4M8mIc"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1vxlXgMeQAZtDwXB6YbwLGfii_q4M8mIc",
+        "salesSummary": {
+          "propertyType": "Резиденции",
+          "units": [],
+          "ownership": null,
+          "audience": "Для покупателей премиальных резиденций с видами и приватными бассейнами.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "residences-at-garrya-phuket",
@@ -389,7 +851,26 @@
         "lon": 98.291,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1re6fVpFIXPl500PRT-aRBH50bpBi-jtz"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1re6fVpFIXPl500PRT-aRBH50bpBi-jtz",
+        "salesSummary": {
+          "propertyType": "Кондоминиум / пентхаусы",
+          "units": [
+            {
+              "layout": "2BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "3BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для семей и покупателей, ценящих курортное обслуживание и спокойную среду.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "banyan-tree-lake-residences-yara",
@@ -401,7 +882,31 @@
         "lon": 98.2956,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1P3_bObrlsUPSn7Zq9xc6vIcTKJnWBr9n"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1P3_bObrlsUPSn7Zq9xc6vIcTKJnWBr9n",
+        "salesSummary": {
+          "propertyType": "Виллы",
+          "units": [
+            {
+              "layout": "3BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "4BR",
+              "area": "",
+              "price": ""
+            },
+            {
+              "layout": "5BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для больших семей, желающих собственную виллу у лагуны с бассейном.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "banyan-tree-beach-residences-aegir",
@@ -413,7 +918,21 @@
         "lon": 98.2949,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/19AcaERwyLVoXG0UjAubbALMgayx0IgSj"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/19AcaERwyLVoXG0UjAubbALMgayx0IgSj",
+        "salesSummary": {
+          "propertyType": "Виллы",
+          "units": [
+            {
+              "layout": "4BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для больших семей и покупателей премиальных вилл рядом с морем.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "banyan-tree-beach-residences-mazu",
@@ -425,7 +944,21 @@
         "lon": 98.2894,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1AVhhY4zQGNdmmvxWzwm5qHeCV23PGbr8"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1AVhhY4zQGNdmmvxWzwm5qHeCV23PGbr8",
+        "salesSummary": {
+          "propertyType": "Виллы",
+          "units": [
+            {
+              "layout": "4BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для больших семей и длительного проживания с приватным бассейном.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "banyan-tree-beach-residences-nammu",
@@ -437,7 +970,21 @@
         "lon": 98.2949,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1wewNXrTc_bUGHTdkyR_VndHGbYKEgg6u"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1wewNXrTc_bUGHTdkyR_VndHGbYKEgg6u",
+        "salesSummary": {
+          "propertyType": "Таунхаусы",
+          "units": [
+            {
+              "layout": "3BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для семей, которым нужны несколько уровней, частный бассейн и доступ к пляжу.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "banyan-tree-beach-residences-nerea",
@@ -449,7 +996,21 @@
         "lon": 98.2961,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1_FB45H6E_D9RYXUHLBxnVKZNF_TTovbQ"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1_FB45H6E_D9RYXUHLBxnVKZNF_TTovbQ",
+        "salesSummary": {
+          "propertyType": "Резиденции",
+          "units": [
+            {
+              "layout": "3BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для семей, которым важны уединение, частный бассейн и престижная прибрежная среда.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "banyan-tree-beach-residences-oceanus",
@@ -461,7 +1022,15 @@
         "lon": 98.2929,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1rfXKpkBW69I5lXRHEzqbvBxSlEP8p7Zn"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1rfXKpkBW69I5lXRHEzqbvBxSlEP8p7Zn",
+        "salesSummary": {
+          "propertyType": "Резиденции",
+          "units": [],
+          "ownership": null,
+          "audience": "Для покупателей приватной премиальной недвижимости в Laguna.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "banyan-tree-beach-residences-sirena",
@@ -473,7 +1042,21 @@
         "lon": 98.2957,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/1euxQXL6beYHNP6faurLTSYY336TZimB5"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/1euxQXL6beYHNP6faurLTSYY336TZimB5",
+        "salesSummary": {
+          "propertyType": "Резиденции / пентхаусы",
+          "units": [
+            {
+              "layout": "3BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для семей и покупателей премиального жилья с частным бассейном и террасой.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       },
       {
         "id": "banyan-tree-beach-residences-varuna",
@@ -485,7 +1068,21 @@
         "lon": 98.2898,
         "approximateLocation": true,
         "coordinateSource": "Генплан Laguna Phuket, сентябрь 2026. Примерная привязка к карте.",
-        "clientDriveUrl": "https://drive.google.com/drive/folders/10jTZX_hF0UYEEl0DqIlzR67YBXZ4ZYjK"
+        "clientDriveUrl": "https://drive.google.com/drive/folders/10jTZX_hF0UYEEl0DqIlzR67YBXZ4ZYjK",
+        "salesSummary": {
+          "propertyType": "Таунхаусы",
+          "units": [
+            {
+              "layout": "4BR",
+              "area": "",
+              "price": ""
+            }
+          ],
+          "ownership": null,
+          "audience": "Для больших семей, которым нужны частный бассейн, терраса и лифт.",
+          "pricingNote": null,
+          "sourceUrl": null
+        }
       }
     ]
   },
