@@ -93,7 +93,7 @@ function visibilityEyeIcon(visible){
 }
 // Find the closest project as the user types, without hiding other projects.
 function searchCloseness(name, query) {
- const normalized=value=>value.toLocaleLowerCase("ru").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").replace(/[^a-zа-яё0-9]+/g," ").trim();
+ const normalized=value=>value.toLocaleLowerCase("ru").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zа-яё0-9]+/g," ").trim();
  const n=normalized(name),q=normalized(query);
  if(!q)return Infinity;
  if(n===q)return 0;
