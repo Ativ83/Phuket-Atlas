@@ -899,4 +899,16 @@ const oldZoomIn=by("zin").onclick,oldZoomOut=by("zout").onclick,oldReset=by("res
 by("zin").onclick=()=>geoEnabled?geoMap.zoomIn():oldZoomIn();
 by("zout").onclick=()=>geoEnabled?geoMap.zoomOut():oldZoomOut();
 by("reset").onclick=()=>{if(geoEnabled){readyDistrictId=null;selected=null;focusedLabel=null;updateMapLabels();(computeOverviewZoom(),geoMap.flyTo([7.94,98.34],gameZoomToSatellite(1),{duration:1.1}))}else oldReset()};
+// Used by broker assistant to open a project without duplicating map internals.
+window.phuketAtlasFocusProject=function(projectId){
+ for(const district of areas){
+  const project=(district.objects||[]).find(o=>o.id===projectId);
+  if(!project)continue;
+  selected=district.id;
+  focusProperty(district,project);
+  if(geoEnabled&&!hasProjectCoordinates(project))show(district,project);
+  return true;
+ }
+ return false;
+};
 fetch("data/locations.json?v=unit-facts-147").then(r=>{if(!r.ok)throw Error("Не удалось загрузить каталог");return r.json()}).then(d=>{areas=d;render();refreshGeoMarkers()}).catch(e=>by("regions").textContent=e.message)})();
