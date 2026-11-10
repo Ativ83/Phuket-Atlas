@@ -21,6 +21,7 @@ jobs:
           node --check broker-ai.js
           node --check app.js
           node --check ai-worker/src/index.js
+          node --test ai-worker/test/private.test.mjs
           python3 -m json.tool data/locations.json > /dev/null
           python3 scripts/build_private_atlas.py
           test -s private-dist/index.html
