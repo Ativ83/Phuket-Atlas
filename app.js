@@ -294,14 +294,35 @@ function go(id){const p=areas.find(x=>x.id===id);if(!p)return;
  setDrawer(false);selected=id;
  if(!geoEnabled)gameDistrictReady=id;
  pauseDistrictAudio();by("sheet").classList.remove("open");by("overlay").hidden=true;by("sheet").setAttribute("aria-hidden","true");render();shift(p)
-}function objectHTML(o,p){
+}function salesSummaryHTML(o){
+ const data=o.salesSummary;
+ if(!data)return "";
+ const hasValue=x=>x!==null&&x!==undefined&&String(x).trim()!=="";
+ const units=data.units||[];
+ const rows=units.length?units.map(u=>{
+  const area=hasValue(u.area)?"от "+escape(String(u.area))+" м²":"Уточняется";
+  const price=hasValue(u.price)?"от "+escape(String(u.price))+" млн ฿":"Уточняется";
+  return '<div class="unit-summary-row" role="row"><strong role="cell">'+escape(u.layout)+'</strong><span role="cell">'+area+'</span><span role="cell">'+price+'</span></div>';
+ }).join(""):'<p class="unit-summary-unavailable">Площади и цены по типам уточняются по актуальному прайсу застройщика.</p>';
+ const ownership=data.ownership?escape(data.ownership):"Уточняется";
+ const title='<div class="sales-summary-heading"><span>Форматы и цены</span><small>Стартовые значения</small></div>';
+ return '<section class="sales-summary" aria-label="Форматы, цены и условия покупки">'+title+
+ '<div class="sales-property-type"><span>Тип недвижимости</span><strong>'+escape(data.propertyType||o.type||"Уточняется")+'</strong></div>'+
+ (units.length?'<div class="unit-summary-table" role="table" aria-label="Типы лотов, площади и минимальные цены"><div class="unit-summary-head" role="row"><span role="columnheader">Планировка</span><span role="columnheader">Площадь</span><span role="columnheader">Цена</span></div>'+rows+'</div>':rows)+
+ '<div class="sales-ownership"><span>Собственность</span><strong>'+ownership+'</strong></div>'+
+ '<div class="sales-fit"><strong>Кому подходит</strong><p>'+escape(data.audience||"Уточняется")+'</p></div>'+
+ (data.pricingNote?'<p class="sales-summary-note">'+escape(data.pricingNote)+'</p>':"")+
+ (data.sourceUrl?'<a class="sales-summary-source" href="'+escape(data.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Источник планировок и цен · Google Drive ↗</a>':"")+
+ '</section>';
+}
+function objectHTML(o,p){
  const fields=[["Адрес",o.address],["Цены",o.prices],["Площадь участка",o.land],["Состав комплекса",o.buildings],["Количество резиденций",o.units],["Площади",o.sizes],["Парковка",o.parking],["Девелопер",o.developer],["Портфель девелопера",o.developerPortfolio],["Разрешения",o.permits],["Срок сдачи",o.handoverLabel||o.completion],["Примечание к сроку",o.handoverNote],["Пляж",o.beach],["Инфраструктура",o.amenities],["Формы владения",o.ownership],["Продажи",o.sales],["Обслуживание",o.maintenance],["Разовый взнос",o.sinking],["График платежей",o.payment],["Меблировка",o.furnishing],["Инвестиционный сценарий (прогноз)",o.investment],["Полученные документы",o.documents]];
  const label=o.name==="PURITA Phuket Bangtao"?"PURITA":o.id==="the-residences-intercontinental-phuket"?"InterContinental":o.name;
  const sub=o.name==="PURITA Phuket Bangtao"?"PHUKET BANGTAO":o.id==="the-residences-intercontinental-phuket"?"THE RESIDENCES · KAMALA":o.id==="midori-phuket"?"PHUKET TOWN · RATSADA":p.en.toUpperCase();
  const isProjectFlipbook=o.materialsUrl&&/^https:\/\/flipbook\.proudrealestate\.co\.th\//.test(o.materialsUrl);
  const coverSrc=p.id==="bang-tao"?"assets/project-covers/"+encodeURIComponent(o.id)+".jpg":"";
  const coverImage=coverSrc?'<img class="project-cover-photo" loading="lazy" decoding="async" src="'+escape(coverSrc)+'" alt="Общий вид комплекса '+escape(o.name)+'" onload="this.parentNode.classList.add(\'has-photo\')" onerror="this.hidden=true;this.parentNode.classList.remove(\'has-photo\')">':"";
- return '<article class="object property-card"><div class="project-cover">'+coverImage+'<div class="project-cover-title"><span>'+escape(label)+'</span><small>'+escape(sub)+'</small></div></div><div class="project-content"><small>'+escape(o.type||"Недвижимость")+'</small>'+(p.id==="bang-tao"?"":'<h3>'+escape(o.name)+'</h3>')+'<p>'+escape(o.description||"")+'</p><dl class="property-facts">'+fields.filter(x=>x[1]).map(x=>'<div><dt>'+escape(x[0])+'</dt><dd>'+escape(x[1])+'</dd></div>').join("")+'</dl>'+
+ return '<article class="object property-card"><div class="project-cover">'+coverImage+'<div class="project-cover-title"><span>'+escape(label)+'</span><small>'+escape(sub)+'</small></div></div><div class="project-content"><small>'+escape(o.type||"Недвижимость")+'</small>'+(p.id==="bang-tao"?"":'<h3>'+escape(o.name)+'</h3>')+salesSummaryHTML(o)+'<p class="project-description">'+escape(o.description||"")+'</p><dl class="property-facts">'+fields.filter(x=>x[1]).map(x=>'<div><dt>'+escape(x[0])+'</dt><dd>'+escape(x[1])+'</dd></div>').join("")+'</dl>'+
  (o.pdf&&o.pdf.startsWith("presentations/")&&o.pdf.endsWith(".pdf")?'<button class="brochure-open" data-pdf="'+escape(o.pdf)+'" data-materials="'+escape(o.clientDriveUrl||"")+'">Посмотреть PDF-презентацию</button>':'')+
  (isProjectFlipbook?'<a class="brochure-link" href="'+escape(o.materialsUrl)+'" target="_blank" rel="noopener">Открыть презентацию резиденций ↗</a>':'')+
  (o.virtualTourUrl?'<a class="brochure-link" target="_blank" rel="noopener" href="'+escape(o.virtualTourUrl)+'">Виртуальный тур 360° ↗</a>':"")+
