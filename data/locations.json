@@ -76,8 +76,18 @@
               "price": ""
             },
             {
+              "layout": "2BR Garden",
+              "area": "103,5",
+              "price": ""
+            },
+            {
               "layout": "2BR Plus",
               "area": "124,5",
+              "price": ""
+            },
+            {
+              "layout": "2BR Plus Garden",
+              "area": "136",
               "price": ""
             },
             {
@@ -352,7 +362,8 @@
             {
               "layout": "3BR",
               "area": "229,95",
-              "price": ""
+              "price": "",
+              "areaIsMinimum": false
             }
           ],
           "ownership": null,
