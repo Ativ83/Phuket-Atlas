@@ -4,6 +4,7 @@ on:
     paths:
       - '.github/workflows/district-audio.yml'
       - 'scripts/generate_district_audio.py'
+      - 'scripts/generate_patong_gtts.py'
       - 'data/district-narrations-ru.json'
   workflow_dispatch:
 permissions:
@@ -23,12 +24,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install Edge TTS
-        run: python -m pip install "edge-tts>=7,<9" imageio-ffmpeg
+      - name: Install backup Russian TTS
+        run: python -m pip install "gTTS>=2.5,<3"
       - name: Regenerate only Patong narration
         run: |
           mkdir -p assets/district-audio
-          python -u scripts/generate_district_audio.py --force patong
+          python -u scripts/generate_patong_gtts.py
           test -s assets/district-audio/patong.mp3
           echo "Patong MP3 size: $(wc -c < assets/district-audio/patong.mp3) bytes"
       - name: Commit successful MP3 recordings
@@ -40,7 +41,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
-            git commit -m "Regenerate Patong MP3 with plain Cyrillic pronunciation"
+            git commit -m "Regenerate Patong MP3 with backup Russian TTS"
             git pull --rebase origin main
             git push origin HEAD:main
             echo "changed=true" >> "$GITHUB_OUTPUT"
