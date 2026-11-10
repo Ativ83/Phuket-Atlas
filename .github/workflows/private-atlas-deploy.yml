@@ -1,0 +1,29 @@
+name: Deploy private Phuket Atlas (manual)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: private-atlas
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate scripts and generate private-only assets
+        run: |
+          node --check ai-worker/src/index.js
+          node --check broker-ai.js
+          node --check app.js
+          python3 scripts/build_private_atlas.py
+          test ! -e private-dist/ai-worker/src/index.js
+      - name: Deploy fail-closed private Worker
+        # Cloudflare auth + OpenAI secrets are set in Cloudflare, not GitHub.
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::error::Configure CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID in GitHub Actions secrets."
+            exit 1
+          fi
+          npx --yes wrangler@4 deploy --config ai-worker/wrangler.toml
