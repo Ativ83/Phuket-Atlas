@@ -1,0 +1,37 @@
+# Google Drive — первичный реестр источников прайсов
+
+Дата проверки: 2026-11-12. Назначение: только собственный Telegram-каталог пользователя и Phuket Atlas. **Это реестр кандидатов, не готовая синхронизация цен.**
+
+## Проверенные корневые каталоги
+| Каталог | Folder ID | Прямых дочерних папок | Статус |
+|---|---|---:|---|
+| Laguna Properties | `1TiY3RGpfhlHh4Xc6vDd9lF6kMwfnKtrv` | 25 | Доступен; проекты Laguna |
+| Ранее переданная «Redwood — цены» | `156AfP-Lj6Xiq2kqYt7lflkkjE36qefRB` | 22 | Доступен, но содержит проекты Laguna/Banyan; **не связывать с Redwood автоматически** |
+| Смешанный каталог проектов | `1toiIufEWgXSnlFUueza54_EcZbywJxbT` | 25 | Доступен, есть Redwood и другие объекты |
+| Millennium Sales Kit | `1E4LEnEl0I` | — | Ошибка доступа/неполный ID; требует проверки |
+
+## Подтверждённые ссылки на проектные папки (примеры)
+- Laguna Lake Residences Aster — `1IYIkJFE9dvyJD9PdvAdzyWy7NnCUT7hf` (Laguna Properties).
+- Laguna Reef — `1gPIU5Aj_2bHwk1zUIG1p2x2XWi1UE8SN`.
+- Angsana Golf Residences Topaz — `12jkc8qUBa_FL-e_hqfMUOR8kKE-uY6gZ`.
+- Redwood — `10pAmxdiR2Gg39HaKAinSQJ7uXaEL1qH5` (в смешанном каталоге; цены не подтверждены).
+- Sudara — `1pHo1vq0MHh4ElhLdmN5WOvz86o3PyRgL`.
+- Botanica — `1vZ_ctimRYc3USu-OX7OD6tu6DoOalips`.
+
+## Найденные файлы-кандидаты на источник цен (содержимое и свежесть ещё не проверены)
+| Проект / указание в названии | Файл ID | Тип | Статус |
+|---|---|---|---|
+| Laguna Lake Residences Aster, Termsheet 2026-11-04 | `1TLLhp3kfCx4fsoz_E0R9m9WaNrCjE9ZF` | PDF | Проверить содержимое и связь с лотами |
+| Sudara Project Details and Price Range 2026-08-28 | `12Tiu3Q3imCQyoC53FnKeeVGXYoBiqX58` | PDF | Диапазон цен не считать лотовым прайсом |
+| Naturale Kamala Price List 2026-10-15 | `1NlUdFUhFu9s58G7Qv2npxsTFtE5QK-2L` | PDF | Проверить лоты |
+| Layan Verde прайс-лист | `1SRHWNdc6FfjGXB6QydVdTJSRgpk9RZ7W` | PDF | Проверить дату |
+| Aileen Villas Phase 2 Price List | `1iFtsfGXu9H0mgORbzbXYFJh_H92tjuLd` | PDF | Проверить лоты |
+
+## Следующие технические действия
+1. В каждой проектной папке определить официальный текущий прайс-файл, дату изменения, структуру полей и возможности доступа.
+2. Завести для каждого проекта соответствие `project_id → source_folder_id → price_file_id`; для каждого лота — точный составной ключ (корпус, номер и пр.).
+3. Сопоставить записи с **собственной** Telegram-группой по ID сообщений и с Atlas по ID объектов; пока такого полного соответствия не подтверждено.
+4. Прогон изменений сначала в dry-run: отчёт о разнице цен без публикации.
+5. Только после успешного теста и проверки доступа запускать периодический сценарий. Не раскрывать агентские цены в публичных карточках.
+
+Нельзя утверждать, что автоматическое обновление уже запущено, пока нет отдельного работающего процесса и подтверждённого запуска по расписанию. Не хранить секреты в Git.
